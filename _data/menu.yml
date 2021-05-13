@@ -36,11 +36,18 @@ entries:
       category: TIL
       show_more: true
       show_more_text: See more posts...
-      show_more_url: example2-archive.html
+      show_more_url: til.html
       
   - title: Java
     post_list:
       category: Java
       show_more: true
       show_more_text: See more posts...
-      show_more_url: java-archive.html
+      show_more_url: java.html
+      
+  - title: CS
+    post_list:
+      category: CS
+      show_more: true
+      show_more_text: See more posts...
+      show_more_url: cs.html
