@@ -8,11 +8,11 @@ entries:
       - title: happy hacking user
         
   - title: contact
-    -title: email
+    - title: email
     url: yssj2049@gmail.com
-     -title: github
+    - title: github
     url: https://github.com/minseongkimdev
-    -title: linkedin
+    - title: linkedin
     url: https://linkedin.com
 
 
