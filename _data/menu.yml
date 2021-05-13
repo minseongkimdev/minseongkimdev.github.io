@@ -10,11 +10,9 @@ entries:
       
   - title: skills
     entries:
-      - title: platform
-      entries: 
-        - title: Spring
-        - title: Android
-        - title: iOS
+      - title: Spring
+      - title: Android
+      - title: iOS
                 
   - title: contact
     entries:
