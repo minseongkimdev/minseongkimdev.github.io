@@ -6,13 +6,15 @@ entries:
     entries:
       - title: Jr. Soft Engineer from 2019
       - title: IT 산업기능요원 복무중
-      - title: ❤️ Happy hacking
+      - title: I ❤️ Happy hacking
       
   - title: skills
     entries:
-      - title: Spring
-      - title: Android
-      - title: iOS
+      - title: platform
+      entries: 
+        - title: Spring
+        - title: Android
+        - title: iOS
                 
   - title: contact
     entries:
