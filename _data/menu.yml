@@ -5,7 +5,15 @@ entries:
   - title: me
     entries:
       - title: Jr. Soft Engineer from 2019
-      - title: Happy hacking user
+      - title: ❤️ Happy hacking
+      
+  - title: skills
+    entries:
+      - title: Platform
+        - title: Spring
+        - title: Android
+        - title: iOS
+        
         
   - title: contact
     entries:
