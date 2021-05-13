@@ -1,7 +1,7 @@
-title: no style, please! # name of the site
-author: Min Seong Kim # name of site's author
-email: yssj2049@gmail.com # email of site's author
-url: https://miseongkimdev.github.io # root address of the site
+title: "김민성 블로그" # name of the site
+author: "Min Seong Kim" # name of site's author
+email: "yssj2049@gmail.com" # email of site's author
+url: "https://miseongkimdev.github.io" # root address of the site
 baseurl: "/" # subpath of the site, e.g. "/blog" (leave it blank "" if you're site shouldn't use a subpath)
 description: > # description of the site (multiple lines allowed)
   A (nearly) no-CSS, fast, minimalist Jekyll theme.
