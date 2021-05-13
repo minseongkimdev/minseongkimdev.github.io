@@ -3,11 +3,10 @@ layout: page
 title: Profile
 ---
 
-
 entries:
   - title: profile
     url: https://github.com/minseongkimdev/profile
-     entries:
+    entries:
        - title: Jr. Soft Engineer from 2019
        - title: IT 산업기능요원 복무중
        - title: ❤️ Happy hacking, Coffee
