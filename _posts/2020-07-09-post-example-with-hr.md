@@ -1,28 +1,33 @@
----
-layout: post
-slug: hr example
----
+# 업적
 
-Lorem ipsum[^1] dolor sit amet, consectetur adipiscing elit. Pellentesque vel lacinia neque. Praesent nulla quam, ullamcorper in sollicitudin ac, molestie sed justo. Cras aliquam, sapien id consectetur accumsan, augue magna faucibus ex, ut ultricies turpis tortor vel ante. In at rutrum tellus. Nullam vestibulum metus eu purus malesuada, volutpat mattis leo facilisis. Sed consectetur, nisl et semper laoreet, velit augue congue nunc, eget eleifend odio erat eu sapien. Phasellus dictum efficitur dapibus. Morbi porta lacinia tincidunt. Nam aliquet est mi, nec lacinia ipsum elementum sed. Nam feugiat ipsum tortor, et pretium purus sollicitudin et.
+출시 1달만에 다운로드수  2K
 
----
+출시 1달만에 4월 27일 날씨 부분 인기순위 7위.
 
-Mauris viverra dictum ultricies[^2]. Vestibulum[^3] quis ipsum euismod, facilisis metus sed, varius ipsum. Donec scelerisque lacus libero, eu dignissim sem venenatis at. Nunc a egestas tortor, sed feugiat leo. Vestibulum porta tincidunt tellus, vitae ornare tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed nunc neque, tempor in iaculis non, faucibus et metus. Etiam id nisl ut lorem gravida euismod.
+출시 1달 기준 ⭐️ 4.7점 유지
 
-Fusce non velit cursus ligula mattis convallis vel at metus. Sed pharetra tellus massa, non elementum eros vulputate non. Suspendisse potenti. Quisque arcu felis, laoreet vel accumsan sit amet, fermentum at nunc. Sed massa quam, auctor in eros quis, porttitor tincidunt orci. Nulla convallis id sapien ornare viverra. Cras nec est lacinia ligula porta tincidunt. Nam a est eget ligula pellentesque posuere. Maecenas quis enim ac risus accumsan scelerisque. Aliquam vitae libero sapien. Etiam convallis, metus nec suscipit condimentum, quam massa congue velit, sit amet sollicitudin nisi tortor a lectus. Cras a arcu enim. Suspendisse hendrerit euismod est ac gravida. Donec vitae elit tristique, suscipit eros at, aliquam augue. In ac faucibus dui. Sed tempor lacus tristique elit sagittis, vitae tempor massa convallis.
+![%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%A8%20debb9fe7d7874c008f1851dacc2eeab5/7C4E13B6-D822-4A73-A234-FF7D185B33A8.png](%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%A8%20debb9fe7d7874c008f1851dacc2eeab5/7C4E13B6-D822-4A73-A234-FF7D185B33A8.png)
 
----
-{: data-content="discussions"}
+N주 연속 날씨부분 인기 TOP 10~20권
 
-This article has been discussed here:
-- [lobste.rs](#)
-- [/r/webdev](#)
+4월 21일 10위
 
-Feel free to reach out at my email to leave feedback and talk about the article.
+4월 30일 8위
 
----
-{: data-content="footnotes"}
+5월 6일 17위
 
-[^1]: Okay here I should put something about "ipsum".
-[^2]: same goes for this.
-[^3]: I studied latin in high school but im not able to translate *anything*! By the way this is a longer footnote and i think it is still pretty cool, even prettier than shortier ones even though it does not say anything useful but whatever.
+![%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%A8%20debb9fe7d7874c008f1851dacc2eeab5/_2021-05-04__12.04.22.png](%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%A8%20debb9fe7d7874c008f1851dacc2eeab5/_2021-05-04__12.04.22.png)
+
+누적 2K 다운로드.
+
+모든 배포에 대해  앱 크래쉬 0회. 
+
+![%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%A8%20debb9fe7d7874c008f1851dacc2eeab5/_2021-05-04__1.11.22.png](%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%A8%20debb9fe7d7874c008f1851dacc2eeab5/_2021-05-04__1.11.22.png)
+
+커뮤니티 기능을 넣은 뒤 DAU 278로 눈에 띄게 증가함
+
+목표 DAU 10K
+
+활성사용자 1.1K 돌파
+
+![%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%A8%20debb9fe7d7874c008f1851dacc2eeab5/_2021-05-11__1.28.27.png](%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%A8%20debb9fe7d7874c008f1851dacc2eeab5/_2021-05-11__1.28.27.png)
