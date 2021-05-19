@@ -5,3 +5,6 @@
 _site
 vendor
 Gemfile.lock
+
+.idea/modules.xml
+.idea/vcs.xml
