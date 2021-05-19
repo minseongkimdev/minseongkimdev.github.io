@@ -4,9 +4,10 @@ title: Profile
 ---
 
 
-Unordered:
+김민성 aka. 빠른별
 
-- Fusce non velit cursus ligula mattis convallis vel at metus[^2].
-- Sed pharetra tellus massa, non elementum eros vulputate non.
-- Suspendisse potenti.
+- 최근에 백엔드에 관심이 많습니다.
+- IT 산업기능요원 복무중입니다.
+- 중학생 때 게임서버 운영을 통해 처음 개발을 접했습니다.
+- 해피해킹으로 코딩하는걸 좋아합니다.
 
