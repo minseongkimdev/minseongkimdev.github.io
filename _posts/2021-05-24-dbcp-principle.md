@@ -6,10 +6,10 @@ category: CS
 
 ## 0. 글의 순서
 
-1. [DBCP란?](#dbcp란?)
-2. [DBCP의 등장 배경](#dbcp의-등장-배경)
-3. [DBCP의 특징](#dbcp의-특징)
-4. [DBCP 좀 더 알아보기](#dbcp-좀-더-알아보기)
+1. [DBCP란?](#1.-dbcp란?)
+2. [DBCP의 등장 배경](#2.-dbcp의-등장-배경)
+3. [DBCP의 특징](#3.-dbcp의-특징)
+4. [DBCP 좀 더 알아보기](#4.-dbcp-좀-더-알아보기)
 
 ## 1. DBCP란?
 **Database Connection Connection Pool**의 약자.
