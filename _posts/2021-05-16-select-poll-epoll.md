@@ -1,5 +1,5 @@
 ---
-title: 리눅스 select(), poll(), epoll() 이란?
+title: [작성중] 리눅스 select(), poll(), epoll()이란?
 layout: post
 category: CS
 ---
