@@ -1,13 +1,73 @@
 ---
 layout: page
-title: Profile
+title: "소개"
 ---
 
 
-김민성 (aka.빠른별)
+김민성
 
-- 최근에 백엔드에 관심이 많습니다.
-- IT 산업기능요원 복무중입니다.
-- 중학생 때 온라인 게임 운영을 통해 처음 개발을 접했습니다.
-- 해피해킹으로 코딩하는걸 좋아합니다.
+## About Me
+- Github
+- LinkedIn
+- 2년차 개발자 입니다
+- IT 산업기능요원 보충역으로 복무중입니다
+- 최근에 백엔드, 대용량 트래픽 처리에 대해 관심이 많습니다
+- 반려견과 산책하기, 해피해킹으로 코딩하는걸 좋아합니다
+
+## Skills
+
+
+## Career
+#### AitheNutrigene (20.11 ~)
+- IT 산업기능요원 보충역 신규편입
+- AI 사업부 선임연구원
+- 신사업 9Poses Project Management
+  - Android, iOS Native Application 개발
+    -  Initial Commit부터 출시, 주요 기능 개발 및 유지보수
+  - Pose Detection 기술 개발
+    - MLKit + Custom Detection Algorighmn
+  - Pose Detection 성능 개선
+    - 측정시간 및 실패율 개선
+  - Git Brach 전략 수립
+  - 외국인-한국인 개발자의 커뮤니케이션 담당
+    - 업무상 영어로 의사소통 가능
+  
+
+#### TWIG  (20.02 ~ 20.11)
+- 공동창업
+- 인공지능 영양비서 서비스 Foobi 런칭
+  - 안드로이드, iOS 개발
+  - 음식 Detection, Classification 성능 개선
+  
+#### STICKODE (19.11 ~ 20.02)
+- 프리랜서
+- 포지션
+  - 웹프론트엔드(JQuery)
+  - 백엔드(PHP)
+
+## Toy Project
+  - 지금한강은
+    -  삶에 지친 사람들을 위한 힐링 커뮤니티 플랫폼
+    -  초기 1인 기획, 디자인, 개발
+       -  사용자 급증으로 인한 4인 개발팀으로 발전
+
+    -  실제 사용자들이 유용하게 쓸 수 있는 서비스 개발
+        -  App Store 날씨부분 인기순위 7위
+        -  출시 후 1달 만에 3k 다운로드
+        -  하루 평균 신규가입자 100명
+    -  안정적인 서비스 개발
+        -  모든 배포에 대해 Crash 0회
+
+
+
+## Education
+- 충남대학교 컴퓨터공학과 (2017~)
+  - 라즈베리파이를 활용한 자율주행 프로젝트
+  - 카카오톡 챗봇 개발
+  - 신입생 대상 Java 기초 교육
+
+## Communication
+- 한국어 (네이티브)
+- 영어 (업무상 의사소통 가능)
+
 
