@@ -11,7 +11,7 @@ category: CS
 3. DBCP의 특징
 4. DBCP 좀 더 알아보기
 
-##1. DBCP란?
+## 1. DBCP란?
 **Database Connection Connection Pool**의 약자.
 
 데이터베이스와 연결된 커넥션을 미리 만들어서 pool속에 저장해 두고 있다가 필요할 때에 커넥션을 **풀에서 가져다** 쓰고
