@@ -1,7 +1,7 @@
 ---
 title: "SameSiteCookie란?"
 layout: post
-category: CS
+category: Web
 ---
 
 ## 0. 글의 순서
