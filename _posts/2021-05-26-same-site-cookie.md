@@ -1,7 +1,7 @@
 ---
 title: "크롬80 에서 변경된 SameSiteCookie 정책"
 layout: post
-category: Web 
+category: CS
 ---
 
 ## 0. 글의 순서
