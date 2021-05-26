@@ -31,13 +31,6 @@ entries:
       show_more_text: See archive...
       show_more_url: archive.html
 
-  - title: TIL
-    post_list:
-      category: TIL
-      show_more: true
-      show_more_text: See more posts...
-      show_more_url: til.html
-      
   - title: Java
     post_list:
       category: Java
@@ -58,3 +51,12 @@ entries:
       show_more: true
       show_more_text: See more posts...
       show_more_url: spring.html
+
+  - title: Web
+    post_list:
+      category: Web
+      show_more: true
+      show_more_text: See more posts...
+      show_more_url: web.html
+
+      
