@@ -99,10 +99,10 @@ Chromium 공식 홈페이지의 업데이트 노트를 보면 아래와 같은 �
 
 ### + 가장 최근에 업데이트된 크롬에서 정책 (작성일 2021.05.26 기준)
 ##### Mar 18(5월 18일), 2021
-> The flags `#same-site-by-default-cookies` and `#cookies-without-same-site-must-be-secure` have been removed from chrome://flags as of Chrome 91, as the behavior is now enabled by default. In Chrome 94, the command-line flag `--disable-features=SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure` will be removed.
+> The flags `#same-site-by-default-cookies` and `#cookies-without-same-site-must-be-secure` have been removed from chrome://flags as of Chrome 91, as the behavior is now enabled by default. In Chrome 94, the command-line flag `--disable-features=SameSiteByDefaultCookies`,`CookiesWithoutSameSiteMustBeSecure` will be removed.
 
 크롬 91부터 chrome://flags 에서 `same-site-by-default-cookies`, `cookies-without-same-site-must-be-secure`이 두개의 플래그가 제거된다. 왜냐하면 91부터 디폴트로 활성되기 때문이다.
-그리고 크롬 94부터 `-disable-features=SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure`가 제거될 예정이다.
+그리고 크롬 94부터 `-disable-features=SameSiteByDefaultCookies`,`CookiesWithoutSameSiteMustBeSecure`가 제거될 예정이다.
 
 *이 업데이트로 미루어보았을 때 SameSite Cookie 정책을 더 확고히 하려고하는 점을 엿볼 수 있어 흥미롭다.*
 
