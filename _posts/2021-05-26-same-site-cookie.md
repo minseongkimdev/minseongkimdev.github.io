@@ -1,5 +1,5 @@
 ---
-title: "크롬80 에서 변경된 SameSiteCookie 정책"
+title: "SameSiteCookie란?"
 layout: post
 category: CS
 ---
@@ -7,8 +7,8 @@ category: CS
 ## 0. 글의 순서
 
 - [1. SameSite Cookie란?](#1-samesite-cookie란)
-- [2. First-party cookie, Third-party cookie란?](#2-first-party-cookie,-third-party-cookie란?)
-- [3. SameSite Cookie란?](#3-sameSite-values)
+- [2. First-party cookie, Third-party cookie란?](#2-first-party-cookie-third-party-cookie란?)
+- [3. SameSite Values](#3-sameSite-values)
 - [4. 변경된 크롬의 정책](#4-변경된-크롬의-정책)
 - [5. 글을 마치며](#5-글을-마치며)
 - [출처](#출처)
