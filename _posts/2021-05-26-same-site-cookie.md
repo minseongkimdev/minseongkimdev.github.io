@@ -7,8 +7,8 @@ category: CS
 ## 0. 글의 순서
 
 - [1. SameSite Cookie란?](#1-samesite-cookie란)
-- [2. First-party cookie, Third-party cookie란?](#2-first-party-cookie-third-party-cookie란?)
-- [3. SameSite Values](#3-sameSite-values)
+- [2. First-party cookie, Third-party cookie란?](#2-first-party-cookie와-third-party-cookie란?)
+- [3. SameSite Values](#3-samesite-values)
 - [4. 변경된 크롬의 정책](#4-변경된-크롬의-정책)
 - [5. 글을 마치며](#5-글을-마치며)
 - [출처](#출처)
@@ -26,7 +26,7 @@ HTTP 응답 헤더의 SameSite속성을 Set-Cookie를 사용하여 브라우저�
 
 여기까지만 읽어보았을 때 이해가 어려울 수 있으니, 우선 fisrt-party, third-party cookie에 대해 알아보자.
 
-## 2. First-party cookie, Third-party cookie란?
+## 2. First party cookie와 Third party cookie란?
 
 한 웹페이지를 로드하는데, 모든 컨텐츠들이 같은 도메인으로부터 오는 것이 아니다.
 
