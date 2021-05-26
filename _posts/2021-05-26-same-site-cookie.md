@@ -41,8 +41,8 @@ HTTP 응답 헤더의 SameSite속성을 Set-Cookie를 사용하여 브라우저�
 ![](https://blog.kakaocdn.net/dn/9LJat/btq5M36KBUB/KGWkku8PkN9p0ZQ7kV7Ij1/img.png)
 
 여기서, 네이버 도메인 관점에서
-`htts://naver.com`에서 발급한 쿠키를 first-party cookie,
-`https://s.pstatic.net`에서 발급한 쿠키를 third-party cookie라고 한다.
+`htts://naver.com` 에서 발급한 쿠키를 first-party cookie,
+`https://s.pstatic.net` 에서 발급한 쿠키를 third-party cookie라고 한다.
 
 정리해보면 아래와 같다.
 ![](https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/zjXpDz2jAdXMT83Nm3IT.png?auto=format&w=1600)
