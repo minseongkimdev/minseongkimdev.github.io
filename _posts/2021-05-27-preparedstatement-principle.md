@@ -21,11 +21,11 @@ category: DB
 
 ## 1. 들어가기 전에
 
-Prepared Statement는 SQL문은 반복적으로 실행하는데 사용되는 기능이다/.
+Prepared Statement는 SQL문은 반복적으로 실행하는데 사용되는 기능이다.
 
 이를 사용함으로써, 기능적, 보안적, 성능적 측면에서 이점이 있다.
 
-더 구체적으로 알아보기 전에 Prepared Statement와 Statement의 처리 방식에 대해서 알아보자
+더 구체적으로 알아보기 전에 Prepared Statement와 Statement의 처리 방식에 대해서 알아보자.
 
 ## 2. Statement 처리 방식
 
