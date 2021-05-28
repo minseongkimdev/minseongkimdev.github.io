@@ -8,9 +8,11 @@ category: Java
 
 ## 0. 글의 순서
 
-- [1. JVM DSN Caching이란?](#1-jvm-dns-caching이란?)
-- [2. JVM TTL 설정](#2-jvm-ttl-설정)
+- [0. 글의 순서](#0-글의-순서)
+- [1. JVM DNS Caching이란?](#1-jvm-dns-caching이란)
+- [2. JVM TTL 설정 방법](#2-jvm-ttl-설정-방법)
 - [출처](#출처)
+		- [공식문서](#공식문서)
 - [각주](#각주)
 
 
@@ -18,15 +20,17 @@ category: Java
 
 JVM에서 DNS LookUp[^1]시에 Time-To-Live[^2] 전략을 사용하지 않고 한번 LookUp한 도메인 이름은 JVM이 종료되지 않는한 **영구적으로 캐싱**하고 있다.
 
-왜냐하면 DNS Spoofing[^3]공격을 막기 위한 전략이다.
+왜냐하면 이는 DNS Spoofing[^3]공격을 막기 위한 전략이기 때문이다.
+
 이러한 특징 때문에 외부의 IP가 변경되어도, DNS Caching으로 인해, 예전의 IP로 접속하는 문제가 생길 수 있다.
 
 이를 방지하는 방법은 두가지가 있다.
 
 1. JVM 재실행
-2.  Java SercurityManager의 Policy를 수정
+2. java.securty 파일 수정
+3. Java SercurityManager의 Policy를 수정
 
-## 2. JVM TTL 설정
+## 2. JVM TTL 설정 방법
 
 DNS Name Lookups에 대한 JVM TTL을 설정하면, 도메인에 대한 정보가 일정 시간 동안만 캐싱된다.
 
