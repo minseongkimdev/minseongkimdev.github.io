@@ -83,7 +83,7 @@ Injection 방식은 원래의 쿼리를 악의적으로 수정하는 방식으�
 하지만 Prepared Statement는 한번 Compliation 후에 Placeholder를 활용해 쿼리문을 재사용할 수 있어 위의 과정을 생략하며 Execute된다.
 Statement에서 매번 
 
-{% highlight java %}
+{% highlight java linenos%}
 
 Parsing -> Semetics Check -> Compliation 
 
