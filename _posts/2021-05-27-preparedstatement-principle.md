@@ -84,9 +84,7 @@ Injection 방식은 원래의 쿼리를 악의적으로 수정하는 방식으�
 Statement에서 매번 
 
 {% highlight java linenos%}
-
 Parsing -> Semetics Check -> Compliation 
-
 {% endhighlight %}
 
 과정으로 인한 오버헤드를 방지할 수 있다.
