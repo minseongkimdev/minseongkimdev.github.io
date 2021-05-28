@@ -23,9 +23,9 @@ category: Java
 
 {% highlight java %}
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
- @Builder(builderMethodName = "travelCheckListBuilder")
- @ToString
- public class TravelCheckList {
+@Builder(builderMethodName = "travelCheckListBuilder")
+@ToString
+public class TravelCheckList {
 
     private Long id;
     private String passport;
