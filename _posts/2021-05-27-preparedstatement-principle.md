@@ -81,13 +81,7 @@ Injection 방식은 원래의 쿼리를 악의적으로 수정하는 방식으�
 단순 Statement를 사용하면 매번 SQL를 execute할 때 마다, Parsing -> Semetics Check -> Compliation 과정을 거친다.
 
 하지만 Prepared Statement는 한번 Compliation 후에 Placeholder를 활용해 쿼리문을 재사용할 수 있어 위의 과정을 생략하며 Execute된다.
-Statement에서 매번 
-
-{% highlight java linenos%}
-Parsing -> Semetics Check -> Compliation 
-{% endhighlight %}
-
-과정으로 인한 오버헤드를 방지할 수 있다.
+Statement에서 매번 Parsing -> Semetics Check -> Compliation 과정으로 인한 오버헤드를 방지할 수 있다.
 
 #### 기능적 측면
 
