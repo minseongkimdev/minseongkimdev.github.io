@@ -21,7 +21,8 @@ category: Java
 
 자주 사용되는 패턴 중 하나인 Builder 패턴을 직접 작성해보고 마무리 해보자.
 
-`@AllArgsConstructor(access = AccessLevel.PRIVATE)
+{% highlight java %}
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
  @Builder(builderMethodName = "travelCheckListBuilder")
  @ToString
  public class TravelCheckList {
@@ -39,4 +40,5 @@ category: Java
         }
         return travelCheckListBuilder().id(id);
     }
-}`
+}
+{% endhighlight %}
