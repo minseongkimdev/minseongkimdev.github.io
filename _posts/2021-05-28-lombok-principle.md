@@ -113,51 +113,117 @@ javac에 어노테이션은 여러 단계에 걸쳐서 프로세싱 되는데, �
 자주 사용되는 패턴 중 하나인 Builder[^2] 패턴을 직접 작성해보자.
 
 
-아래와 같은 클래스가 있다. 
+아래와 같은 User 클래스가 있고 생성자에 Lombok의 Builder패턴을 사용하기 위한 해당 어노테이션을 달아보았다. 
 ~~~java
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(builderMethodName = "travelCheckListBuilder")
-@ToString
-public class TravelCheckList {
+public class User {
 
-    private Long id;
-    private String passport;
-    private String flightTicket;
-    private String creditCard;
-    private String internationalDriverLicense;
-    private String travelerInsurance;
+  private int id;
+  private String name;
+  private String email;
+  private String nickname;
 
-    public static TravelCheckListBuilder builder(Long id) {
-        if(id == null) {
-            throw new IllegalArgumentException("필수 파라미터 누락");
-        }
-        return travelCheckListBuilder().id(id);
-    }
+  @Builder
+  public User(String name, String email, String nickname) {
+      this.name = name;
+      this.email = email;
+      this.nickname = nickname;
+  }
+
 }    
 ~~~
 
 
+그 다음 컴파일 후에 Lombok이 생성한 코드를 확인해보자.
+*IntelliJ에 바이트코드를 자바소스코드로 변환해서 보여주는 기능이 있다.*
+해당 기능을 사용해서 확인해보면 User 클래스에 컴파일 전과 다르게 Builder패턴과 관련된 코드가 추가된 것을 확인할 수 있다. 추가적으로 User 인스턴스 변수를 쉽게 로그를 확인할 수 있₩도록 toString()을 오버라이딩 해준 모습도 확인할 수 있다. 
 
 ~~~java
 
-public class Main {
+public class User {
+    private int id;
+    private String name;
+    private String email;
+    private String nickname;
 
-    public static void main(String[] args) {
-        // 빌더패턴을 통해 어떤 필드에 어떤 값을 넣어주는지 명확히 눈으로 확인할 수 있다!
-        TravelCheckList travelCheckList = TravelCheckList.builder(145L)
-                    .passport("M12345")
-                    .flightTicket("Paris flight ticket")
-                    .creditCard("Shinhan card")
-                    .internationalDriverLicense("1235-5345")
-                    .travelerInsurance("Samsung insurance")
-                    .build();
+    private User(User.Builder builder) {
+        this.name = builder.name;
+        this.email = builder.email;
+        this.nickname = builder.nickname;
+    }
+
+    public static User.UserBuilder builder() {
+        return new User.UserBuilder();
+    }
+
+    public User(final int id, final String name, final String email, final String nickname) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.nickname = nickname;
+    }
+
+    public static class UserBuilder {
+        private int id;
+        private String name;
+        private String email;
+        private String nickname;
+
+        UserBuilder() {
+        }
+
+        public User.UserBuilder id(final int id) {
+            this.id = id;
+            return this;
+        }
+
+        public User.UserBuilder name(final String name) {
+            this.name = name;
+            return this;
+        }
+
+        public User.UserBuilder email(final String email) {
+            this.email = email;
+            return this;
+        }
+
+        public User.UserBuilder nickname(final String nickname) {
+            this.nickname = nickname;
+            return this;
+        }
+
+        public User build() {
+            return new User(this.id, this.name, this.email, this.nickname);
+        }
+
+        public String toString() {
+            return "User.UserBuilder(id=" + this.id + ", name=" + this.name + ", email=" + this.email + ", nickname=" + this.nickname + ")";
         }
     }
+
+    public static class Builder {
+        private int id;
+        private String name;
+        private String email;
+        private String nickname;
+
+        public Builder() {
+            this.name = this.name;
+            this.email = this.email;
+        }
+
+        public User.Builder nickname(String nickname) {
+            this.nickname = nickname;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+    }
+}
+
+
 ~~~
-
-컴파일 후에 Lombok이 생성한 코드를 확인해보자.
-*IntelliJ에 바이트코드를 자바소스코드로 변환해서 보여주는 기능이 있다.*
-
 
 
 ## 출처
