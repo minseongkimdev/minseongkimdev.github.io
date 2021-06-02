@@ -61,12 +61,7 @@ AnnotationProcessor은 Lombok의 어노테이션을 분석해서 AST트리를 �
 		if (n.toString().startsWith("lombok.")) continue;
 		onlyLombok = false;
 	}
-		
-	// Normally we rely on the claiming processor to claim away all lombok annotations.
-	// One of the many Java9 oversights is that this 'process' API has not been fixed to address the point that 'files I want to look at' and 'annotations I want to claim' must be one and the same,
-	// and yet in java9 you can no longer have 2 providers for the same service, thus, if you go by module path, lombok no longer loads the ClaimingProcessor.
-	// This doesn't do as good a job, but it'll have to do. The only way to go from here, I think, is either 2 modules, or use reflection hackery to add ClaimingProcessor during our init.
-		
+    
 	return onlyLombok && !zeroElems;
 }
 ~~~
@@ -131,7 +126,7 @@ public class User {
 
 그 다음 컴파일 후에 Lombok이 생성한 코드를 확인해보자.
 *IntelliJ에 바이트코드를 자바소스코드로 변환해서 보여주는 기능이 있다.*
-해당 기능을 사용해서 확인해보면 User 클래스에 컴파일 전과 다르게 Builder패턴과 관련된 코드가 추가된 것을 확인할 수 있다. 추가적으로 User 인스턴스 변수를 쉽게 로그를 확인할 수 있₩도록 toString()을 오버라이딩 해준 모습도 확인할 수 있다. 
+해당 기능을 사용해서 확인해보면 User 클래스에 컴파일 전과 다르게 Builder패턴과 관련된 코드가 추가된 것을 확인할 수 있다. 추가적으로 User 인스턴스 변수를 쉽게 로그를 확인할 수 있도록 toString()을 오버라이딩된 모습도 확인할 수 있다. 
 
 ~~~java
 
