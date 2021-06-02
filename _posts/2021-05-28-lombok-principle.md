@@ -7,9 +7,9 @@ category: Java
 
 ## 0. 글의 순서
 
-- [0. 요약](#0-요약)
-- [1. 들어가기 전에](#1-들어가기-전에)
-- [2. 사용 예제](#2-사용-예제)
+- [1. 요약](#1-요약)
+- [2. 들어가기 전에](#2-들어가기-전에)
+- [3. 사용 예제](#3-사용-예제)
 
 
 
@@ -40,37 +40,37 @@ AnnotationProcessor은 Lombok의 어노테이션을 분석해서 AST트리를 �
 
 
 ~~~java
-	@Override public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		if (!delayedWarnings.isEmpty()) {
-        // 루트 어노테이션을 참조한다.
-			Set<? extends Element> rootElements = roundEnv.getRootElements();
+@Override public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+	if (!delayedWarnings.isEmpty()) {
+    // 루트 어노테이션을 참조한다.
+	Set<? extends Element> rootElements = roundEnv.getRootElements();
            
-           // 루트 어노테이션에서부터 순회한다.
-			if (!rootElements.isEmpty()) {
-				Element firstRoot = rootElements.iterator().next();
-				for (String warning : delayedWarnings) processingEnv.getMessager().printMessage(Kind.WARNING, warning, firstRoot);
-				delayedWarnings.clear();
-			}
+   // 루트 어노테이션에서부터 순회한다.
+	if (!rootElements.isEmpty()) {
+		Element firstRoot = rootElements.iterator().next();
+		for (String warning : delayedWarnings) processingEnv.getMessager().printMessage(Kind.WARNING, warning, firstRoot);
+			delayedWarnings.clear();
 		}
-		
-		for (ProcessorDescriptor proc : active) proc.process(annotations, roundEnv);
-		
-		boolean onlyLombok = true;
-		boolean zeroElems = true;
-		for (TypeElement elem : annotations) {
-			zeroElems = false;
-			Name n = elem.getQualifiedName();
-			if (n.toString().startsWith("lombok.")) continue;
-			onlyLombok = false;
-		}
-		
-		// Normally we rely on the claiming processor to claim away all lombok annotations.
-		// One of the many Java9 oversights is that this 'process' API has not been fixed to address the point that 'files I want to look at' and 'annotations I want to claim' must be one and the same,
-		// and yet in java9 you can no longer have 2 providers for the same service, thus, if you go by module path, lombok no longer loads the ClaimingProcessor.
-		// This doesn't do as good a job, but it'll have to do. The only way to go from here, I think, is either 2 modules, or use reflection hackery to add ClaimingProcessor during our init.
-		
-		return onlyLombok && !zeroElems;
 	}
+		
+	for (ProcessorDescriptor proc : active) proc.process(annotations, roundEnv);
+		
+	boolean onlyLombok = true;
+	boolean zeroElems = true;
+	for (TypeElement elem : annotations) {
+		zeroElems = false;
+		Name n = elem.getQualifiedName();
+		if (n.toString().startsWith("lombok.")) continue;
+		onlyLombok = false;
+	}
+		
+	// Normally we rely on the claiming processor to claim away all lombok annotations.
+	// One of the many Java9 oversights is that this 'process' API has not been fixed to address the point that 'files I want to look at' and 'annotations I want to claim' must be one and the same,
+	// and yet in java9 you can no longer have 2 providers for the same service, thus, if you go by module path, lombok no longer loads the ClaimingProcessor.
+	// This doesn't do as good a job, but it'll have to do. The only way to go from here, I think, is either 2 modules, or use reflection hackery to add ClaimingProcessor during our init.
+		
+	return onlyLombok && !zeroElems;
+}
 ~~~
 
 다음으로  RoundEnvironment[^3] 인터페이스를 확인해보면
