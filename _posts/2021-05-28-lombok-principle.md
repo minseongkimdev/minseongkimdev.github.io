@@ -22,7 +22,7 @@ Lombok[^1]은 **컴파일타임**에 AST트리를 수정하여, 수정된 부분
 3. 최종적으로 javac는 Lombok Annotation Processor에 의해 수정된 AST를 기반으로 바이트코드를 생성한다.
 
 ![](https://blog.kakaocdn.net/dn/dx57m7/btq4OgEoDDR/k0gmC0fcjePAOQZl9FGj40/img.jpg)
-* Lombok이 처리되는 과정
+* Lombok 처리과정의 모식도
 
 ## 2. AnnotationProcessor
 
@@ -74,7 +74,7 @@ AnnotationProcessor은 Lombok의 어노테이션을 분석해서 AST트리를 �
 다음으로  RoundEnvironment[^3] 인터페이스를 확인해보면
 getRootElements()가 정의되어 있고, 앞선 round에서 생성된 root 어노테이션 참조를 리턴한다. 
 
-아래와 같이 친절하게 javadoc을 통해 RoundEnvironment의 getRootElements()에 대해 설명해주고 있다.
+아래와 같이 javadoc을 통해 RoundEnvironment의 getRootElements()에 대해 설명해주고 있다.
 번역해보면 이와 같다.
 
 >어노테이션 프로세싱이 생성한 루트 원소를 리턴한다.
@@ -100,7 +100,7 @@ public interface RoundEnvironment {
 
 round에 대해 조금 더 부연설명을 하자면
 
-javac에 어노테이션은 여러 단계에 걸쳐서 프로세싱 되는데, 여기서 round를 하나의 단계라고 이해하면 된다.
+javac에 어노테이션은 여러 단계에 걸쳐서 프로세싱 되는데, 여기서 round는 여러 단계 중 하나의 단계이다.
 
 ![](https://blog.kakaocdn.net/dn/bl3IXu/btq4MgljWtI/9e1Cp40zURM8o9o7KKN0yK/img.png)
 *여러 round에 걸쳐 annotation이 처리된다.
