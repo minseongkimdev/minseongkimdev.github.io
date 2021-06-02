@@ -30,7 +30,7 @@ AnnotationProcessor은 Lombok의 어노테이션을 분석해서 AST트리를 �
 [공식 repo에서 코드를 확인할 수 있다.](https://github.com/projectlombok/lombok/blob/5120abe4741c78d19d7e65404f407cfe57074a47/src/core/lombok/core/AnnotationProcessor.java)
 
 
-아래의 코드는`lombok.core.AnnotationProcessor.java`의 `process`함수이다.
+아래의 코드는 `lombok.core.AnnotationProcessor.java` 의 `process` 함수이다.
 
 아래에서 7번째 줄의 while문 에서 **재귀적으로 루트에서부터 순회**를 하는 것을 확인할 수 있다.
 특히 RoundEnvironment의 **rootElements()를 통해 자바 컴파일러가 생성한 AST를 참조**한다.
