@@ -27,15 +27,18 @@ REST API에 대해서 제대로 이해하려면, REST(REepresentation State Tran
 
 먼저 Representation에 대해 이해하기 전에 Resource가 무엇인지 알아야하고, **Representation과 정확하게 구별하여 이해해야 한다.**
 
+Resource는 URI와 밀첩한 관련이 있다.
+
 [다음은 RFC에 표기된 URI의 정의이다.](https://datatracker.ietf.org/doc/html/rfc3986)
 
 >A Uniform Resource Identifier (URI) is a compact sequence of
-   characters that identifies an abstract or physical resource
+   characters that identifies an abstract or physical resource.
    
-> URI는 추상적인 혹은 물리적인 Resouce를 가리키는 구분자이다.
+> (URI는 추상적인 혹은 물리적인 Resouce를 가리키는 구분자이다.)
 
 
 그럼 이 URI로 다음과 같은 HTTP Request을 보내는 상황을 가정해보자.
+
 > GET /minseong/profile
 > 
 > Accpet: application:json
@@ -62,9 +65,11 @@ REST API에 대해서 제대로 이해하려면, REST(REepresentation State Tran
 
 Resource가 아니라 **JSON Representation**을 전송받은 것이다.
 
+**즉, URI는 Resource를 가리키는 구분자 이지만, HTTP 통신을 통해 서버로 부터 받은것은 Reource가 아닌 Representation이다.**
+
 그 이유에 대해서 차근차근 알아보자.
 
-GET 메서드의 정의를 살펴보면 rfc 스펙에 아래와 같이 정의되어 있다.
+GET 메서드의 정의를 살펴보면 RFC 스펙에 아래와 같이 정의되어 있다.
 
 >The GET method requests transfer of a **current selected representation**
    for the target resource.
