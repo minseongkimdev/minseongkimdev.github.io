@@ -1,5 +1,5 @@
 ---
-title: "[작성중]REST API 제대로 이해하기 1편 - Representation이란?"
+title: "REST API 제대로 이해하기 1편 - Representation이란?"
 layout: post
 category: Web
 ---
