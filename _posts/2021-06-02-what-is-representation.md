@@ -21,7 +21,7 @@ category: Web
 
 ## 1. 들어가기 전에
 
-REST API에 대해서 제대로 이해하려면, REST(REepresentation State Transfer)에 대해 명확하게 이해해야 한다.
+REST API에 대해서 제대로 이해하려면, REST(Representational State Transfer)에 대해 명확하게 이해해야 한다.
 
 ## 2. Represenation이란 어떤 의미일까?
 
@@ -128,14 +128,12 @@ representation data는 response에 담긴 json에 해당한다.)
 - 서버 주도 컨텐츠 협상 
 - 에이전트 주도 협상
 
-Content Negotiation에 대한 자세한 내용은 이 글의 범위를 벗어나기 때문에 공식 스펙을 참고하길 바란다.
-
-
-
-
+Content Negotiation에 대한 자세한 내용은 이 글의 범위를 벗어나기 때문에 [해당 문서](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation)를 참고하길 바란다.
 
 
 ![](https://mdn.mozillademos.org/files/13789/HTTPNego.png)
+
+- Content Negotiation이 이뤄지는 의 과정 (출처 : MDN)
 
 ## 3. 요약
 
@@ -156,7 +154,7 @@ REST API에 대해 알아보기 위해 Representaion에 대해 알아보았다.
 
 이 글에서 알수 있다 싶이 GET, URI, HTTP/1.1 을 명세한 RFC문서에 Represntation에 대한 개념이 명확하게 기술되어 있었다.
 
-사실 HTTP는 하나의 프로토콜(약속)이고, 이 약속은 RFC 문서에 명시된대로 구현되어 있기 때문에, HTTP와 이에 관련된 내용들은 RFC 문서상에서 검토하여 명확하게 이해하는것이 중요하다.
+사실 HTTP는 하나의 프로토콜(약속)이고, HTTP는 RFC 문서에 명시된대로 구현되어 있기 때문에, HTTP와 이에 관련된 내용(REST 등)들은 RFC 문서상에서 검토하여 명확하게 이해하는것이 중요하다.
 
 아무튼, 이 글을 통해 이해한 Representation을 기반으로 다음 글에서 REST API에 대해 알아보도록 하자.
 
