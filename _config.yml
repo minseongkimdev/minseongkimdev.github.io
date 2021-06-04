@@ -3,9 +3,9 @@ author: "Min Seong Kim" # name of site's author
 email: "yssj2049@gmail.com" # email of site's author
 url: "https://miseongkimdev.github.io" # root address of the site
 baseurl: "/" # subpath of the site, e.g. "/blog" (leave it blank "" if you're site shouldn't use a subpath)
-description: "공부한 것을 기록하는 공간입니다.\n
-글 내용에만 집중할 수 있도록 CSS를 최소화 하였습니다.\n
-기술적인 토론은 언제나 환엽합니다."
+description: "<h3>공부한 것을 기록하는 공간입니다.</h3>
+<h3>글 내용에만 집중할 수 있도록 CSS를 최소화 하였습니다.</h3>
+<h3>기술적인 토론은 언제나 환영합니다.</h3>"
 # description of the site (multiple lines allowed)
 
 
