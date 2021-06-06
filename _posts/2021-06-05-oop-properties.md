@@ -16,7 +16,6 @@ category: CS
   - [Polymorphism - 다형성](#polymorphism---다형성)
 - [글을 마치며](#글을-마치며)
 - [출처](#출처)
-    - [공식문서](#공식문서)
     - [서적](#서적)
     - [블로그](#블로그)
 ## 1. 들어가기 전에
@@ -390,12 +389,6 @@ List coffees = coffeeMachine.brewCoffee(CoffeeSelection.ESPRESSO, 2, shot;
 
 
 ## 출처
-#### 공식문서
-
-- [https://docs.oracle.com/javase/tutorial/java/concepts/inheritance.html](https://docs.oracle.com/javase/tutorial/java/concepts/inheritance.html)
-
-
-
 #### 서적
 
 - 스프링 입문을 위한 자바 객체지향의 원리와 이해
