@@ -198,26 +198,9 @@ public class BasicCoffeeMachine {
 Java의 데이터 추상화를 통해 정보 객체에 포함되어야하는 항목에 초점을 맞출 수 있습니다.	캡슐화는 보안상의 이유로 개체가 어떤 작업을 수행하는지에 대한 내부 세부 정보 또는 메커니즘을 숨기는 것을 의미합니다.
 
 #### Polymorphism - 다형성
+[다형성은 이 글에서 좀 더 자세히 다뤘다.](https://minseongkimdev.github.io/dynamic-and-static-polymorphism.html)
 
-두가지 유형의 다형성이 존재한다.
-- 정적 다형성
-- 동적 다형성
 
-정적 다형성은 컴파일 타임에 성립되고 ,동적 다형성은 런타임에 인식된다.
-
-자바에서 대표적으로 Override와 Overloading을 통해 다형성을 구현할 수 있다.
-
-각각의 키워드는 어떤 다형성에 속할까?
-다음은 @Override 어노테이션의 선언부이다.
-
-~~~java
-
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.SOURCE)
-public @interface Override {
-}
-
-~~~
 
 ## 3. 그 외
 
