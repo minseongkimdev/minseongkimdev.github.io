@@ -23,9 +23,6 @@ OOP에 대한 여러 정의가 있지만 구글링 했을 때 가장 흔히 볼 
 
 이 글을 통해 왜 그렇게 생각하게 되었는지 나의 생각을 공유해보고자 한다.
 
-
-
-
 ## 2. 객체지향의 특성
 
 특히 객체지향의 특성을 공부하면서, OOP가 현실세계를 반영하기 위한 노력이라는 확신이 들었다.
@@ -36,7 +33,7 @@ OOP에는 다음과 같은 특성이 있다.
 
 - Inheritance - 상속
 
-- Abstraction - 추상화 
+- Abstraction - 추상화
 
 - Polymorphism - 다형성
 
@@ -118,6 +115,9 @@ B모델은 A모델에 없는 에스프레소 추출 기능이 있다. 그 점 �
 
 그럼에도 불구하고, B모델을 제작할 때, A모델의 설계를 참조하지 않고 완전히 재창조 해야할까?
 
+코드를 통해 설명해보자, A모델에 해당하는 BasicCoffeeMachine클래스와 B모델에 해당하는 PremiumCoffeeMachine가 있다고 해보자.
+
+A모델에는 커피머신에 필요한 기본적인 기능들이 구현되어 있다. B모델은 A모델을 상속받았고, 에스프레소 기능만 추가되었다.
 ~~~java
 
 public class BasicCoffeeMachine { 
@@ -147,11 +147,9 @@ public class BasicCoffeeMachine {
     private Coffee brewFilterCoffee() { 
         Configuration config = configMap.get(CoffeeSelection.FILTER_COFFEE); 
  
-        // grind the coffee beans 
         GroundCoffee groundCoffee = this.grinder.grind(
             this.beans.get(CoffeeSelection.FILTER_COFFEE), config.getQuantityCoffee()); 
  
-        // brew a filter coffee 
         return this.brewingUnit.brew(
             CoffeeSelection.FILTER_COFFEE, groundCoffee, config.getQuantityWater()); 
     } 
@@ -175,36 +173,190 @@ public class BasicCoffeeMachine {
 
 ~~~
 
+A모델의 기능이 필요한 부분에서 super 키워드를 통해 그대로 사용하고, 에스프레소 추출 기능을 추가하기 위해 brewEspresso()를 추가 구현 하였다. 
+
+~~~java
+
+public class PremiumCoffeeMachine extends BasicCoffeeMachine { 
+    public PremiumCoffeeMachine(Map beans) { 
+        super(beans); 
+ 
+         this.configMap.put(CoffeeSelection.ESPRESSO, new Configuration(8, 28)); 
+    }  
+ 
+    private Coffee brewEspresso() { 
+        Configuration config = configMap.get(CoffeeSelection.ESPRESSO); 
+ 
+        
+        GroundCoffee groundCoffee = this.grinder.grind(
+            this.beans.get(CoffeeSelection.ESPRESSO), config.getQuantityCoffee()); 
+        
+        return this.brewingUnit.brew(
+            CoffeeSelection.ESPRESSO, groundCoffee, config.getQuantityWater()); 
+    } 
+ 
+    public Coffee brewCoffee(CoffeeSelection selection) throws CoffeeException { 
+        if (selection == CoffeeSelection.ESPRESSO) {
+            return brewEspresso(); 
+        } else {
+            return super.brewCoffee(selection);
+        } 
+    } 
+}
+
+~~~
+A 커피머신 클래스를 잘 설계해놓으니, B모델에서는 에스프레소 추출 기능에만 집중할 수 있다. 또한 네스프레소사의 모든 커피머신에 추가기능이 필요하면, A 커피머신의 설계만 변경하면 된다. 
+
+결국 핵심은 재사용과 확장이다.
+
+이러한 점에서 상속은 현실세계와 비슷하고 강력하다고 할 수 있다.
+
+### Abstraction - 추상화
+
+커피머신의 내부 구현이 얼마나 복잡한지 상관 없이 abstraction을 통해 사용자는 쉽게 커피머신의 기능을 사용할 수 있다.
+
+아래의 예를 통해 알아보자.
+
+~~~java
+
+public class CoffeeMachine {
+    private Map<CoffeeSelection, CoffeeBean> beans;
+
+    public CoffeeMachine(Map<CoffeeSelection, CoffeeBean> beans) { 
+         this.beans = beans
+    }
+
+    public Coffee brewCoffee(CoffeeSelection selection) throws CoffeeException {
+        Coffee coffee = new Coffee();
+        System.out.println(“Making coffee ...”);
+        return coffee;
+    }
+}
+
+~~~
+
+CoffeeSelection은 커피 종류들을 정의한 enum 클래스이다.
+
+~~~java
+
+public enum CoffeeSelection { 
+    FILTER_COFFEE, ESPRESSO, CAPPUCCINO;
+}
+
+~~~
+
+CoffeeBean, Coffee는 관련 속성들을 저장하기 위한 POJO 이다.
+
+~~~java
+public class CoffeeBean {
+     private String name;
+     private double quantity;
+  	
+     public CoffeeBean(String name, double quantity) {
+         this.name = name;
+        this.quantity;
+    }
+}
+
+~~~
+
+~~~java
+
+public class Coffee {
+    private CoffeeSelection selection;
+    private double quantity;
+  	
+    public Coffee(CoffeeSelection, double quantity) {
+        this.selection = selection;
+        this. quantity = quantity;
+    }
+}
+
+~~~
+
+아래의 CoffeeApp에서 Coffee 클래스의 인스턴스를 생성하여, Map 컬렉션에 CoffeeBean 인스턴스를 추가한다음, 원하는 enum 타입을 파라미터로 넘겨 간편하게 brewCoffee를 호출할 수 있다.
+
+~~~java
+
+public class CoffeeApp {
+    public static void main(String[] args) {
+        // create a Map of available coffee beans
+        Map<CoffeeSelection, CoffeeBean> beans = new HashMap<CoffeeSelection, CoffeeBean>();
+        beans.put(CoffeeSelection.ESPRESSO, 
+            new CoffeeBean("My favorite espresso bean", 1000));
+        beans.put(CoffeeSelection.FILTER_COFFEE, 
+            new CoffeeBean("My favorite filter coffee bean", 1000));
+
+        CoffeeMachine machine = new CoffeeMachine(beans);
+
+        try {
+	    Coffee espresso = machine.brewCoffee(CoffeeSelection.ESPRESSO);
+	} catch(CoffeeException  e) {
+	    e.printStackTrace();
+        }
+    } 
+} 
+
+~~~
+
+### Polymorphism - 다형성
+
+커피머신을 통해 커피를 탈 때, 기본 옵션으로만 커피를 탈 수도 있다. 하지만
+수량을 선택할 수도 있고, 샷을 추가할 수 있는 기능이 있다고 해보자.
+
+이럴 경우, 다형성을 통해 하나의 인터페이스를 통해 접근이 가능하다.
+
+위 설명만으로 무슨 말인지 이해하기 어려울 수 있다고 생각한다.
+
+코드를 통해 구체적으로 알아보자.
+
+~~~java
+
+public class BasicCoffeeMachine {
+    // ...
+    public Coffee brewCoffee(CoffeeSelection selection) throws CoffeeException {
+        switch (selection) {
+        case FILTER_COFFEE:
+            return brewFilterCoffee();
+        default:
+            throw new CoffeeException(
+                "CoffeeSelection ["+selection+"] not supported!");
+        }   
+    }
+  
+    public List brewCoffee(CoffeeSelection selection, int number) throws CoffeeException {
+        List coffees = new ArrayList(number);
+        for (int i=0; i<number; i++) {
+            coffees.add(brewCoffee(selection));
+        }
+        return coffees;
+    }
+    // ...
+}
+~~~
 
 
+~~~java
+BasicCoffeeMachine coffeeMachine = createCoffeeMachine();
+coffeeMachine.brewCoffee(CoffeeSelection.FILTER_COFFEE);
+~~~
 
-#### Abstraction - 추상화 
+~~~java
+BasicCoffeeMachine coffeeMachine = createCoffeeMachine();
+List coffees = coffeeMachine.brewCoffee(CoffeeSelection.ESPRESSO, 2);
+~~~
 
-추상화는 구체적인 것을 분해해서 관심 영역에 있는 특성만 가지고 재조합 하는것을 말한다.
+그리고, 커피머신에 샷 추가 기능이 추가된다고 하면, Overloading을 활용해 매개변수에 샷 추가 관련 파라미터까지 받는 brewCoffee를 추가적으로 구현하면 된다.
 
-추상이라는 단어의 의미는 무엇일까?
+~~~java
+BasicCoffeeMachine coffeeMachine = createCoffeeMachine();
+int shot = 2;
+List coffees = coffeeMachine.brewCoffee(CoffeeSelection.ESPRESSO, 2, shot;
+~~~
 
-커피머신에는 정말 다양한 속성들이 있을것이다.
-(크기, 색깔, 가격..)
+사실 자바에서 다형성을 구현하는 방법에는 Overloading 뿐만 아니라, Overriding, Funcitional Interface등이 더 있다.
 
-
-![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq8KnKqqqEA_ngda_XBua-UIhoIiUNnV2Fuj6OXZWizuMUqTZw0F0IkBDESb4Jthi5CDc05PQ&usqp=CAc)
-
-추상화와 캡술화가 비슷하다고 생각할 수 있을것 같아. 두 개의 차이점을 표로 정리해보았다.
-
-추출	캡슐화
-객체 지향 프로그래밍의 추상화는 디자인 수준에서 문제를 해결합니다.	캡슐화는 구현 수준을 해결합니다.
-프로그래밍의 추상화는 가장 필수적인 정보를 표시하면서 원하지 않는 세부 사항을 숨기는 것입니다.	캡슐화는 코드와 데이터를 단일 단위로 바인딩하는 것을 의미합니다.
-Java의 데이터 추상화를 통해 정보 객체에 포함되어야하는 항목에 초점을 맞출 수 있습니다.	캡슐화는 보안상의 이유로 개체가 어떤 작업을 수행하는지에 대한 내부 세부 정보 또는 메커니즘을 숨기는 것을 의미합니다.
-
-#### Polymorphism - 다형성
-[다형성은 이 글에서 좀 더 자세히 다뤘다.](https://minseongkimdev.github.io/dynamic-and-static-polymorphism.html)
-
-
-
-## 3. 그 외
-
-앨런 케이는 “객체 지향 프로그래밍" 이라는 용어를 1960년대에 만들었습니다. 그는 생물학 지식을 갖추고 있었고, 살아있는 세포들이 서로 통신하는 것과 같은 방법으로 작동 하는 컴퓨터 프로그램을 만들려고 했었습니다.
+그리고 다형성은 동적다형성, 정적 다형성등 더 많은 개념들 이 있지만, 이 글에 다 담기엔 내용이 많아 다른 레퍼런스를 참조하길 바란다.
 
 
 ## 글을 마치며
@@ -215,15 +367,11 @@ Java의 데이터 추상화를 통해 정보 객체에 포함되어야하는 항
 
 그리고 OOP가 직관적인 이유도 현실세계와 닮아있는 점들이 있기 때문이다.
 
-그리고 OOP의 클래스, 객체 등의 요소도 현실세계를 반영하려고 했기 때문에 자연스럽게 도입된 개념이라고 생각한다.
+또한 OOP의 클래스, 객체 등의 요소도 현실세계를 반영하려고 했기 때문에 자연스럽게 도입된 개념이라고 생각한다.
 
-앨런 케이의 의도는 독립적인 프로그램(세포)들이 서로 메시지를 보냄으로서 정보를 전달하는 것 이었습니다. 독립된 프로그램들의 상태(state)는 결코 외부로 공개되지 않습니다(캡슐화).
+처음으로 OOP의 개념을 정립한 앨런 케이의 의도는 독립적인 프로그램(세포)들이 서로 메시지를 보냄으로서 정보를 전달하는 것 이었다고 한다.
 
-엘런케이는 이러한 의도로 OOP를 맨 처음에 구상했다고 한다. 애초에 독립적인 세포에서 구상을 했다는것이 우리의 현실세계를 반영하려는 노력의 출발점이지 않았을까?
-
-
-## 참고
-
+애초에 엘런케이가 세포에서 구상을 했다는것이 우리의 현실세계를 반영하려는 노력의 출발점이지 않았을까?
 
 #### 공식문서
 
@@ -241,3 +389,6 @@ Java의 데이터 추상화를 통해 정보 객체에 포함되어야하는 항
 - [https://betterprogramming.pub/object-oriented-programming-the-trillion-dollar-disaster-92a4b666c7c7]()
 - [https://betterprogramming.pub/object-oriented-programming-the-trillion-dollar-disaster-92a4b666c7c7]()
 - [https://stackify.com/oop-concept-abstraction/](https://stackify.com/oop-concept-abstraction/)
+- [https://stackify.com/oop-concept-for-beginners-what-is-encapsulation/](https://stackify.com/oop-concept-for-beginners-what-is-encapsulation/)
+- [https://stackify.com/oop-concept-inheritance/](https://stackify.com/oop-concept-inheritance/)
+- [https://stackify.com/oop-concept-polymorphism/](https://stackify.com/oop-concept-polymorphism/)
