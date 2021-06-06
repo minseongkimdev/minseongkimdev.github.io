@@ -7,7 +7,19 @@ category: CS
 
 ## 0. 글의 순서
 
-## 1. 들어가면서
+- [0. 글의 순서](#0-글의-순서)
+- [1. 들어가기 전에](#1-들어가기-전에)
+- [2. 객체지향의 특성](#2-객체지향의-특성)
+  - [Encapsulation - 캡슐화](#encapsulation---캡슐화)
+  - [Inheritance - 상속(재사용)](#inheritance---상속재사용)
+  - [Abstraction - 추상화](#abstraction---추상화)
+  - [Polymorphism - 다형성](#polymorphism---다형성)
+- [글을 마치며](#글을-마치며)
+- [출처](#출처)
+    - [공식문서](#공식문서)
+    - [서적](#서적)
+    - [블로그](#블로그)
+## 1. 들어가기 전에
 
 
 OOP에 대한 여러 정의가 있지만 구글링 했을 때 가장 흔히 볼 수 있는 정의는 다음과 같다.
@@ -214,9 +226,11 @@ A 커피머신 클래스를 잘 설계해놓으니, B모델에서는 에스프�
 
 ### Abstraction - 추상화
 
-커피머신의 내부 구현이 얼마나 복잡한지 상관 없이 abstraction을 통해 사용자는 쉽게 커피머신의 기능을 사용할 수 있다.
+추상화는 결국 구체적인 것에서 관심 영역에 속한 특성만 가지고 재조합 하는것이다.
 
-아래의 예를 통해 알아보자.
+커피머신의 내부 구현이 얼마나 복잡한지 상관 없이 추상화를 통해 사용자는 쉽게 커피머신의 기능을 사용할 수 있다.
+
+아래의 코드를 통해 구체적으로 알아보자.
 
 ~~~java
 
@@ -374,6 +388,8 @@ List coffees = coffeeMachine.brewCoffee(CoffeeSelection.ESPRESSO, 2, shot;
 
 애초에 엘런케이가 세포에서 구상을 했다는것이 우리의 현실세계를 반영하려는 노력의 출발점이지 않았을까?
 
+
+## 출처
 #### 공식문서
 
 - [https://docs.oracle.com/javase/tutorial/java/concepts/inheritance.html](https://docs.oracle.com/javase/tutorial/java/concepts/inheritance.html)
@@ -387,9 +403,9 @@ List coffees = coffeeMachine.brewCoffee(CoffeeSelection.ESPRESSO, 2, shot;
 
 #### 블로그
 
-- [https://betterprogramming.pub/object-oriented-programming-the-trillion-dollar-disaster-92a4b666c7c7]()
-- [https://betterprogramming.pub/object-oriented-programming-the-trillion-dollar-disaster-92a4b666c7c7]()
-- [https://stackify.com/oop-concept-abstraction/](https://stackify.com/oop-concept-abstraction/)
-- [https://stackify.com/oop-concept-for-beginners-what-is-encapsulation/](https://stackify.com/oop-concept-for-beginners-what-is-encapsulation/)
-- [https://stackify.com/oop-concept-inheritance/](https://stackify.com/oop-concept-inheritance/)
-- [https://stackify.com/oop-concept-polymorphism/](https://stackify.com/oop-concept-polymorphism/)
+- [Object-Oriented Programming — The Trillion Dollar Disaster](https://betterprogramming.pub/object-oriented-programming-the-trillion-dollar-disaster-92a4b666c7c7)
+- [OOP Concept for Beginners: What is Abstraction?](https://stackify.com/oop-concept-abstraction/)
+- [OOP Concept for Beginners: What is Encapsulation](https://stackify.com/oop-concept-for-beginners-what-is-encapsulation/)
+- [OOP Concept for Beginners: What is Inheritance?
+](https://stackify.com/oop-concept-inheritance/)
+- [OOP Concepts for Beginners: What is Polymorphism](https://stackify.com/oop-concept-polymorphism/)
