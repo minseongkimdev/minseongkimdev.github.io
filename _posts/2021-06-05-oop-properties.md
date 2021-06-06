@@ -121,15 +121,15 @@ public setBeanQuntity(CoffeeSelection coffeeSelection, double quantity) {
 
 ~~~
 
-다른 곳에서 beans에 접근할 수 없고, CoffeeMachine 클래스가 의도한 대로만 beans에 접근하여 값을 조작해야만 한다. 
+다른 곳에서 beans에 접근할 수 없고, CoffeeMachine 클래스가 의도한대로만 beans에 접근하여 값을 조작해야만 한다.
 
 이럴 경우 캡슐화가 잘 지켜졌다고 말할 수 있다.
 
 ### Inheritance - 상속(재사용)
 
-상위 클래스의 특성을 하위 클래스에서 상속하고 거기에 필요한 특성을 추가, 즉 확장해서 사용할 수 있다.
+상위 클래스의 속성 또는 메서드를 하위 클래스에서 상속받아 재사용할 수 있고 하위 클래스에서 필요한 속성 또는 메서드를 추가하거나 재정의 할 수 있다.
 
-본질적인 목적은 재사용이다.
+상속의 본질적인 목적은 재사용이다.
 
 다음은 네스프레소사의 2종의 커피머신이다. 편의상 순서대로 A,B모델 이라고 해보자.
 
@@ -140,7 +140,7 @@ public setBeanQuntity(CoffeeSelection coffeeSelection, double quantity) {
 
 B모델은 A모델에 없는 에스프레소 추출 기능이 있다. 그 점 외에는 기능상 아무런 차이점이 없다.
 
-그럼에도 불구하고, B모델을 제작할 때, A모델의 설계를 참조하지 않고 완전히 재창조 해야할까?
+그럼에도 불구하고, B모델을 제작할 때, A모델의 설계를 참고하지 않고 완전히 재창조 해야할까?
 
 코드를 통해 설명해보자, A모델에 해당하는 BasicCoffeeMachine클래스와 B모델에 해당하는 PremiumCoffeeMachine가 있다고 해보자.
 
@@ -148,54 +148,21 @@ A모델에는 커피머신에 필요한 기본적인 기능들이 구현되어 �
 ~~~java
 
 public class BasicCoffeeMachine { 
-    protected Map configMap; 
-    protected Map beans; 
-    protected Grinder grinder; 
-    protected BrewingUnit brewingUnit; 
- 
-    public BasicCoffeeMachine(Map beans) { 
-        this.beans = beans; 
-        this.grinder = new Grinder(); 
-        this.brewingUnit = new BrewingUnit(); 
- 
-        this.configMap = new HashMap(); 
-        this.configMap.put(CoffeeSelection.FILTER_COFFEE, new Configuration(30, 480)); 
-    } 
- 
-    public Coffee brewCoffee(CoffeeSelection selection) throws CoffeeException { 
-        switch (selection) { 
-            case FILTER_COFFEE: 
-                return brewFilterCoffee(); 
-            default: 
-                throw new CoffeeException("CoffeeSelection [" + selection + "] not supported!"); 
-        } 
-    } 
- 
-    private Coffee brewFilterCoffee() { 
-        Configuration config = configMap.get(CoffeeSelection.FILTER_COFFEE); 
- 
-        GroundCoffee groundCoffee = this.grinder.grind(
-            this.beans.get(CoffeeSelection.FILTER_COFFEE), config.getQuantityCoffee()); 
- 
-        return this.brewingUnit.brew(
-            CoffeeSelection.FILTER_COFFEE, groundCoffee, config.getQuantityWater()); 
-    } 
- 
-    public final void addBeans(CoffeeSelection sel, CoffeeBean newBeans)
-        throws CoffeeException {
-        CoffeeBean existingBeans = this.beans.get(sel);
 
-        if (existingBeans != null) { 
-            if (existingBeans.getName().equals(newBeans.getName())) { 
-                existingBeans.setQuantity(existingBeans.getQuantity() + newBeans.getQuantity()); 
-            } else { 
-                throw new CoffeeException(
-                    "Only one kind of beans supported for each CoffeeSelection."); 
-            } 
-        } else { 
-            this.beans.put(sel, newBeans); 
-        } 
+    public BasicCoffeeMachine(Map beans) { 
+
     } 
+ 
+    public Coffee brewCoffee(CoffeeSelection selection) {
+        // ...
+    }
+ 
+ 
+    public final void addBeans(CoffeeSelection sel, CoffeeBean newBeans){
+        // ...
+    }
+
+    
 }
 
 ~~~
@@ -205,16 +172,13 @@ A모델의 기능이 필요한 부분에서 super 키워드를 통해 그대로 
 ~~~java
 
 public class PremiumCoffeeMachine extends BasicCoffeeMachine { 
-    public PremiumCoffeeMachine(Map beans) { 
+    public PremiumCoffeeMachine() { 
         super(beans); 
- 
-         this.configMap.put(CoffeeSelection.ESPRESSO, new Configuration(8, 28)); 
     }  
  
     private Coffee brewEspresso() { 
         Configuration config = configMap.get(CoffeeSelection.ESPRESSO); 
  
-        
         GroundCoffee groundCoffee = this.grinder.grind(
             this.beans.get(CoffeeSelection.ESPRESSO), config.getQuantityCoffee()); 
         
@@ -232,9 +196,10 @@ public class PremiumCoffeeMachine extends BasicCoffeeMachine {
 }
 
 ~~~
-A 커피머신 클래스에 있는 속성과 기능을 재사용 하여, B모델에서는 에스프레소 추출 기능에만 집중할 수 있다. 또한 네스프레소사의 모든 커피머신에 추가기능이 필요하면, A 커피머신의 설계만 변경하면 된다. 
+A 커피머신 클래스에 있는 속성과 기능을 재사용 하여, B모델에서는 에스프레소 추출 기능에만 집중할 수 있다.
 
 **결국 상속의 핵심은 재사용과 확장이다.**
+
 ### Abstraction - 추상화
 
 추상화는 결국 구체적인 것에서 관심 영역에 속한 특성만 가지고 재조합 하는것이다.
@@ -298,7 +263,7 @@ public class Coffee {
 
 ~~~
 
-추상화를 통해 CoffeeMachine을 통해 커피를 제조하는 과정이 매우 단순해졌다.
+추상화를 통해 CoffeeMachine을 통해 커피를 제조하는 과정(CoffeeApp의 main메서드)이 매우 단순해졌다.
 
 단순히 아래의 CoffeeApp에서 Coffee 클래스의 인스턴스를 생성하여, Map 컬렉션에 CoffeeBean 인스턴스를 추가한다음, 원하는 enum 타입을 파라미터로 넘겨 간편하게 brewCoffee를 호출할 수 있다.
 
