@@ -1,5 +1,5 @@
 ---
-title: "[작성중]내가 해석한 OOP"
+title: "내가 해석한 OOP"
 layout: post
 category: CS
 ---
@@ -18,6 +18,7 @@ category: CS
 - [출처](#출처)
     - [서적](#서적)
     - [블로그](#블로그)
+- [주석](#주석)
 ## 1. 들어가기 전에
 
 
@@ -377,13 +378,11 @@ List coffees = coffeeMachine.brewCoffee(CoffeeSelection.ESPRESSO, 2, shot;
 
 위의 객체지향의 4가지 특성을 현실세계(커피머신)의 비유를 통해 모두 설명이 가능했다. 
 
-이는 객체지향이 현실세계를 모방하려고 노력했고, 이것들이 특성들에 자연스럽게 녹아있기 때문에 가능했다고 생각한다.
-
-그리고 OOP가 직관적인 이유도 현실세계와 닮아있는 점들이 있기 때문이다.
+이는 객체지향이 현실세계를 모방하려고 노력했고, 이것들이 특성들에 자연스럽게 녹아있기 때문에 가능했고 객체지향이 직관적일 수 있었던 것도 같은 이유라고 생각한다.
 
 또한 OOP의 클래스, 객체 등의 요소도 현실세계를 반영하려고 했기 때문에 자연스럽게 도입된 개념이라고 생각한다.
 
-처음으로 OOP의 개념을 정립한 앨런 케이의 의도는 독립적인 프로그램(세포)들이 서로 메시지를 보냄으로서 정보를 전달하는 것 이었다고 한다.
+처음으로 OOP의 개념을 정립한 앨런 케이[^1]의 의도는 독립적인 프로그램(세포)들이 서로 메시지를 보냄으로서 정보를 전달하는 것 이었다고 한다.
 
 애초에 엘런케이가 세포에서 구상을 했다는것이 우리의 현실세계를 반영하려는 노력의 출발점이지 않았을까?
 
@@ -402,3 +401,8 @@ List coffees = coffeeMachine.brewCoffee(CoffeeSelection.ESPRESSO, 2, shot;
 - [OOP Concept for Beginners: What is Inheritance?
 ](https://stackify.com/oop-concept-inheritance/)
 - [OOP Concepts for Beginners: What is Polymorphism](https://stackify.com/oop-concept-polymorphism/)
+
+
+## 주석
+
+[^1]: 엘렌케이 :
