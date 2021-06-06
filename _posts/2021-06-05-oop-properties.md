@@ -18,7 +18,6 @@ category: CS
 - [출처](#출처)
     - [서적](#서적)
     - [블로그](#블로그)
-- [주석](#주석)
 ## 1. 들어가기 전에
 
 
@@ -233,17 +232,14 @@ public class PremiumCoffeeMachine extends BasicCoffeeMachine {
 }
 
 ~~~
-A 커피머신 클래스를 잘 설계해놓으니, B모델에서는 에스프레소 추출 기능에만 집중할 수 있다. 또한 네스프레소사의 모든 커피머신에 추가기능이 필요하면, A 커피머신의 설계만 변경하면 된다. 
+A 커피머신 클래스에 있는 속성과 기능을 재사용 하여, B모델에서는 에스프레소 추출 기능에만 집중할 수 있다. 또한 네스프레소사의 모든 커피머신에 추가기능이 필요하면, A 커피머신의 설계만 변경하면 된다. 
 
-결국 핵심은 재사용과 확장이다.
-
-이러한 점에서 상속은 현실세계와 비슷하고 강력하다고 할 수 있다.
-
+**결국 상속의 핵심은 재사용과 확장이다.**
 ### Abstraction - 추상화
 
 추상화는 결국 구체적인 것에서 관심 영역에 속한 특성만 가지고 재조합 하는것이다.
 
-커피머신의 내부 구현이 얼마나 복잡한지 상관 없이 추상화를 통해 사용자는 쉽게 커피머신의 기능을 사용할 수 있다.
+추상화를 통해 커피머신의 내부 구현이 얼마나 복잡한지 상관 없이 사용자는 쉽게 커피머신의 기능을 사용할 수 있다.
 
 아래의 코드를 통해 구체적으로 알아보자.
 
@@ -302,9 +298,10 @@ public class Coffee {
 
 ~~~
 
-아래의 CoffeeApp에서 Coffee 클래스의 인스턴스를 생성하여, Map 컬렉션에 CoffeeBean 인스턴스를 추가한다음, 원하는 enum 타입을 파라미터로 넘겨 간편하게 brewCoffee를 호출할 수 있다.
-
 추상화를 통해 CoffeeMachine을 통해 커피를 제조하는 과정이 매우 단순해졌다.
+
+단순히 아래의 CoffeeApp에서 Coffee 클래스의 인스턴스를 생성하여, Map 컬렉션에 CoffeeBean 인스턴스를 추가한다음, 원하는 enum 타입을 파라미터로 넘겨 간편하게 brewCoffee를 호출할 수 있다.
+
 
 ~~~java
 
@@ -332,7 +329,9 @@ public class CoffeeApp {
 ### Polymorphism - 다형성
 
 커피머신을 통해 커피를 탈 때, 기본 옵션으로만 커피를 탈 수도 있다. 하지만
-수량을 선택할 수도 있고, 샷을 추가할 수 있는 기능이 있다고 해보자.
+수량을 선택할 수도 있고, 샷을 추가할 수 있는 기능이 필요할 수 있지 않을까?
+
+즉, 커피를 탄다는 기능은 동일하지만, 내부 메커니즘이 조금씩 달라야 하는 상황이 있을 수 있다.
 
 이럴 경우, 다형성을 통해 하나의 인터페이스를 통해 접근이 가능하다.
 
@@ -365,6 +364,7 @@ public class BasicCoffeeMachine {
 }
 ~~~
 
+아래에서 이름이 동일한 brewCoffee 메서드에 각각 다른 파라미터를 넘겨 상황에 맞게 적절한 메서드를 메커니즘 수행할 수 있다.
 
 ~~~java
 BasicCoffeeMachine coffeeMachine = createCoffeeMachine();
@@ -397,7 +397,7 @@ List coffees = coffeeMachine.brewCoffee(CoffeeSelection.ESPRESSO, 2, shot;
 
 또한 OOP의 클래스, 객체 등의 요소도 현실세계를 반영하려고 했기 때문에 자연스럽게 도입된 개념이라고 생각한다.
 
-처음으로 OOP의 개념을 정립한 앨런 케이[^1]의 의도는 독립적인 프로그램(세포)들이 서로 메시지를 보냄으로서 정보를 전달하는 것 이었다고 한다.
+처음으로 OOP의 개념을 정립한 앨런 케이의 의도는 독립적인 프로그램(세포)들이 서로 메시지를 보냄으로서 정보를 전달하는 것 이었다고 한다.
 
 애초에 엘런케이가 세포에서 구상을 했다는것이 우리의 현실세계를 반영하려는 노력의 출발점이지 않았을까?
 
@@ -416,8 +416,3 @@ List coffees = coffeeMachine.brewCoffee(CoffeeSelection.ESPRESSO, 2, shot;
 - [OOP Concept for Beginners: What is Inheritance?
 ](https://stackify.com/oop-concept-inheritance/)
 - [OOP Concepts for Beginners: What is Polymorphism](https://stackify.com/oop-concept-polymorphism/)
-
-
-## 주석
-
-[^1]: 엘렌케이 :
