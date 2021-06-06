@@ -232,6 +232,8 @@ A 커피머신 클래스를 잘 설계해놓으니, B모델에서는 에스프�
 
 아래의 코드를 통해 구체적으로 알아보자.
 
+추상화를 위해 CoffeeMachine에서 커피를 제조하는 기능외에 불필요한 속성과, 메서드를 제외하고 구현하였다.
+
 ~~~java
 
 public class CoffeeMachine {
@@ -273,10 +275,6 @@ public class CoffeeBean {
     }
 }
 
-~~~
-
-~~~java
-
 public class Coffee {
     private CoffeeSelection selection;
     private double quantity;
@@ -290,6 +288,8 @@ public class Coffee {
 ~~~
 
 아래의 CoffeeApp에서 Coffee 클래스의 인스턴스를 생성하여, Map 컬렉션에 CoffeeBean 인스턴스를 추가한다음, 원하는 enum 타입을 파라미터로 넘겨 간편하게 brewCoffee를 호출할 수 있다.
+
+추상화를 통해 CoffeeMachine을 통해 커피를 제조하는 과정이 매우 단순해졌다.
 
 ~~~java
 
