@@ -16,78 +16,83 @@ category: Java
 
 자바 8(이하) 에서는 Immutable한 Collection을 기본적으로 제공하지 않아, 구글의 Guava[^1]와 같은 서브파티 라이브러리 안에 구현된 Immutable Collection을 이용해야 한다.
 
-구글 Guava ImmutableList에서 아래와 같이
-왜 쓸까?
-신뢰할 수없는 라이브러리에서 안전하게 사용할 수 있습니다.
-스레드 안전성 : 경쟁 조건의 위험없이 많은 스레드에서 사용할 수 있습니다.
-돌연변이를 지원할 필요가 없으며 이러한 가정으로 시간과 공간을 절약 할 수 있습니다. 모든 불변 컬렉션 구현은 가변 형제보다 메모리 효율성이 높습니다. ( 분석 )
-고정 된 상태로 유지 될 것으로 예상하면서 상수로 사용할 수 있습니다.
+나는 Gauva에서는 ImmutableCollection을 Immutable를 보장하기 위해 내부적으로 어떤 장치들이 있는지 궁금해졌고, 이를 공부하고 분석한 내용을 공유해보고자 한다.
 
-나는 구글의 Gauva에서는 ImmutableCollection을 어떻게 구현했는지 내부 동작원리가 궁금해졌고, 이를 공부하고 분석한 내용을 공유해보고자 한다.
-
-JDK는 Collections.unmodifiableXXX메소드를 제공 하지만 우리의 의견으로는
-
-다루기 힘들고 장황한; 방어적인 사본을 만들고 싶은 모든 곳에서 사용하는 것이 불쾌합니다.
-안전하지 않음 : 반환 된 컬렉션은 원본 컬렉션에 대한 참조를 보유한 사람이없는 경우에만 변경 불가능합니다.
-비효율적 : 데이터 구조에는 동시 수정 검사, 해시 테이블의 추가 공간 등을 포함하여 변경 가능한 컬렉션의 모든 오버 헤드가 있습니다.
-컬렉션을 수정할 것으로 예상하지 않거나 컬렉션이 일정하게 유지 될 것으로 예상하는 경우 방어 적으로 변경 불가능한 컬렉션에 복사하는 것이 좋습니다.
-
-중요 : 각 Guava 불변 컬렉션 구현 은 null 값을 거부합니다. Google의 내부 코드 기반에 대한 철저한 연구를 수행하여 null요소가 약 5 %의 시간 동안 컬렉션에 허용되고 나머지 95 %의 경우는 null로 빠르게 실패하는 것이 가장 좋습니다. null 값을 사용해야하는 경우 null Collections.unmodifiableList을 허용하는 컬렉션 구현에서 및 해당 친구를 사용하는 것이 좋습니다. 더 자세한 제안은 여기 에서 찾을 수 있습니다 .
+[Guava ImmutableCollection에 대해 궁금하다면 Github Wiki에 잘 정리되어 있으니 참고해보길 바란다.](https://github.com/google/guava/wiki/ImmutableCollectionsExplained)
 
 
-Immutable Collection중 ImmutableList를 통해 알아보자.
+
+## 2. ImmutableList 내부 코드 살펴보기
+
+ImmutableList는 한번 초기화 된 후에 add, set, remove 등과 같이 원소를 추가, 수정, 삭제가 불가능하다.
+
+만약 이를 시도하면 아래 코드에서 확인할 수 있다 싶이 항상 UnsupportedOperationException이 발생한다.
+
+~~~java
 
 
-## 2. ImmutableList 생성
+@Deprecated
+@Override
+@DoNotCall("Always throws UnsupportedOperationException")
+public final void add(int index, E element) {
+  throw new UnsupportedOperationException();
+}
+
+@CanIgnoreReturnValue
+@Deprecated
+@Override
+@DoNotCall("Always throws UnsupportedOperationException")
+public final E set(int index, E element) {
+  throw new UnsupportedOperationException();
+}
+
+@CanIgnoreReturnValue
+@Deprecated
+@Override
+@DoNotCall("Always throws UnsupportedOperationException")
+public final E remove(int index) {
+  throw new UnsupportedOperationException();
+}
+~~~
+
+
+ImmutableList를 생성할 때 아래의 두가지 방법을 제공한다.
+- of()
+- Builder
+
 
 다음은 ImmutableList를 생성하는 예시이다.
 
 ~~~java
-
-public static final ImmutableList<Color> GOOGLE_COLORS
-	 = new ImmutableList.Builder<Color>()
+public static final ImmutableList<Color> GOOGLE_COLORS = new ImmutableList
+  Builder<Color>()
 	 .addAll(WEBSAFE_COLORS)
 	 .add(new Color(0, 191, 255))
 	 .build();
 
+   // of() 예시 추가하기
 ~~~
-
-
-ImmutableList내부의 Builder를 
-
-ImmutableCollection을 상속 받은 ImmutableList를 예를 들어 설명해보면,
-
-다음은 ImmutableList의 add 메서드이다.
-add메서드를 통해 원소를 추가하려고 하면,
-무조건 UnsupprtedOperationException을 발생시킨다.
-
-아래의 두가지 방법을 제공한다.
-- of
-- Builder
-
-
 ### of()
 
 of()에서는 생성할 때 원소의 갯수에 따라 다른 메서드가 존재한다.
 2개 이상의 원소를 추가할 때, 공통적으로 construct 메서드를 통해 생성한다.
 ~~~java
 
-	public static <E> ImmutableList<E> of(E e1, E e2) {
-		return construct(e1, e2);
-	}
+public static <E> ImmutableList<E> of(E e1, E e2) {
+	return construct(e1, e2);
+}
 
 ~~~
 
-construct()에서는 asImmutableList를 호출하고 있고, checkElementNotNull()을 통해 원소가 null인지 체크한다.
-(Guava의 ImmutableCollection에서 null 원소를 허용하지 않는다.)
+construct()에서는 checkElementNotNull()을 통해 원소가 null인지 체크한 뒤 asImmutableList를 호출한다.
 
+(Guava의 ImmutableCollection에선 null 원소를 허용하지 않는다.)
 
 ~~~java
 
-	/** Views the array as an immutable list. Checks for nulls; does not copy. */
-	private static <E> ImmutableList<E> construct(Object... elements) {
-		return asImmutableList(checkElementsNotNull(elements));
-	}
+private static <E> ImmutableList<E> construct(Object... elements) {
+	return asImmutableList(checkElementsNotNull(elements));
+}
 
 ~~~
 
@@ -96,76 +101,46 @@ asImmutableList에서는 원소의 갯수에 따라 switch문을 따라 분기�
 
 ~~~java
 
-	/**
-	 * Views the array as an immutable list. Copies if the specified range does not cover the complete
-	 * array. Does not check for nulls.
-	 */
-	static <E> ImmutableList<E> asImmutableList(@Nullable Object[] elements, int length) {
-		switch (length) {
-			case 0:
-				return of();
-			case 1:
-				/*
-				 * requireNonNull is safe because the callers promise to put non-null objects in the first
-				 * `length` array elements.
-				 */
-				@SuppressWarnings("unchecked") // our callers put only E instances into the array
-						E onlyElement = (E) requireNonNull(elements[0]);
-				return of(onlyElement);
-			default:
-				/*
-				 * The suppression is safe because the callers promise to put non-null objects in the first
-				 * `length` array elements.
-				 */
-				@SuppressWarnings("nullness")
-				Object[] elementsWithoutTrailingNulls =
-						length < elements.length ? Arrays.copyOf(elements, length) : elements;
+static <E> ImmutableList<E> asImmutableList(@Nullable Object[] elements, int length) {
+	switch (length) {
+		case 0:
+			return of();
+
+		case 1:
+			@SuppressWarnings("unchecked")
+		  E onlyElement = (E) requireNonNull(elements[0]);
+			return of(onlyElement);
+
+		default:
+			@SuppressWarnings("nullness")
+			Object[] elementsWithoutTrailingNulls =
+				length < elements.length ? Arrays.copyOf(elements, length) : elements;
 				return new RegularImmutableList<E>(elementsWithoutTrailingNulls);
 		}
-	}
+}
 
 ~~~
 
-RegularImmutableList는 ImmutableList를 상속받았고, is클래스 내부에 final하게 선언된 배열(Array) 속성을 가지고 있다.
-
-~~~java
-
-  @VisibleForTesting final transient Object[] array;
-
-
-  @Override
-  public int size() {
-    return array.length;
-  }
-~~~
-
-
+RegularImmutableList은 Builder를 통한 생성도 살펴본 뒤 알아보도록 하자.
 ### Builder
-of를 통해 생성하는 것보다 더 많은 기능을 제공한다.
-또한 빌더패턴을 활용하여 of보다 코드 가독성이 좋다.
-
 
 Builder 클래스 내부에 contents 속성을 가지고 있다.
 
 Builder의 build() 통해 ImmutableList를 생성하기 전까지는 Builder의 add()를 통해 원소를 추가 할 수 있으므로 contents가 final로 선언되지 않았다.
 
+(Builder를 통해 ImmutableList를 생성하기 전에 원소들을 임시로 보관하는 배열로 이해하면 된다.)
+
 ~~~java
+public static final class Builder<E> extends ImmutableCollection.Builder<E> 
 
-	public static final class Builder<E> extends ImmutableCollection.Builder<E> 
-
-		// The  first `size` elements are non-null.
-	@VisibleForTesting @Nullable Object[] contents;
-
+@VisibleForTesting @Nullable Object[] contents;
 ~~~
 
 Builder 클래스를 사용하여 add함수는 아래와 같다.
 
 checkNotNull()을 통해 추가하려는 원소가 null임을 검사하고, null이면 NullPointerException을 발생시킨다.
 
-
-
 ~~~java
-
 @CanIgnoreReturnValue
 @Override
 public Builder<E> add(E element) {
@@ -179,77 +154,106 @@ public Builder<E> add(E element) {
 아래의 getReadyToExpandTo()를 통해, copyOf()메서드를 활용하여, Array의 길이를 minCapacity만큼 증가시킨다.
 
 ~~~java
-
-		private void getReadyToExpandTo(int minCapacity) {
-			if (contents.length < minCapacity) {
-				this.contents = Arrays.copyOf(contents, expandedCapacity(contents.length, minCapacity));
-				forceCopy = false;
-			} else if (forceCopy) {
-				contents = Arrays.copyOf(contents, contents.length);
-				forceCopy = false;
-			}
-		}
-
+private void getReadyToExpandTo(int minCapacity) {
+	if (contents.length < minCapacity) {
+		this.contents = Arrays.copyOf(contents, expandedCapacity(contents.length, minCapacity));
+		forceCopy = false;
+		} else if (forceCopy) {
+		contents = Arrays.copyOf(contents, contents.length);
+		forceCopy = false;
+	}
+}
 ~~~
 
 그 다음 contents Array의 마지막 인덱스에 원소를 추가한다.
 
-그리고 build() 메서드에서
+그리고 build() 메서드에서 asImmutable()를 호출한다.
+of()를 설명할 때, 이미 asImmutable()를 확인했기 때문에 이에 대한 설명은 생략하도록 한다.
 
 ~~~java
-
 @Override
-  public ImmutableList<E> build() {
+public ImmutableList<E> build() {
 	forceCopy = true;
 	return asImmutableList(contents, size);
 }
-
 ~~~
 
-## 3. Immutable Collection iterator
+### RegularImmutableList
+
+ImmutableList abstract 클래스를 확장한 클래스이다.
+~~~java
+class RegularImmutableList<E> extends ImmutableList<E>
+~~~
+
+이 클래스에서 아래와 같이 final로 선언된 배열을 통해 Builder혹은 of()를 통해 추가한 원소들을 관리한다.
+
+~~~java
+@VisibleForTesting final transient Object[] array;
+~~~
+
+그리고 기본적인 연산을 위한 메서드들이 정의되어 있다.
+
+~~~java
+...
+@Override
+public int size() {
+  return array.length;
+}
+
+@Override
+@SuppressWarnings("unchecked")
+public E get(int index) {
+  return (E) array[index];
+}
+...
+~~~
+
+결국 핵심은 final로 선언한 배열을 통해 원소륻릉 관리하고,
+add, set, remove과 같이 원소를 추가, 수정, 삭제 할 수 없다는 것이다.
+
+## 3. ImmutableList iterator
 
 ImmutableList에는 아래와 같이 iterator가 선언되어 있다. 
 
 
 ~~~java
 
-	@Override
-	public UnmodifiableListIterator<E> listIterator(int index) {
-		return new AbstractIndexedListIterator<E>(size(), index) {
-			@Override
-			protected E get(int index) {
-				return ImmutableList.this.get(index);
-			}
-		};
-	}
-
+@Override
+public UnmodifiableListIterator<E> listIterator(int index) {
+	return new AbstractIndexedListIterator<E>(size(), index) {
+	  @Override
+		protected E get(int index) {
+			return ImmutableList.this.get(index);
+		}
+	};
+}
 ~~~
 
 AbstractionIntexedListIterator는 UnmodifiableListIterator를 상속받고 있다.
 
+이름 그대로 수정 불가능한 Iterator임을 유추할 수 있다.
+
 ~~~java
 abstract class AbstractIndexedListIterator<E> extends UnmodifiableListIterator<E> 
-
 ~~~
 
 그리고 UnmodifiableListItersator에서 add(), set()을 아래와 같이 항상 UnsupportedOperationException을 던지도록 구현되어 있다.
 
 ~~~java
 
-  @Deprecated
-  @Override
-  @DoNotCall("Always throws UnsupportedOperationException")
-  public final void add(E e) {
-    throw new UnsupportedOperationException();
-  }
+@Deprecated
+@Override
+@DoNotCall("Always throws UnsupportedOperationException")
+public final void add(E e) {
+  throw new UnsupportedOperationException();
+}
 
-  @Deprecated
-  @Override
-  @DoNotCall("Always throws UnsupportedOperationException")
-  public final void set(E e) {
-    throw new UnsupportedOperationException();
-  }
-
+@Deprecated
+@Override
+@DoNotCall("Always throws UnsupportedOperationException")
+public final void set(E e) {
+  throw new UnsupportedOperationException();
+}
 ~~~
 
 요약하면, iterator를 통해 순회는 가능하지만 add나 set와 같이 추가와 수정은 불가능 하다.
