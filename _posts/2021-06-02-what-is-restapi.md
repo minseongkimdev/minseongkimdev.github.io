@@ -28,7 +28,7 @@ category: Web
 
 REpresentational State Transfer의 약자이다.
 정의 그대로 리소스의 Representation들 전송한다는 의미이다.
-이 말이 무슨말인지 모르는 독자는[내가 이전에 Represenstaion에 쓴 글](https://minseongkimdev.github.io/what-is-representation.html)을 참고하길 바란다.
+이 말이 무슨말인지 모른다면 [내가 이전에 Represenstaion에 쓴 글](https://minseongkimdev.github.io/what-is-representation.html)을 참고하길 바란다.
 
 
 ## 3. REST API에 대한 오해
