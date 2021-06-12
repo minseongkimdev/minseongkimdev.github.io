@@ -8,7 +8,16 @@ category: Java
 
 ## 0. 글의 순서
 
-
+- [0. 글의 순서](#0-글의-순서)
+- [1. 들어가면서](#1-들어가면서)
+- [2. ImmutableList 내부 코드 살펴보기](#2-immutablelist-내부-코드-살펴보기)
+  - [of()](#of)
+  - [Builder](#builder)
+  - [RegularImmutableList](#regularimmutablelist)
+- [3. ImmutableList iterator](#3-immutablelist-iterator)
+- [글을 마치며](#글을-마치며)
+- [출처](#출처)
+- [주석](#주석)
 ## 1. 들어가면서
 
 개발자들이 흔히 하는 실수중 하나는,
