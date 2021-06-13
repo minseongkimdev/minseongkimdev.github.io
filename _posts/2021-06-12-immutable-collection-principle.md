@@ -21,11 +21,11 @@ category: Java
 ## 1. 들어가면서
 
 개발자들이 흔히 하는 실수중 하나는,
-자바 Collection은 기본적으로 Immutable하지 않은 성질을 고려하지 않고 개발하는 것이다.
+자바 Collection은 기본적으로 Immutable하지 않은 성질을 고려하지 않고 개발할 때 발생한다.
 
-자바 8(이하) 에서는 Immutable한 Collection을 기본적으로 제공하지 않아, 구글의 Guava[^1]와 같은 서브파티 라이브러리 안에 구현된 Immutable Collection을 이용해야 한다.
+자바 8(이하) 에서는 Immutable한 Collection을 기본적으로 제공하지 않아, 구글의 Guava[^1]와 같은 서브파티 라이브러리 안에 구현된 `ImmutableCollection`을 이용해야 한다.
 
-나는 Gauva에서는 ImmutableCollection을 Immutable를 보장하기 위해 내부적으로 어떤 장치들이 있는지 궁금해졌고, 이를 공부하고 분석한 내용을 공유해보고자 한다.
+`ImmutableCollection`중 가장 많이 쓰이는 컬렉션중 하나인 `ImmutableList`에서 Immutable한 성질을 구현하기 위해 내부적으로 어떤 장치들이 있는지 궁금해졌고, 이를 공부하고 분석한 내용을 공유해보고자 한다.
 
 [Guava ImmutableCollection에 대해 궁금하다면 Github Wiki에 잘 정리되어 있으니 참고해보길 바란다.](https://github.com/google/guava/wiki/ImmutableCollectionsExplained)
 
@@ -38,8 +38,6 @@ ImmutableList는 한번 초기화 된 후에 add, set, remove 등과 같이 원�
 만약 이를 시도하면 아래 코드에서 확인할 수 있다 싶이 항상 UnsupportedOperationException이 발생한다.
 
 ~~~java
-
-
 @Deprecated
 @Override
 @DoNotCall("Always throws UnsupportedOperationException")
@@ -66,6 +64,7 @@ public final E remove(int index) {
 
 
 ImmutableList를 생성할 때 아래의 두가지 방법을 제공한다.
+
 - of()
 - Builder
 
@@ -93,16 +92,36 @@ public static <E> ImmutableList<E> of(E e1, E e2) {
 
 ~~~
 
+흥미로운 사실은 of()는 매개변수의 갯수에 따라 아래와 같이 overrloading 되어 있다.
+
+![](https://blog.kakaocdn.net/dn/5fxIi/btq65Tnng3H/fIA9HanAJwo2jiISVNhQsK/img.png)
+
+그리고 원소의 갯수가 13개 이상일 때, 매개변수로 12개까지는 개별적으로 받지만 그 이상은 varargs 형태로 받게된다.
+
+~~~java
+@SafeVarargs
+public static <E> ImmutableList<E> of(
+  E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11, E e12, E... others)
+~~~
+
+여기서 of()를 overrloading 할필요 없이, of()를 하나만 선언하고 매개변수를 varags형태로 정의하면 간편하지 않을까 라고 생각할 수 있다. 하지만 주석을 통해 아래와 같이 설명하고 있다. 
+
+> These go up to eleven. After that, you just get the varargs form, and
+> whatever warnings might come along with it. :(
+
+> @SafeVarargs For Eclipse. For internal javac we have disabled this > pointless type of warning.
+
+
+해석해보면, varags로 인한 불필요한 warning을 피하기 위해 원소의 갯수가 많아 varags가 꼭 필요한 상황에서만 사용하기 위해 overrloading 한 것으로 추측해 볼 수 있다.
+
 construct()에서는 checkElementNotNull()을 통해 원소가 null인지 체크한 뒤 asImmutableList를 호출한다.
 
 (Guava의 ImmutableCollection에선 null 원소를 허용하지 않는다.)
 
 ~~~java
-
 private static <E> ImmutableList<E> construct(Object... elements) {
 	return asImmutableList(checkElementsNotNull(elements));
 }
-
 ~~~
 
 asImmutableList에서는 원소의 갯수에 따라 switch문을 따라 분기처리를 해놓았다.
@@ -130,14 +149,14 @@ static <E> ImmutableList<E> asImmutableList(@Nullable Object[] elements, int len
 
 ~~~
 
-RegularImmutableList은 Builder를 통한 생성도 살펴본 뒤 알아보도록 하자.
+RegularImmutableList은 Builder를 살펴본 뒤 알아보도록 하자.
 ### Builder
 
 Builder 클래스 내부에 contents 속성을 가지고 있다.
 
 Builder의 build() 통해 ImmutableList를 생성하기 전까지는 Builder의 add()를 통해 원소를 추가 할 수 있으므로 contents가 final로 선언되지 않았다.
 
-(Builder를 통해 ImmutableList를 생성하기 전에 원소들을 임시로 보관하는 배열로 이해하면 된다.)
+(Builder를 통해 ImmutableList를 생성하기 전에 원소들을 임시로 보관하는 배열이다.)
 
 ~~~java
 public static final class Builder<E> extends ImmutableCollection.Builder<E> 
@@ -268,18 +287,6 @@ public final void set(E e) {
 요약하면, iterator를 통해 순회는 가능하지만 add나 set와 같이 추가와 수정은 불가능 하다.
 (항상 UnsupportedOperationException 예외 발생)
 
-
-~~~java
-
-@Deprecated
-@Override
-@DoNotCall("Always throws UnsupportedOperationException")
-public final void add(int index, E element) {
-	throw new UnsupportedOperationException();
-}
-~~~
-
-
 ## 글을 마치며
 
 ImmutableList를 확장한 RegularImmutableList에서 내부적으로 final하게 선언된 배열(Array)을 통해 원소를 관리하고 있었다.
@@ -299,7 +306,8 @@ Kotlin 언어 개발자들의 작은 배려이지 않았을까?
 
 ## 주석
 
-[^1]: Guava : 구글에서 제공하는 자바의 일부 기능을 보완하기 위한 라이브러리.
+[^1]: Guava : 구글에서 제공하는 자바의 일부 기능을 보완하기 위한 유틸리티 라이브러리.
+Immutable  Collection, Graph 라이브러리가 포함되어 있고 I/O, Hashing, Caching, Primitives, String 등을 보완한다.
 
 
 
