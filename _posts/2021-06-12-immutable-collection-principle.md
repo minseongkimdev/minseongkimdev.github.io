@@ -72,13 +72,19 @@ ImmutableList를 생성할 때 아래의 두가지 방법을 제공한다.
 다음은 ImmutableList를 생성하는 예시이다.
 
 ~~~java
-public static final ImmutableList<Color> GOOGLE_COLORS = new ImmutableList
-  Builder<Color>()
+//of
+List<Integer> first = ImmutableList.of(1, 2, 3, 4, 5);
+
+// 13개 이상일 때
+Integer[] arr = { 13, 14, 15, 16, 17, 18 };
+List<Integer> second = ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, arr);
+
+
+// Builder
+public static final ImmutableList<Color> GOOGLE_COLORS = new ImmutableList Builder<Color>()
 	 .addAll(WEBSAFE_COLORS)
 	 .add(new Color(0, 191, 255))
 	 .build();
-
-   // of() 예시 추가하기
 ~~~
 ### of()
 
@@ -114,7 +120,7 @@ public static <E> ImmutableList<E> of(
 
 해석해보면, varags로 인한 불필요한 warning을 피하기 위해 원소의 갯수가 많아 varags가 꼭 필요한 상황에서만 사용하기 위해 overrloading 한 것으로 추측해 볼 수 있다.
 
-construct()에서는 checkElementNotNull()을 통해 원소가 null인지 체크한 뒤 asImmutableList를 호출한다.
+of()에 대해 이쯤 설명하고 construct()에서는 checkElementNotNull()을 통해 원소가 null인지 체크한 뒤 asImmutableList를 호출한다.
 
 (Guava의 ImmutableCollection에선 null 원소를 허용하지 않는다.)
 
@@ -128,25 +134,22 @@ asImmutableList에서는 원소의 갯수에 따라 switch문을 따라 분기�
 2개 이상일 때를 살펴보면 RegularImmutableList 객체를 리턴하고 있는걸 확인할 수 있다.
 
 ~~~java
-
 static <E> ImmutableList<E> asImmutableList(@Nullable Object[] elements, int length) {
-	switch (length) {
-		case 0:
-			return of();
+ switch (length) {
+  case 0:
+   return of();
 
-		case 1:
-			@SuppressWarnings("unchecked")
-		  E onlyElement = (E) requireNonNull(elements[0]);
-			return of(onlyElement);
+  case 1:
+   @SuppressWarnings("unchecked")
+   E onlyElement = (E) requireNonNull(elements[0]);
+   return of(onlyElement);
 
-		default:
-			@SuppressWarnings("nullness")
-			Object[] elementsWithoutTrailingNulls =
-				length < elements.length ? Arrays.copyOf(elements, length) : elements;
-				return new RegularImmutableList<E>(elementsWithoutTrailingNulls);
-		}
+  default:
+   @SuppressWarnings("nullness")
+   Object[] elementsWithoutTrailingNulls = length < elements.length ? Arrays.copyOf(elements, length) : elements;
+   return new RegularImmutableList<E>(elementsWithoutTrailingNulls);
+  }
 }
-
 ~~~
 
 RegularImmutableList은 Builder를 살펴본 뒤 알아보도록 하자.
@@ -156,7 +159,7 @@ Builder 클래스 내부에 contents 속성을 가지고 있다.
 
 Builder의 build() 통해 ImmutableList를 생성하기 전까지는 Builder의 add()를 통해 원소를 추가 할 수 있으므로 contents가 final로 선언되지 않았다.
 
-(Builder를 통해 ImmutableList를 생성하기 전에 원소들을 임시로 보관하는 배열이다.)
+(Builder를 통해 ImmutableList를 생성하기 전에 원소들을 임시로 보관하는 배열이다)
 
 ~~~java
 public static final class Builder<E> extends ImmutableCollection.Builder<E> 
