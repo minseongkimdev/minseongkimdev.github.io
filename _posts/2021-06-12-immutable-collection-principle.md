@@ -15,6 +15,7 @@ category: Java
   - [Builder](#builder)
   - [RegularImmutableList](#regularimmutablelist)
 - [3. ImmutableList iterator](#3-immutablelist-iterator)
+- [ImmutableCollection null element](#immutablecollection-null-element)
 - [글을 마치며](#글을-마치며)
 - [출처](#출처)
 - [주석](#주석)
@@ -289,6 +290,19 @@ public final void set(E e) {
 
 요약하면, iterator를 통해 순회는 가능하지만 add나 set와 같이 추가와 수정은 불가능 하다.
 (항상 UnsupportedOperationException 예외 발생)
+
+## ImmutableCollection null element
+
+`ImmutableCollection`은 기본적으로 null일 원소를 허용하지 않는다.
+그 이유에 대해서 궁금해졌고, 직접 [guava github repo](https://github.com/google/guava/issues/5600#event-4886073231)에 물어봤다.
+
+![](https://blog.kakaocdn.net/dn/1YQiN/btq7vmDGSzL/8kxpkFNVxo4wzcPEgFRED0/img.png)
+
+구글에서 근무하는 개발자 kluever님이 친절하게 직접 답변을 달아주셨다. 
+
+[null인 원소를 허용하지 않는 이유는 해당 글에 잘 설명되어 있어 참고하길 바란다.](https://github.com/google/guava/wiki/UsingAndAvoidingNullExplained)
+
+어떤 오픈소스에 대해 궁금한 점이 있다면 공식 레포에 직접 질문하는 것도 괜찮은 방법인것 같다.
 
 ## 글을 마치며
 
