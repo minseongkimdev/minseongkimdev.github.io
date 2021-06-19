@@ -18,7 +18,7 @@ category: Java
 - [ImmutableCollection null element](#immutablecollection-null-element)
 - [글을 마치며](#글을-마치며)
 - [출처](#출처)
-- [주석](#주석)
+- [각주](#각주)
 ## 1. 들어가면서
 
 개발자들이 흔히 하는 실수중 하나는,
@@ -321,7 +321,7 @@ Kotlin 언어 개발자들의 작은 배려이지 않았을까?
 
 - [Guava Github Wiki](https://github.com/google/guava/wiki/ImmutableCollectionsExplained)
 
-## 주석
+## 각주
 
 [^1]: Guava : 구글에서 제공하는 자바의 일부 기능을 보완하기 위한 유틸리티 라이브러리.
 Immutable  Collection, Graph 라이브러리가 포함되어 있고 I/O, Hashing, Caching, Primitives, String 등을 보완한다.
