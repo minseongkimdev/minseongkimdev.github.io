@@ -14,7 +14,10 @@ category: Web
 - [3. 요약](#3-요약)
 - [4. 글을 마치며](#4-글을-마치며)
 - [출처](#출처)
-- [주석](#주석)
+    - [공식문서](#공식문서)
+    - [블로그](#블로그)
+    - [StackOverFlow](#stackoverflow)
+- [각주](#각주)
 
 
 ## 1. 들어가기 전에
@@ -174,6 +177,6 @@ REST API에 대해 알아보기 위해 Representaion에 대해 알아보았다.
 - [What does “state transfer” in Representational State Transfer (REST) refer to?](https://stackoverflow.com/questions/4603653/what-does-state-transfer-in-representational-state-transfer-rest-refer-to)
 
 
-## 주석
+## 각주
 
 [^1]: RFC 문서 : Request For Comments의 약자.  비평을 기다리는 문서라는 의미로, 컴퓨터 네트워크 공학 등에서 인터넷 기술에 적용 가능한 새로운 연구, 혁신, 기법 등을 아우르는 아티클을 나타낸다. 인터넷국제표준화기구 IETF는 일부 RFC를 인터넷 표준으로 받아들이기도 한다.
