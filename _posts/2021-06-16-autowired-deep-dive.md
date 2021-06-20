@@ -136,7 +136,7 @@ BeanPostProcessor에 대해 조금 더 첨언하자면 빈을 프록시로 래�
 
 긴 설명 끝에 드디어 실질적으로 Autowiring를 수행하는 `AutowiredAnnotationBeanPostProcessor` 를 설명할 차례이다.
 
-위에서 잠깐 설명했듯이 @Autowired 애노테이션은 `BeanPostProcessor` 라는 라이프 사이클 인터페이스의 구현체인 `AutowiredAnnotationBeanPostProcessor` 에 의해 의존성 주입이 이루어진다.
+위에서 잠깐 설명했듯이 `@Autowired` 애노테이션은 `BeanPostProcessor` 라는 라이프 사이클 인터페이스의 구현체인 `AutowiredAnnotationBeanPostProcessor` 에 의해 의존성 주입이 이루어진다.
 
 즉 빈이 생성되기 전에 `@Autowired` 가 붙어있으면 해당하는 빈을 찾아서 주입해주는 작업을 하는 것이다.
 
@@ -203,7 +203,7 @@ private static void setAccessible0(AccessibleObject obj, boolean flag)
 }
 ~~~
 
-AccessibleObject 클래스의 공식문서에는 아래와 같이 기술되어 있다.
+AccessibleObject 클래스는 [java docs](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AccessibleObject.html)에 아래와 같이 기술되어 있다.
 
 > It provides the ability to flag a reflected object as **suppressing default Java language access control checks when it is used.**
 > 
@@ -215,7 +215,11 @@ AccessibleObject 클래스의 공식문서에는 아래와 같이 기술되어 �
 요약하자면 아래와 같다.
 
 1. AutowiredAnnotationBeanPostProcessor의 processInjection() 이 호출된다.
+
+
 2. InjectMetadata 클래스의 inject()이 호출되는데, 여기서 ReflectionUtils의 makeAccessible()를 통해 private한 필드에도 Autowiring이 가능하도록 해준다.
+
+
 3. InjectMetadata 클래스의 inject()에서 필드의 경우 Field.set()을 통해, 메서드의 경우 Method.invoke()를 통해  Injection이 이뤄진다.
 
 ### Reflection
@@ -235,7 +239,7 @@ Relection이란 자바에서 구체적인 클래스 타입을 알지 못해도, 
 
 마치 호수위의 백조가 발을 분주하게 움직여 우아하게 호수위를 떠다닐 수 있었던 것처럼, 스프링은 개발자들을 위해 정말 분주히 많은 과정을 거쳐 개발자에게 심플하고 편리한 추상화를 제공한다.
 
-**스프링(봄)** 이라는 이름이 전통적인 J2EE가 지배적이던 시절을 "겨울" 이라고 보고, 자바에 "봄"이 도래하게 할 것이라는 당찬 포부와 함께 지어진것이라고 한다.
+**스프링(봄)** 이라는 이름이 전통적인 J2EE가 지배적이던 시절을 "겨울" 이라고 보고, 자바에 "봄"이 도래하게 할 것이라는 당찬 포부와 함께 지어진 것이라고 한다.
 
 스프링을 공부하면 할수록 꽤나 적절한 이름이라는 생각이 든다.
 
@@ -249,7 +253,7 @@ Relection이란 자바에서 구체적인 클래스 타입을 알지 못해도, 
 #### 블로그
 
 
-[https://reflectoring.io/spring-bean-lifecycle/](https://reflectoring.io/spring-bean-lifecycle/)
+[Hooking Into the Spring Bean Lifecycle](https://reflectoring.io/spring-bean-lifecycle/)
 
 
 [How about the automatic injection process of Spring @Autowired annotation?](https://www.fatalerrors.org/a/0tlx0zg.html)
