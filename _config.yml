@@ -3,7 +3,7 @@ author: "Castle" # name of site's author
 email: "yssj2049@gmail.com" # email of site's author
 url: "https://miseongkimdev.github.io" # root address of the site
 baseurl: "/" # subpath of the site, e.g. "/blog" (leave it blank "" if you're site shouldn't use a subpath)
-description: "<p>🏰 Castle Kim Tech Blog</p>
+description: "<p>🏰 Castle Kim Tech Blog ✍</p>
 <p>공부한 것을 기록하는 공간입니다.</p>
 <p>글 내용에만 집중할 수 있도록 CSS를 최소화 하였습니다.</p>
 <p>기술적인 피드백과 토론은 언제나 환영합니다.</p>"
