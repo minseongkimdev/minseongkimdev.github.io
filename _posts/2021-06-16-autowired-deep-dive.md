@@ -33,11 +33,11 @@ category: Spring
 
 특히 Autowiring이 이뤄지는 빈의 생성 과정에 초점을 두어 설명하자면
 
-대략적인 스프링 빈의 라이프 사이클은 아래와 같고
+대략적인 스프링 빈의 라이프 사이클은 아래와 같다.
 
 ![](https://reflectoring.io/assets/img/posts/the-lifecycle-of-spring-beans/spring-bean-lifecycle.png)
 
-특히 빈이 사용될 수 있는 상태가 되기 전까지 실행되는 메서드는 아래와 같다.
+위 과정중에서 빈이 사용될 수 있는 상태가 되기 전까지 실행되는 메서드의 흐름은 아래와 같다.
 
 ![](https://springframework.guru/wp-content/uploads/2019/05/aware_interfaces_callbacks_in_bean_lifecycle.png)
 
@@ -79,7 +79,7 @@ InitializingBean을 구현한 빈의 afterPropertiesSet()이 실행된다.
 
 > 기본적으로 @Autowired 어노테이션의 존재를 체크하는 **AutowiredAnnotationBeanPostProcessor의** javadoc을 참고하십시오.
 
-문서에 나와있는 대로, @Autowired는 `BeanPostProcessor`와 밀접한 연관이 있고, 특히  `BeanPostProcessor`의 구현체인 `AutowiredAnnotationBeanPostProcessor`와 연관이 있음을 알 수 있다.
+문서에 나와있는 대로, @Autowired는 `BeanPostProcessor`와 이 인터페이스의 구현체인 `AutowiredAnnotationBeanPostProcessor`와 연관이 있음을 알 수 있다.
 
 이제 `BeanPostProcessor`와 `AutowiredAnnotationBeanPostProcessor`에 대해 본격적으로 알아보자.
 
@@ -187,6 +187,8 @@ protected void inject(Object target, @Nullable String requestingBeanName, @Nulla
 Reflection에 의해 `Field` 와 `Method` 전부 **타입에 상관없이** Injection이 가능하다.
 
 또한 `ReflectionUtils` 의 `makeAccessible()`를 통해 접근제어자가 `private` 임에도 불구하고, Autowiring 되는 객체에 접근이 가능하도록 한다.
+
+ 이것은 개발자들이 `private` 필드도 주입받을 수 있게 되어, 캡슐화를 지키면서 Autowiring를 활용할 수 있다.
 
 `ReflectionUtils` 의 `makeAccessible()` 메서드를 계속해서 타고 들어가다보면 아래의 `AccessibleObject` 클래스의 `setAccessible0()` 메서드를 호출하는 것을 확인할 수 있다.
 
