@@ -14,10 +14,9 @@ category: Spring
     - [buildAdvice()](#buildadvice)
     - [buildPointcut()](#buildpointcut)
 - [6. AnnotationAsyncExecutionInterceptor](#6-annotationasyncexecutioninterceptor)
-- [더 알아보기 - 스레드풀](#더-알아보기---스레드풀)
+- [더 알아보기 - 필요한 스레드풀을 찾는 과정](#더-알아보기---필요한-스레드풀을-찾는-과정)
 - [글을 마치며](#글을-마치며)
 - [출처](#출처)
-- [각주](#각주)
 
 
 ## 1. 들어가면서
@@ -60,36 +59,27 @@ public @interface EnableAsync {...}
 
 위는 @EnableAsync의 메타 어노테이션이고, @Import 메타 어노테이션을 통해 AsyncConfigurationSelector 클래스를 사용함을 알 수 있다.
 
-이 클래스의 부모 클래스 AbstractAsyncConfiguration는 **@EnableAsync가 @Async를 통해 비동기 메서드를 실행 가능 하게 하는 핵심적인 역할**을 한다.
-
-아래는 AbstractAsyncConfiguration의 setConfigurers() 메서드이다.
+아래는 AsyncConfigurationSelector의 selectImports()이다.
+adviceMode에 따라 다른 설정을 불러오는 걸 알 수 있다.
+(본 글은 PROXY 모드를 기준으로 설명한다.)
 
 ~~~java
-void setConfigurers(Collection<AsyncConfigurer> configurers) {
-    
-    if (!CollectionUtils.isEmpty(configurers)) {
+// AsyncConfigurationSelector class
 
-        if (configurers.size() > 1) {
-
-            throw new IllegalStateException("Only one AsyncConfigurer may exist");
-
-        } else {
-
-            AsyncConfigurer configurer = (AsyncConfigurer)configurers.iterator().next();
-            this.executor = configurer::getAsyncExecutor;
-            this.exceptionHandler = configurer::getAsyncUncaughtExceptionHandler;
-
-        }
+@Nullable
+public String[] selectImports(AdviceMode adviceMode) {
+    switch(adviceMode) {
+        case PROXY:
+            return new String[]{ProxyAsyncConfiguration.class.getName()};
+        case ASPECTJ:
+            return new String[]{"org.springframework.scheduling.aspectj.AspectJAsyncConfiguration"};
+        default:
+            return null;
     }
 }
 ~~~
 
-위 코드에서 볼 수 있듯이 AsyncConfiguration에서 정의한 **스레드 풀과 예외 처리 핸들러를 객체 내에 저장**한다.
-(스프링에서 java의 concurrent.Executor를 활용해 스레드 풀에 대한 접근을 추상화한다. 자세한 사항은 다른 레퍼런스를 참조하길 바란다.)
-
-그리고 AsyncConfiguration를 확장하는 클래스들 중에 **프록시 기반의 비동기 메서드 실행을 가능하게 하는** 핵심적인 역할을 하는 ProxyAsyncConfiguration 클래스가 있다.
-
-이 클래스의 asyncAdvisor()에서 AsyncAnnotationBeanPostProcessor 인스턴스를 생성한 후 **프록시가 적용될 타겟 클래스를 지정**하는 등의 설정을 한 후 해당 인스턴스를 리턴한다.
+그리고 아래와 같이 ProxyAsycConfiguration 클래스의 asyncAdvisor()에서 AsyncAnnotationBeanPostProcessor 인스턴스를 생성한 후 **프록시가 적용될 타겟 클래스를 지정**하는 등의 설정을 한 후 해당 인스턴스를 리턴한다.
 
 ~~~java
 // ProxyAsyncConfiguration class
@@ -347,13 +337,12 @@ public Object invoke(MethodInvocation invocation) throws Throwable {
 
 이로써 @Async 어노테이션이 달린 메서드가 스레드풀에 있는 스레드를 통해 비동기적으로 실행될 수 있는 것이다.
 
-## 더 알아보기 - 스레드풀
+## 더 알아보기 - 필요한 스레드풀을 찾는 과정
 
 지금까지 알아본 과정은 아래와 같다.
-
-1. @EnableAsync에서 AsyncConfigurationSelector Async에 대한 설정을 한다.
-2. ProxyAsyncConfiguration의 asyncAdvisor()에서 AsyncAnnotationBeanPostProcessor 인스턴스를 생성한 후 프록시가 적용될 타겟 클래스를 지정
-3. AsyncAnnotationBeanPostProcessor는 AsyncAnnotationAdvisor를 타겟 클래스 또는 메서드에 위빙해준다.
+1. @EnableAsync에서 AsyncConfigurationSelector에서 AdviceMode를 선택한다.(아래부터 PROXY모드 기준)
+2. ProxyAsyncConfiguration의 asyncAdvisor()에서 AsyncAnnotationBeanPostProcessor 인스턴스를 생성한 후 프록시가 적용될 타겟 클래스를 지정한다.
+3. AsyncAnnotationBeanPostProcessor는 AsyncAnnotationAdvisor를 타겟 클래스 또는 메서드에 위빙한다.
 4. AsyncAnnotationAdvisor의 buildAdvice()에서 AnnotationAsyncExecutrionInterceptor를 Advice로써 사용한다.
 5. AnnotationAsyncExecutrionInterceptor의 determineAsyncExecutor() 메서드를 통해 스레드 풀을 찾고 개발자가 작성한 메서드가 포함된 Callable를 doSubmit()를 통해 비동기적으로 실행한다.
 
@@ -397,7 +386,7 @@ protected AsyncTaskExecutor determineAsyncExecutor(Method method) {
 
 위의 getExecutorQualifier()에서 @Async 어노테이션의 value(스레드 풀의 이름)를 얻어온다.
 
-스레드 풀의 이름을 얻어오지 못하면, defaultExecutor를 사용함을 확인할 수 있는데, 그럼 언제 defaultExecutor가 생성될까?
+스레드 풀의 이름을 얻어오지 못하면(개발자가 따로 스레드풀을 명시적으로 지정하지 않으면), defaultExecutor를 사용함을 확인할 수 있는데, 그럼 언제 defaultExecutor가 생성될까?
 
 위에서 언급했듯이 configure() 메서드는 AnnotationAsyncExecutionInterceptor가 생성될때 호출된다.
 
@@ -422,14 +411,16 @@ protected Executor getDefaultExecutor(@Nullable BeanFactory beanFactory) {
 }
 ~~~
 
-이로써 SimpleAsyncTaskExecutor를 기본적으로 사용함을 알 수 있다.
+이로써 사용할 스레드풀을 명시적으로 지정하지 않으면 SimpleAsyncTaskExecutor를 기본적으로 사용함을 알 수 있다.
 
-(정확하게 말하자면 따로 사용할 스레드풀을 명시적으로 지정하지 않으면 SimpleAsyncTaskExecutor를 사용한다. 스레드풀을 지정하는 법은 설명하지 않는다.)
+(스레드풀을 지정하는 법은 따로 설명하지 않는다.)
+
+
 ## 글을 마치며
 
 스프링 AOP를 통해 개발자 입장에서 스레드풀을 지정해주고 비동기로 실핼할 비지니스 로직에만 신경 쓸 수 있다. 이 뿐만 아니라 많은 다른 기능들도 일관적으로 AOP를 활용하여 구현되어 있다. 
 
-이 글을 통해 AOP가 어떻게 이뤄지는지 이해했길 바라고, 다른 기능들도 한번 분석해보길 바란다.
+이 글을 통해 AOP가 어떻게 이뤄지는지 이해했길 바라고, 다른 기능들도 한번 직접 분석해보길 바란다.
 
 @Asnyc와 AOP를 분석하면서 스프링에 대해 더 깊게 이해할 수 있었고, 왜 AOP가 스프링의 3대 핵심요소 중 하나라고 불리는지 수긍할 수 있게 되었다.
 
@@ -439,15 +430,11 @@ protected Executor getDefaultExecutor(@Nullable BeanFactory beanFactory) {
 
 - https://www.programmersought.com/article/5564453186/
 
-
 - https://daydaynews.cc/en/technology/242778.html
-
 
 - https://brunch.co.kr/@springboot/401
 
-
 - https://howtodoinjava.com/java/multi-threading/java-thread-pool-executor-example/
-
 
 - https://howtodoinjava.com/spring-boot2/rest/enableasync-async-controller/
 
@@ -458,9 +445,3 @@ protected Executor getDefaultExecutor(@Nullable BeanFactory beanFactory) {
 - https://docs.spring.io/spring-framework/docs/3.0.5.RELEASE/reference/scheduling.html
 
 - https://docs.spring.io/spring-framework/docs/3.0.0.M3/reference/html/ch08s06.html
-
-
-## 각주
-
-
-[^1]: Async 어노테이션을 통해 비동기 메소드 실행을 활성화하는 어드바이저.
