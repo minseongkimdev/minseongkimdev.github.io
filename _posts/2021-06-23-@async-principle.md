@@ -104,7 +104,7 @@ public AsyncAnnotationBeanPostProcessor asyncAdvisor() {
 }
 ~~~
 
-위 코드에서 등장한 AsyncAnnotationBeanPostProcessor에 대해 알아보자.
+위 코드에서 등장한 AsyncAnnotationBeanPostProcessor이 내부적으로 어떤 역할을 하는지 알아보자.
 
 
 ## 4. AsyncAnnotationBeanPostProcessor
@@ -121,19 +121,26 @@ public AsyncAnnotationBeanPostProcessor asyncAdvisor() {
 
 AsyncAnnotationBeanPostProcessor의 클래스 구조를 살펴보면 아래와 같다. 
 
-![](https://blog.kakaocdn.net/dn/lwyVP/btq8cPYgOXH/kCujVJ61DrFBu5UNrSOfe0/img.png)
+![](https://programmersought.com/images/548/cedfdfe6cb9aa17efee5acd2a02914ec.png)
 
 
-클래스 구조에서 알 수 있듯이 AsyncAnnotationBeanPostProcessor는 **BeanPostProcessor 및 BeanFactoryAware를 구현**하고 있다.
+클래스 구조에서 알 수 있듯이 AsyncAnnotationBeanPostProcessor는 **BeanPostProcessor를 구현**하고 있다.
 
 한가지 팁을 주자면, 어떤 클래스의 구조만 보아도 어떤 역할을 수행할 수 있는지 추측할 수 있다.
 (다음 부분을 읽기 전에 한번 추측해보길 바란다.)
 
 다 생각해보았다고 가정하고 설명을 이어나가겠다. 
 
-우선 BeanPostProcessor의 구현체인 AbstractAdvisingBeanPostProcessor부터 살펴보면
+BeanPostProcessor의 여러 구현체중 AbstractAdvisingBeanPostProcessor라는 클래스가 존재한다.
 
-이 구현체는 **Advisor(AsyncAnnotationAdvisor)가 빈에 적용(위빙)될 수 있게 하는 역할**을 한다.
+[스프링 공식문서](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/aop/framework/AbstractAdvisingBeanPostProcessor.html)에서 이 클래스를 심플하게 정의하고 있다.
+
+> Base class for BeanPostProcessor implementations that apply a Spring AOP Advisor to specific beans.
+
+> Spring AOP Advisor를 특저 빈에 적용하는 BeanPostProcessor 구현체의 기본 클래스
+
+
+즉, 이 구현체는 **Advisor(AsyncAnnotationAdvisor)가 빈에 적용(위빙)될 수 있게 하는 역할**을 한다.
 
 아래는 빈이 초기화 된 후에 실행되는 postProcessAfterInitialization의 일부이다.
 
