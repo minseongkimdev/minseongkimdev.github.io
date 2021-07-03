@@ -265,38 +265,38 @@ DispatcherServlet의 핵심 인터페이스라고 할 수 있는 HandlerMapping,
 각 구현체에 대해 아주 간단하게만 설명한다. 출처에 레퍼런스를 적어놓았으니 참고하길 바란다.
 ### 1) HandlerMapping
 
-##### BeanNameUrlHandlerMapping 
+#### BeanNameUrlHandlerMapping 
 
 이름에서 알 수 있다싶이 빈의 이름을 활용한다.
 요청 URI와 동일한 이름을 가진 Controller 빈을 매핑한다.
 예를 들어 `~/minseong`으로 요청이 들어왔을 때 빈의 이름이 `minseong`인 빈이 존재하면 매핑이 가능하다.
 
-##### RequestMappingHandlerMapping
+#### RequestMappingHandlerMapping
 
 마찬가지로 이름에서 알 수 있다싶이 @Controller 클래스의 @RequestMapping이 달린 메서드를 매핑한다.
  
-##### RouterFunctionMapping
+#### RouterFunctionMapping
 
 RouterFunctions을 지원하는 HandlerMapping의 구현체이다.
 Spring WebFlux에서 사용되어 구체적인 설명은 생략한다.
 ### 2) HandlerAdapter
 
-##### HttpRequestHandlerAdapter
+#### HttpRequestHandlerAdapter
 
 HttpRequestHandler 인터페이스를 구현한 클래스를 컨트롤러로 사용할 때 사용되는 어댑터이다.
 
-##### SimpleControllerHandlerAdapter
+#### SimpleControllerHandlerAdapter
 
 Controller 인터페이스를 구현하는 구현체를 다루며, Controller 객체에 요청을 전달하는데 사용된다.
 
 당연한 이야기이지만 만약에 웹 애플리케이션에서 Controller만 사용하면 이 구현체를 기본 전략으로 사용하기 때문에 따로 별도의 HandlerAdpater를 구성할 필요가 없다.
 
-##### RequestMappingHandlerAdapter
+#### RequestMappingHandlerAdapter
 
 위에서 설명한 RequestMappingHandlerMapping와 함께 사용된다.
 RequestMappingHandlerMapping를 통해 핸들러를 호출한다.
 
-##### HandlerFunctionAdapter
+#### HandlerFunctionAdapter
 
 HandlerFunctions를 지원하는 구현체이다.
 Spring WebFlux에서 사용되어 구체적인 설명은 생략한다.
@@ -304,7 +304,7 @@ Spring WebFlux에서 사용되어 구체적인 설명은 생략한다.
 
 ### 3) HandlerExceptionResolver
 
-##### ExceptionHandlerExceptionResolver
+#### ExceptionHandlerExceptionResolver
 
 @Controller또는 @ControllerAdvice에 선언된 @ExceptionHandler 어노테이션을 통해 예외를 처리한다.
 아래와 같이 @ExceptionHandler 어노테이션이 정의되어 있다.
@@ -322,10 +322,10 @@ public @interface ExceptionHandler {
 ~~~java
 @ExceptionHandler({FileSystemException.class, RemoteException.class})
 ~~~
-##### ResponseStatusExceptionResolver
+#### ResponseStatusExceptionResolver
 
 @ResponseStatus 어노테이션을 통해 HTTP 상태코드에 따라 Exception을 결정한다.
-##### DefaultHandlerExceptionResolver
+#### DefaultHandlerExceptionResolver
 
 스프링 MVC의 Exception을 HTTP 상태코드로 매핑해주는 역할을 한다.
 
@@ -335,7 +335,7 @@ public @interface ExceptionHandler {
 
 ### 그 외의 구현체들
 
-##### 1) AcceptHeaderLocaleResolver
+#### 1) AcceptHeaderLocaleResolver
 
 org.springframework.web.servlet.i18n에 속하는 클래스이다.
 속한 패키지만 보더라도 다국어 지원과 관련된 기능을 담당하는 클래스임을 짐작할 수 있다.
@@ -343,21 +343,21 @@ org.springframework.web.servlet.i18n에 속하는 클래스이다.
 HTTP Request 헤더의 accept-language[^1]에 들어있는 Locale 정보를 사용하는 LocaleResolver의 구현체이다.
 
 
-##### 2) FixedThemeResolver
+#### 2) FixedThemeResolver
 
 고정된 테마를 사용하기 위한 ThemeResolver의 구현체이다. `defaultThemeName` 프로퍼티를 통해 지정할 수 있다.
 
 
 (다크모드의 유행(?)으로 비교적 최근에 지원을 시작한 줄 알았으나, 스프링 초창기부터 제공되었다는 사실이 놀라웠다.)
 
-##### 3) DefaultRequestToViewNameTranslator
+#### 3) DefaultRequestToViewNameTranslator
 
 RequestToViewNameTranslator로 들어오는 요청의 URI를 
 뷰 이름으로 변환해준다.
 
 RequestToViewNameTranslator란 HttpServletRequest에서 뷰 이름이 명시적으로 지정되지 않았을 때 URL를 통해 뷰의 이름을 추론해주는 전략 인터페이스이다.
 
-##### 4) InternalResourceViewResolver
+#### 4) InternalResourceViewResolver
 
 JSP와 같은 InternalResourceView[^2]를 지원하기 위한 UrlBasedViewResolver의 하위 클래스이다.
 
@@ -378,7 +378,7 @@ protected AbstractUrlBasedView buildView(String viewName) throws Exception {
 }
 ~~~
 
-##### 5) SessionFlashMapManager
+#### 5) SessionFlashMapManager
 
 Session에 FlashMap 인스턴스를 저장하거나 불러오기 위한 구현체이다.
 
