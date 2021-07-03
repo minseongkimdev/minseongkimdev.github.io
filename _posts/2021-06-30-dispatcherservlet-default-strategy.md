@@ -262,14 +262,14 @@ iterator를 통해 List를 **차례대로 순회하며** 핸들러를 찾고있�
 ## 5. DispatcherServlet의 기본 전략들이 동작하는 방식
 
 DispatcherServlet의 핵심 인터페이스라고 할 수 있는 HandlerMapping, HandlerAdapter, HandlerExceptionResolve의 구현체들 부터 알아보자.
-(모든 구현체들을 자세히 다루지 않는다. 출처의 레퍼런스를 달아놓았으니 참고하길 바란다.)
+각 구현체에 대해 아주 간단하게만 설명한다. 출처에 레퍼런스를 적어놓았으니 참고하길 바란다.
 ### 1) HandlerMapping
 
 ##### BeanNameUrlHandlerMapping 
 
 이름에서 알 수 있다싶이 빈의 이름을 활용한다.
 요청 URI와 동일한 이름을 가진 Controller 빈을 매핑한다.
-예를 들어 ~/minseong으로 요청이 들어왔을 때 빈의 이름이 minseong인 빈이 존재하면 매핑이 가능하다.
+예를 들어 `~/minseong`으로 요청이 들어왔을 때 빈의 이름이 `minseong`인 빈이 존재하면 매핑이 가능하다.
 
 ##### RequestMappingHandlerMapping
 
@@ -306,7 +306,7 @@ Spring WebFlux에서 사용되어 구체적인 설명은 생략한다.
 
 ##### ExceptionHandlerExceptionResolver
 
-@Controller또는 @ControllerAdvice에 선언된 @ExceptionHandler 어노테이션을 통해 예외를 처리함.
+@Controller또는 @ControllerAdvice에 선언된 @ExceptionHandler 어노테이션을 통해 예외를 처리한다.
 아래와 같이 @ExceptionHandler 어노테이션이 정의되어 있다.
 
 ~~~java
@@ -324,7 +324,7 @@ public @interface ExceptionHandler {
 ~~~
 ##### ResponseStatusExceptionResolver
 
-@ResponseStatus 어노테이션을 통해 HTTP 상태코드에 따라 Exception을 결정헌다.
+@ResponseStatus 어노테이션을 통해 HTTP 상태코드에 따라 Exception을 결정한다.
 ##### DefaultHandlerExceptionResolver
 
 스프링 MVC의 Exception을 HTTP 상태코드로 매핑해주는 역할을 한다.
