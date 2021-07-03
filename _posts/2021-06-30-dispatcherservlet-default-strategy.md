@@ -4,9 +4,6 @@ layout: post
 category: Spring
 ---
 
-## 0. 글의 순서
-
-
 ## 1. 들어가면서
 
 스프링 MVC에서 DispatcherServlet는 properties의 정보를 토대로 본인의 기본 전략을 선택한다.
