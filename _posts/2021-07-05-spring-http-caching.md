@@ -10,17 +10,17 @@ category: Spring
 - [0. 글의 순서](#0-글의-순서)
 - [1. 들어가면서](#1-들어가면서)
 - [2. HTTP Caching이란?](#2-http-caching이란)
-    - [Cache-Control](#cache-control)
-    - [ETag](#etag)
-    - [Last-Modified](#last-modified)
+  - [Cache-Control](#cache-control)
+    - [**ETag**](#etag)
+    - [**Last-Modified**](#last-modified)
 - [3. 스프링 HTTP Caching 관련 설정](#3-스프링-http-caching-관련-설정)
-    - [CacheControl](#cachecontrol)
-      - [WebContentInterceptor](#webcontentinterceptor)
-      - [WebContentGenerator](#webcontentgenerator)
-    - [Controllers](#controllers)
-    - [Static Resources](#static-resources)
-    - [ETag Filter](#etag-filter)
-      - [ShallowEtagHeaderFilter](#shallowetagheaderfilter)
+  - [CacheControl](#cachecontrol)
+    - [**WebContentInterceptor**](#webcontentinterceptor)
+    - [**WebContentGenerator**](#webcontentgenerator)
+  - [Controllers](#controllers)
+  - [Static Resources](#static-resources)
+  - [ETag Filter](#etag-filter)
+    - [**ShallowEtagHeaderFilter**](#shallowetagheaderfilter)
 - [글을 마치며](#글을-마치며)
 - [출처](#출처)
 - [각주](#각주)
@@ -30,7 +30,7 @@ category: Spring
 
 HTTP Caching은 불필요한 네트워크 요청을 방지하여 웹 애플리케이션의 성능을 향상시키는데 거의 필수적인 요소중 하나라고 볼 수 있다.
 
-HTTP Caching이 필요한 이유는 아래와 같이 축약할 수 있다.
+그리고 HTTP Caching이 필요한 이유는 아래와 같이 축약할 수 있다.
 
 - 네트워크를 통해 리소스를 가져오는 것 자체가 느리고 비용이 많이 든다.
 
@@ -47,6 +47,7 @@ HTTP Caching이 필요한 이유는 아래와 같이 축약할 수 있다.
 브라우저는 HTTP 요청을 하기 전에 로컬에서 사용할 수 있는 캐시를 먼저 찾고, 만약에 찾으면 캐시를 통해 해결할 수 있는 부분들을 요청과정에서 제거한다.
 
 **그리고 브라우저의 HTTP Caching 동작은 요청헤더와 응답헤더의 조합으로 제어된다.**
+(이 글에선 응답헤더를 중점으로 설명할 예정이다.)
 
 HTTP Cahcing을 위해 응답헤더에 설정할 수 있는 세가지 옵션들이 있다.
 
@@ -57,7 +58,7 @@ HTTP Cahcing을 위해 응답헤더에 설정할 수 있는 세가지 옵션들�
 차례대로 알아보도록 하자.
 
 
-#### Cache-Control
+### Cache-Control
 
 어떻게 캐싱하고, 얼마나 오랜동안 캐싱할 것인지에 대한 지시자를 담을 수 있는 헤더이다.
 
@@ -65,16 +66,15 @@ HTTP Cahcing을 위해 응답헤더에 설정할 수 있는 세가지 옵션들�
 
 [RFC 7234](https://tools.ietf.org/html/rfc7234#section-5.2.2)에서 모든 Cache-Control 응답 헤더의 지시자를 명세하고 있으니 궁금하다면 참고하길 바란다. 자주 사용되는 옵션만 살펴보자.
 
-* no-cache : 캐시를 사용하지 않겠다라고 오해하기 쉬우나, 캐시를 쓰기 전에 서버에 정말 사용해도 되는지 한번더 물어보라는 의미이다.
+* no-cache : 캐시를 사용하지 않겠다라고 오해하기 쉬우나, 캐시를 쓰기 전에 서버에 정말 사용해도 되는지 한번 더 물어보라는 의미이다.
 * no-store : 캐시를 사용하지 않겠다는 의미이다.
 * must-revalidate : 만료된 캐시만 서버에 확인을 받도록 하는 의미이다.
 * public/private  : public은 공유캐시 (중개 서버)에 저장해도 되는지에 대한 여부를 의미하고 private은 브라우저와 같이 특정 사용자 환경에만 저장하라는 의미이다.
 
-참고로 응답 헤더 뿐만아니라, 요청헤더로도 사용할 수 있다. 중개 서버가 존재하는 경우, 중개 서버에 있는 캐시를 가져오지 않도록 하기 위해 Cache-Control를 요청 헤더에 넣어주기도 한다.
+참고로 응답 헤더 뿐만아니라 요청헤더로도 사용할 수 있다. 중개 서버가 존재하는 경우, 중개 서버에 있는 캐시를 가져오지 않도록 하기 위해 Cache-Control를 요청 헤더에 넣어주기도 한다.
 
-
-캐시를 클라이언트단에 오랫동안 저장하고 있으면 보안상의 문제가 발생할수 있으므로, 서버에서 Cache-Control 헤더를 통해 만료 기간을 설정한다.
-#### ETag
+또한 캐시를 클라이언트단에 오랫동안 저장하고 있으면 보안상의 문제가 발생할수 있으므로, 서버에서 Cache-Control 헤더를 통해 만료 기간을 설정할 수 있다.
+#### **ETag**
 
 쉽게 말하면, 컨텐츠가 바뀌었는지 검사할 수 있는 태그이다.
 서버에서 ETag 헤더를 통해 유효성 검사 토큰을 전달하고, 이 토큰이 동일하다면 캐시를 사용하지 않고, 변경되었다면 새 응답을 가져온다.
@@ -84,7 +84,7 @@ HTTP Cahcing을 위해 응답헤더에 설정할 수 있는 세가지 옵션들�
 ![](https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/e2bN6glWoVbWIcwUF1uh.png?auto=format&w=948)
 - 출처 : https://web.dev/http-cache/
 
-#### Last-Modified
+#### **Last-Modified**
 
 서버가 자원이 가장 마지막에 수정된 시각 정보를 응답 헤더에 넣어주는 정보이다.
 
@@ -96,7 +96,7 @@ HTTP Cahcing에 대해 이쯤 알아보도록 하고 스프링에서는 어떻�
 
 
 ## 3. 스프링 HTTP Caching 관련 설정
-#### CacheControl
+### CacheControl
 
 CacheControl 클래스를 통해 Cache-Control 헤더와 관련된 설정을 할 수 있다.
 
@@ -123,7 +123,7 @@ HTTP Caching과 관련된 디렉티브를 필드로 가지고 있어 해당 디�
 
 그리고 WebContentInterceptor와 WebContentGenerator 클래스에서 CacheControl 클래스를 사용한다.
 
-##### WebContentInterceptor
+#### **WebContentInterceptor**
 
 Caching에 대한 설정을 응답에 적용하는 핸들러 인터셉터이다.
 
@@ -151,7 +151,7 @@ public void addCacheMapping(CacheControl cacheControl, String... paths) {
 위 메서드에서 파라미터로 CacheControl를 전달받아 PathPattern에 CacheControl를 매핑해준다.
 
 
-##### WebContentGenerator
+#### **WebContentGenerator**
 
 AbstractController와 WebContentInterceptor과 같이 웹 컨텐츠를 생성해주는 클래스를 위한 상위 클래스이다.
 HTTP Cache Control 관련 옵션들을 지원한다.
@@ -178,7 +178,7 @@ HTTP Cache Control 관련 옵션들을 지원한다.
 
 ~~~
 
-#### Controllers
+### Controllers
 
 컨트롤러에서 명시적으로 HTTP Caching을 활성화 할 수 있다. 스프링 공식문서에서도 이 방식을 권장한다. 왜냐하면 조건부 요청 헤더[^1]와 비교하기 전에 리소스의 lastModified나 ETag 값을 서버에서 미리 계산해야 하기 때문이다.
 
@@ -221,7 +221,7 @@ eTag를 통해 리소스가 변경 되었는지 검사하고, 변경되지 않�
 
 (GET, HEAD메서드에서는 304 NOT_MODIFIED를 리턴해줄 수 있고 POST, PUT, DELETE 메서드에서 동시 수정을 막기 위해 412 PRECONDITION_FAILED의 상태코드를 리턴해줄 수 있다.)
 
-#### Static Resources
+### Static Resources
 
 성능을 위해서 정적 리소스(Javascript, CSS 등)는 Cache-Control를 통해 제공해야한다.
 
@@ -244,14 +244,14 @@ public class WebConfig implements WebMvcConfigurer {
 ~~~
 
 
-#### ETag Filter
+### ETag Filter
 
 ShallowEtagHeaderFilter를 통해 응답의 내용을 기반으로 Shallow ETag 값을 생성한다.
 (Shallow ETag는 128 비트 해시값을 생성하는 해시함수인 MD5를 통해 생성된 값이다.)
 
 이와 상반되는 Deep ETag라는 개념도 있지만 더이상 깊이 다루지 않도록 한다.
 
-##### ShallowEtagHeaderFilter
+#### **ShallowEtagHeaderFilter**
 
 응답을 기반으로 하여 ETag 값을 생성하는 필터이다. 
 
@@ -262,7 +262,9 @@ ShallowEtagHeaderFilter를 통해 응답의 내용을 기반으로 Shallow ETag 
 ~~~java
 // ShallowEtagHeaderFilter Class
     protected String generateETagHeaderValue(InputStream inputStream, boolean isWeak) throws IOException {
+
         StringBuilder builder = new StringBuilder(37);
+
         if (isWeak) {
             builder.append("W/");
         }
@@ -272,14 +274,20 @@ ShallowEtagHeaderFilter를 통해 응답의 내용을 기반으로 Shallow ETag 
         builder.append('"');
         return builder.toString();
     }
+~~~
 
+~~~java
+// ShallowEtagHeaderFilter Class
     private void updateResponse(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         ...
 
         if (this.isEligibleForEtag(request, wrapper, wrapper.getStatus(), wrapper.getContentInputStream())) {
+
             String eTag = wrapper.getHeader("ETag");
+
             if (!StringUtils.hasText(eTag)) {
+
                 eTag = this.generateETagHeaderValue(wrapper.getContentInputStream(), this.writeWeakETag);
                 rawResponse.setHeader("ETag", eTag);
             }
@@ -301,22 +309,21 @@ generateETagHeaderValue() 에서 MD5 알고리즘을 통해 ETag를 생성함을
 팀 버너스리가 고안한 HTTP는 맨 처음에 문서만 교환할 수 있는 정말 단순한 형태의 프로토콜이었다.
 하지만 웹이 발전함에 따라 HTTP도 같이 발전하며 무수히 많은 기능들이 추가되었다.
 
- 이 글에서 다룬 Caching과 관련되 부분 말고도 무수히 많인 헤더들이 있다. 기회가 된다면 다른 헤더들도 공부해보고, HTTP의 동작원리 등과 같은 더 깊은 공부를 해보고 싶다.
+ 이 글에서 다룬 Caching과 관련되 부분 말고도 무수히 많인 헤더들이 있다. 기회가 된다면 다른 헤더들도 공부해보고, HTTP의 동작원리 등과 같은 더 깊이 파헤쳐보고 싶다.
 
 ## 출처
 
-- [https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-static-resources](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-static-resources)
+- [Spring Docs - MVC Config Static Resources](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-static-resources)
 
-- [https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/web/servlet/mvc/WebContentInterceptor.html](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/web/servlet/mvc/WebContentInterceptor.html)
+- [Spring Docs - WebContentInterceptor](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/web/servlet/mvc/WebContentInterceptor.html)
 
-- [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/support/WebContentGenerator.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/support/WebContentGenerator.html)
+- [Spring Docs - WebContentGenerator](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/support/WebContentGenerator.html)
 
-- [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/ShallowEtagHeaderFilter.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/ShallowEtagHeaderFilter.html)
+- [Spring Docs - ShallowEtagHeaderFilter](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/ShallowEtagHeaderFilter.html)
 
 - [MDN Web Docs - Last-Modified](https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Last-Modified)
  
 - [Prevent unnecessary network requests with the HTTP Cache](https://web.dev/http-cache/)
-
 
 - [Cache Headers in Spring MVC](https://www.baeldung.com/spring-mvc-cache-headers)
 
