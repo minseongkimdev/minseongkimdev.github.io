@@ -1,5 +1,5 @@
 ---
-title: "스프링 HTTP Caching 설정"
+title: "스프링 MVC HTTP Caching 설정"
 layout: post
 category: Spring
 ---
