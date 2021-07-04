@@ -9,17 +9,18 @@ category: Spring
 
 - [0. 글의 순서](#0-글의-순서)
 - [1. 들어가면서](#1-들어가면서)
-- [2. HTTP Caching](#2-http-caching)
+- [2. HTTP Caching이란?](#2-http-caching이란)
     - [Cache-Control](#cache-control)
     - [ETag](#etag)
     - [Last-Modified](#last-modified)
-- [CacheControl](#cachecontrol)
-    - [WebContentInterceptor](#webcontentinterceptor)
-    - [WebContentGenerator](#webcontentgenerator)
-- [Controllers](#controllers)
-- [Static Resources](#static-resources)
-- [ETag Filter](#etag-filter)
-    - [ShallowEtagHeaderFilter](#shallowetagheaderfilter)
+- [3. 스프링 HTTP Caching 관련 설정](#3-스프링-http-caching-관련-설정)
+    - [CacheControl](#cachecontrol)
+      - [WebContentInterceptor](#webcontentinterceptor)
+      - [WebContentGenerator](#webcontentgenerator)
+    - [Controllers](#controllers)
+    - [Static Resources](#static-resources)
+    - [ETag Filter](#etag-filter)
+      - [ShallowEtagHeaderFilter](#shallowetagheaderfilter)
 - [글을 마치며](#글을-마치며)
 - [출처](#출처)
 - [각주](#각주)
@@ -41,7 +42,7 @@ HTTP Caching이 필요한 이유는 아래와 같이 축약할 수 있다.
 
 그럼 HTTP Caching에 대해 좀 더 구체적으로 알아보고, 스프링 MVC에서는 어떻게 HTTP Caching과 관련된 설정을 할 수 있을지 확인해보자.
 
-## 2. HTTP Caching
+## 2. HTTP Caching이란?
 
 브라우저는 HTTP 요청을 하기 전에 로컬에서 사용할 수 있는 캐시를 먼저 찾고, 만약에 찾으면 캐시를 통해 해결할 수 있는 부분들을 요청과정에서 제거한다.
 
@@ -93,7 +94,9 @@ Last-Modified: <day-name>, <day> <month> <year> <hour>:<minute>:<second> GMT
 
 HTTP Cahcing에 대해 이쯤 알아보도록 하고 스프링에서는 어떻게 HTTP Caching 관련 응답에 대한 설정을 할 수 있는 방법에 대해 알아보자.
 
-## CacheControl
+
+## 3. 스프링 HTTP Caching 관련 설정
+#### CacheControl
 
 CacheControl 클래스를 통해 Cache-Control 헤더와 관련된 설정을 할 수 있다.
 
@@ -120,7 +123,7 @@ HTTP Caching과 관련된 디렉티브를 필드로 가지고 있어 해당 디�
 
 그리고 WebContentInterceptor와 WebContentGenerator 클래스에서 CacheControl 클래스를 사용한다.
 
-#### WebContentInterceptor
+##### WebContentInterceptor
 
 Caching에 대한 설정을 응답에 적용하는 핸들러 인터셉터이다.
 
@@ -148,7 +151,7 @@ public void addCacheMapping(CacheControl cacheControl, String... paths) {
 위 메서드에서 파라미터로 CacheControl를 전달받아 PathPattern에 CacheControl를 매핑해준다.
 
 
-#### WebContentGenerator
+##### WebContentGenerator
 
 AbstractController와 WebContentInterceptor과 같이 웹 컨텐츠를 생성해주는 클래스를 위한 상위 클래스이다.
 HTTP Cache Control 관련 옵션들을 지원한다.
@@ -175,7 +178,7 @@ HTTP Cache Control 관련 옵션들을 지원한다.
 
 ~~~
 
-## Controllers
+#### Controllers
 
 컨트롤러에서 명시적으로 HTTP Caching을 활성화 할 수 있다. 스프링 공식문서에서도 이 방식을 권장한다. 왜냐하면 조건부 요청 헤더[^1]와 비교하기 전에 리소스의 lastModified나 ETag 값을 서버에서 미리 계산해야 하기 때문이다.
 
@@ -218,7 +221,7 @@ eTag를 통해 리소스가 변경 되었는지 검사하고, 변경되지 않�
 
 (GET, HEAD메서드에서는 304 NOT_MODIFIED를 리턴해줄 수 있고 POST, PUT, DELETE 메서드에서 동시 수정을 막기 위해 412 PRECONDITION_FAILED의 상태코드를 리턴해줄 수 있다.)
 
-## Static Resources
+#### Static Resources
 
 성능을 위해서 정적 리소스(Javascript, CSS 등)는 Cache-Control를 통해 제공해야한다.
 
@@ -241,14 +244,14 @@ public class WebConfig implements WebMvcConfigurer {
 ~~~
 
 
-## ETag Filter
+#### ETag Filter
 
 ShallowEtagHeaderFilter를 통해 응답의 내용을 기반으로 Shallow ETag 값을 생성한다.
 (Shallow ETag는 128 비트 해시값을 생성하는 해시함수인 MD5를 통해 생성된 값이다.)
 
 이와 상반되는 Deep ETag라는 개념도 있지만 더이상 깊이 다루지 않도록 한다.
 
-#### ShallowEtagHeaderFilter
+##### ShallowEtagHeaderFilter
 
 응답을 기반으로 하여 ETag 값을 생성하는 필터이다. 
 
