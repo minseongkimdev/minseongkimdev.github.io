@@ -1,5 +1,5 @@
 ---
-title: "스프링 MVC + CORS"
+title: "스프링 MVC + CORS = ❤"
 layout: post
 category: Spring
 ---
@@ -14,7 +14,7 @@ category: Spring
     - [Preflight Request](#preflight-request)
     - [Simple Request](#simple-request)
     - [Credentialed Request](#credentialed-request)
-- [3. 스프링 MVC with CORS](#3-스프링-mvc-with-cors)
+- [3. 스프링 MVC + CORS](#3-스프링-mvc--cors)
   - [CORS 요청과 응답은 어떻게 처리될까?](#cors-요청과-응답은-어떻게-처리될까)
   - [스프링 CORS 관련 설정](#스프링-cors-관련-설정)
     - [Local Configuration - @CrossOrigin](#local-configuration---crossorigin)
@@ -37,24 +37,24 @@ CORS가 무엇인지 부터, 스프링에서는 어떻게 CORS 관련 설정을 
 ![](https://blog.4d.com/wp-content/uploads/2020/05/cors-1.jpg)
 - 출처 : https://blog.4d.com
   
-Cross-Origin Resource Sharing(이하 CORS)은 HTTP 헤더정보를 통해 애플리케이션이 다른 도메인(Origin)의 리소스에 접근할 수 있도록 하는 메커니즘을 말한다.
+Cross-Origin Resource Sharing(이하 CORS)은 HTTP 헤더정보를 통해 애플리케이션이 다른 출처(Origin)의 리소스에 접근할 수 있도록 하는 메커니즘을 말한다.
 
 Cross-Origin을 한국어로 직역하면, 교차 출처이지만 직관적이지 않다. **다른**(Cross) **출처**(Origin)라고 이해하면 쉽다.
 
-즉, 한 웹페이지 내에서 해당 웹페이지를 가져온 도메인과 다른 도메인(Cross-Origin)에서 자원을 가져오는 것이다.
+즉, 한 웹페이지 내에서 해당 웹페이지를 가져온 출처와 다른 출처(Cross-Origin)에서 자원을 가져오는 것이다.
 
-N사의 홈 화면만 해도 웹페이지 내에 있는 이미지는 https://naver.com이 아닌 N사의 정적리소스를 위한 도메인으로 추측되는 https://s.pstatic.net 에서 가져온다. 
+N사의 홈 화면만 해도 웹페이지 내에 있는 이미지는 https://naver.com이 아닌 N사의 정적리소스를 위한 도메인으로 추측되는 https://s.pstatic.net 에서 불러온다.
 
-그렇다면 CORS는 왜 등장했을까? 이를 알기 위해선 Same-Origin Policy에 대한 이해가 있어야 한다.
+그렇다면 CORS는 왜 필요할까? 이를 알기 위해선 Same-Origin Policy에 대한 이해가 있어야 한다.
 ### Same-Origin Policy (SOP)
 
 SOP[^1]은 [RFC 6454](https://datatracker.ietf.org/doc/html/rfc6454#page-5)에서 소개되었고, 이름에서 알 수 있다 싶이 같은 출처(Same-Origin)에서만 리소스를 공유할 수 있다라는 규칙을 정의하고 있는 정책이다.
 
 하지만 위의 N사의 홈화면의 사례와 같이, 다른 출처에서 리소스를 가져와서 사용하는 것은 매우 흔한 일이라 일부 예외를 둔게 CORS 정책이다.
 
-많이들 헷갈려하는것 같아 다시 한번 명확하게 하면, **SOP**는 **다른 출처의 리소스 요청을 제한**하는 정책이고, **CORS**는 **다른 출처의 리소스를 요청할 수 있게** 하는 일종의 예외 정책이다.
+많이 헷갈려하는것 같아 다시 한번 명확하게 하면, **SOP**는 **다른 출처의 리소스 요청을 제한**하는 정책이고, **CORS**는 **다른 출처의 리소스를 요청할 수 있게** 하는 일종의 예외 정책이다.
 
-(위에서 편의상 Origin을 도메인으로 설명하였지만 , 엄밀히 말하면 Origin은 도메인이 아니다. **Protocol, Host, Port를 합친 정보**를 Origin 이라고 한다.)
+(엄밀히 말하면 Origin은 **Protocol, Host, Port를 합친 정보** 이다.)
 
 
 ### CORS의 동작 방식
@@ -84,7 +84,7 @@ Preflight라는 용어는 인쇄 전에 최종파일을 넘길때 문서를 **�
 Simple Request은 위의 Preflight Request와 다르게, 예비 요청을 따로 보내지 않고, 
 브라우저는 본 요청을 보내고 서버가 보낸 응답의 Access-Control-Allow-Origin 값을 통해 CORS 정책 위반 여부를 검사하는 방식이다.
 
-Preflight Request와의 차이점은 예비요청을 보내는지 여부뿐이다.
+Preflight Request와의 차이점은 예비요청(Preflight)을 보내는지 여부이다.
 
 ![](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/simple-req-updated.png)
 - 출처 : https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
@@ -112,7 +112,7 @@ Preflight Request와의 차이점은 예비요청을 보내는지 여부뿐이�
 * 브라우저단에서 XMLHttpRequest객체를 생성할 때 withCredentials 플래그를 true로 설정한다.
 * 서버단에서 응답헤더에 Access-Control-Allow-Credentials : true로 설정해주면 된다.
 
-만약 응답헤더에 Access-Control-Allow-Credentials : true 가 포함되어 있지 않다면 브라우저에서 해당 응답을 사용할 수 없다.
+만약 응답헤더에 **Access-Control-Allow-Credentials : true 가 포함되어 있지 않다면 브라우저에서 해당 응답을 사용할 수 없다.**
 
 (참고로 아래와 같이 만약 요청의 Origin과 응답의 Access-Control-Allow-Origin이 같으면, withCredentials 플래그를 따로 지정하지 않아도 된다.)
 
@@ -121,7 +121,7 @@ Preflight Request와의 차이점은 예비요청을 보내는지 여부뿐이�
 
 
 
-## 3. 스프링 MVC with CORS
+## 3. 스프링 MVC + CORS
 
 CORS에 대한 개념은 어느정도 설명하였으니, 본격적으로 스프링에서 CORS 요청이 어떻게 처리되고, CORS 관련 설정하는 법에 대해 알아보자.
 
@@ -129,9 +129,15 @@ CORS에 대한 개념은 어느정도 설명하였으니, 본격적으로 스프
 
 스프링 MVC의 HandlerMapping 구현체들은 기본적으로 CORS에 관련된 기능을 제공한다.
 
-HandlerMapping은 Preflight 요청을 직접적으로 다루지만, Simple Request와 Credentialed Request는 CorsFilter에 의해 인터셉트되고 CorsProcessor 구현체에 의해 검증된 후에 CORS 관련 헤더(Access-Control-Allow-Origin 등)를 추가한다. 코드로 직접 살펴보자.
+HandlerMapping은 Preflight 요청을 직접적으로 처리하지만
+
+Simple Request와 Credentialed Request는 **CorsFilter에 의해 인터셉트되고** **CorsProcessor 구현체에 의해 검증된 후**에 CORS 관련 헤더(Access-Control-Allow-Origin 등)를 추가한다. 
+
+코드를 통해 직접 살펴보자.
 
 CorsFilter 코드를 살펴보면 DefaultCorsProcessor 오브젝트를 필드로 가지고 있고, doFilterInternal() 내에서 processRequest()를 통해 파라미터로 CorsConfiguration을 전달받아 응답을 처리하는 것을 확인할 수 있다.
+
+
 ~~~java
 public class CorsFilter extends OncePerRequestFilter {
 
@@ -142,16 +148,23 @@ public class CorsFilter extends OncePerRequestFilter {
     ...
 
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         CorsConfiguration corsConfiguration = this.configSource.getCorsConfiguration(request);
+
         boolean isValid = this.processor.processRequest(corsConfiguration, request, response);
+
         if (isValid && !CorsUtils.isPreFlightRequest(request)) {
+
             filterChain.doFilter(request, response);
+
         }
     }
 }
 ~~~
 
-CorsProcessor 인터페이스 CORS 요청 처리에 중추적인 역할을 하지만 구성은 매우 단순하다. 아래와 같이 CorsProcessor은 단 하나의 메서드만 가지고 있고, 기본적으로 사용되는 구현체인 DefaultCorsProcessor는 [CORS W3C recommendation](https://fetch.spec.whatwg.org/)스펙에 맞게 processRequest() 메서드를 구현하고 있다.
+CorsProcessor 인터페이스 CORS 요청 처리에 중추적인 역할을 하지만 구성은 매우 단순하다.
+
+아래와 같이 CorsProcessor은 단 하나의 메서드만 가지고 있고 기본적으로 사용되는 구현체인 DefaultCorsProcessor는 [CORS W3C recommendation](https://fetch.spec.whatwg.org/)스펙에 맞게 processRequest() 메서드를 구현하고 있다.
 
 ~~~java
 public interface CorsProcessor {
@@ -163,7 +176,7 @@ CORS 관련 요청과 응답이 처리되는 과정을 살펴보았으니, 스�
 
 ### 스프링 CORS 관련 설정
 
-스프링에선 CORS관련 설정을 **지역적**으로 선언하는 법과 **전역적**으로 설정하는 방법이 있다. 차례대로 알아보자.
+스프링에선 CORS관련 설정을 **지역적**으로 설정하는 방법과 **전역적**으로 설정하는 방법이 있다. 차례대로 알아보자.
 
 #### Local Configuration - @CrossOrigin
 
@@ -336,8 +349,15 @@ registry.addMapping 메서드에서 추가적으로 설정을 할 수 있는 Cor
 
 ## 글을 마치며
 
+지금까지, CORS란 무엇이고 왜필요하며, 스프링에서 CORS관련 응답과 요청이 어떻게 처리되며 어떻게 CORS관련 설정을 할 수 있는지 알아보았다.
+
 웹이 처음 고안됐을때만 해도 웹페이지는 매우 단순한 형태였다.
-웹은 단순히 문서 공유를 위해서 고안되었으며, 웹이 진화함에 따라 점점더 복잡해졌고,
+왜냐하면 팀 버너스리에 의해 웹은 단순히 문서 공유를 위해서 고안되었기 때문이다.
+
+하지만 웹이 시간이 지남에 따라 점점 방대해지며 진화함과 동시에 다양한 해킹기법과 방어기술이 등장하였다.
+
+CORS를 공부하면서 이러한 히스토리가 HTTP 스펙에 고스란히 반영되어 있음이 느껴져 매우 흥미로웠다.
+
 
 ## 출처
 
@@ -358,4 +378,4 @@ registry.addMapping 메서드에서 추가적으로 설정을 할 수 있는 Cor
 
 ## 각주
 
-[^1]: Preflight 요청 : Preflight Request는 actual 요청 전에 인증 헤더를 전송하여 서버의 허용 여부를 미리 체크하는 테스트 요청이다.
+[^1]: Preflight 요청 : Preflight Request는 actual 요청 전에 인증 헤더를 전송하여 서버의 허용 여부를 미리 체크하는 요청.
