@@ -129,9 +129,8 @@ CORS에 대한 개념은 어느정도 설명하였으니, 본격적으로 스프
 
 스프링 MVC의 HandlerMapping 구현체들은 기본적으로 CORS에 관련된 기능을 제공한다.
 
-HandlerMapping은 Preflight 요청을 직접적으로 처리하지만
-
-Simple Request와 Credentialed Request는 **CorsFilter에 의해 인터셉트되고** **CorsProcessor 구현체에 의해 검증된 후**에 CORS 관련 헤더(Access-Control-Allow-Origin 등)를 추가한다. 
+> HandlerMapping은 Preflight 요청을 직접적으로 처리하지만
+> Simple Request와 Credentialed Request는 **CorsFilter에 의해 인터셉트되고** **CorsProcessor 구현체에 의해 검증된 후**에 CORS 관련 헤더(Access-Control-Allow-Origin 등)를 추가한다. 
 
 코드를 통해 직접 살펴보자.
 
@@ -349,7 +348,7 @@ registry.addMapping 메서드에서 추가적으로 설정을 할 수 있는 Cor
 
 ## 글을 마치며
 
-지금까지, CORS란 무엇이고 왜필요하며, 스프링에서 CORS관련 응답과 요청이 어떻게 처리되며 어떻게 CORS관련 설정을 할 수 있는지 알아보았다.
+지금까지 CORS란 무엇이고 왜 필요하며 스프링에서 CORS관련 응답과 요청이 어떻게 처리되며 어떻게 CORS관련 설정을 할 수 있는지 알아보았다.
 
 웹이 처음 고안됐을때만 해도 웹페이지는 매우 단순한 형태였다.
 왜냐하면 팀 버너스리에 의해 웹은 단순히 문서 공유를 위해서 고안되었기 때문이다.
