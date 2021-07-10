@@ -12,6 +12,13 @@ entries:
       show_more_text: See archive...
       show_more_url: archive.html
 
+  - title: Thinking
+    post_list:
+      limit: 8
+      show_more: true
+      show_more_text: See archive...
+      show_more_url: thinking.html
+
   - title: Java
     post_list:
       category: Java
