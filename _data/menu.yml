@@ -14,7 +14,7 @@ entries:
 
   - title: Thinking
     post_list:
-      limit: 8
+      category: Thinking
       show_more: true
       show_more_text: See archive...
       show_more_url: thinking.html
