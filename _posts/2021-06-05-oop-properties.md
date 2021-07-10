@@ -1,12 +1,13 @@
 ---
 title: "내가 해석한 OOP"
 layout: post
-category: CS
+category: Java
 ---
 
 
 ## 0. 글의 순서
 
+- [0. 글의 순서](#0-글의-순서)
 - [1. 들어가기 전에](#1-들어가기-전에)
 - [2. 객체지향의 특성](#2-객체지향의-특성)
   - [Encapsulation - 캡슐화](#encapsulation---캡슐화)
@@ -15,6 +16,8 @@ category: CS
   - [Polymorphism - 다형성](#polymorphism---다형성)
 - [글을 마치며](#글을-마치며)
 - [출처](#출처)
+    - [서적](#서적)
+    - [블로그](#블로그)
 
 
 ## 1. 들어가기 전에
