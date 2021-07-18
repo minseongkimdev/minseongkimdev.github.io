@@ -4,16 +4,15 @@ layout: post
 category: Spring
 ---
 
-@EnableWebMvc를 통해 스프링 내부적으로 어떤 일어날까?
 ## 0. 글의 순서
 
 - [0. 글의 순서](#0-글의-순서)
 - [1. 들어가면서](#1-들어가면서)
 - [2. @EnableWebMvc](#2-enablewebmvc)
-- [DelegatingWebMvcConfiguration](#delegatingwebmvcconfiguration)
-- [WebMvcConfigurationSupport](#webmvcconfigurationsupport)
-- [Composite 패턴](#composite-패턴)
-- [어노테이션에 대한 팁](#어노테이션에-대한-팁)
+- [3. DelegatingWebMvcConfiguration](#3-delegatingwebmvcconfiguration)
+- [4. WebMvcConfigurationSupport](#4-webmvcconfigurationsupport)
+- [5. Composite 패턴](#5-composite-패턴)
+- [6. 어노테이션에 대한 팁](#6-어노테이션에-대한-팁)
 - [글을 마치며](#글을-마치며)
 - [출처](#출처)
 
@@ -28,10 +27,10 @@ category: Spring
 
 > Enables **default Spring MVC configuration** and registers Spring MVC infrastructure components expected by the DispatcherServlet. Use this annotation on an @Configuration class. In turn that will import DelegatingWebMvcConfiguration, which provides default Spring MVC configuration.
 
-> 스프링 MVC의 **기본 설정을 사용가능**하게 하고, DispatcherServlet에서 사용할 
-> @Configuratiton이 선언된 클래스에서 이 너오테이션을 사용하고, DelegatingWebMvcConfiguration를 import 하여 기본 스프링 MVC 설정들을 제공한다.
+스프링 MVC의 **기본 설정을 사용가능**하게 하고, DispatcherServlet에서 사용할 
+@Configuratiton이 선언된 클래스에서 이 어노테이션을 사용하고, DelegatingWebMvcConfiguration를 import 하여 기본 스프링 MVC 설정들을 제공한다.
 
-위에서 알 수 있다 싶이 @EnableWebMvc 어노테이션은 기본 전략들을 설정 해주고 필요로 하는 전략들을 손쉽게 등록하여 커스텀할 수 있다.
+즉 @EnableWebMvc 어노테이션은 기본 전략들을 설정 해주고 필요로 하는 전략들을 손쉽게 등록하여 커스텀할 수 있다.
 
 @EnableWebMvc 어노테이션은 아래와 같이 정의되어 있는데 **핵심은 DelegatingWebMvcConfiguration 클래스를 Import 하고 있다는 것이다.**
 
@@ -45,7 +44,7 @@ public @interface EnableWebMvc {
 ~~~
 그럼 과연 DelegatingWebMvcConfiguration는 어떤 역할을 하고 그 내부는 어떻게 구성되어 있을까?
 
-## DelegatingWebMvcConfiguration
+## 3. DelegatingWebMvcConfiguration
 
 스프링 공식문서에 DelegatingWebMvcConfiguration에 대해 다음과 같이 설명하고 있다.
 
@@ -76,7 +75,7 @@ WebMvcConfigurationSupport가 제공하는 **Configuration을 커스텀 할 수 
 
 전략들을 커스텀하는 것에 대해 알아보았으니, 커스텀 하기 전에 **기본적으로 어떤 전략을 사용하는지에 대해서도 알아보자.**
 
-## WebMvcConfigurationSupport
+## 4. WebMvcConfigurationSupport
 
 WebMvcConfigurationSupport은 @EnableWebMvc 활성화 했을 때 별도의 커스텀 하지 않았을 때 기본 전략들을 가지고 있는 클래스이고
 DeletegatingWebMvcConfigution의 상위 클래스이다.
@@ -110,7 +109,7 @@ WebMvcConfigurationSupport 클래스는 다음과 같은 HandlerMapping 들을 �
 * DefaultHandlerExceptionResolver
 
 글의 주제상 해당 전략들이 어떤 역할을 하는지 구체적으로 다루지 않으니 잘 설명된 다른 글을 참고하길 바란다.
-## Composite 패턴
+## 5. Composite 패턴
 
 DelegatingWebMvcConfiguration을 설명할 때 Composite 패턴을 언급했었다.
 
@@ -164,7 +163,7 @@ DelegatingWebMvcConfiguration 클래스 내부에 아래와 같이 WebMvcConfigu
 
 혹시 '그냥 WebMvcConfigurer들이 List에 담겨 있는데 트리구조라고 할 수 있나?' 라고 생각할 수 있다. 하지만 **하나의 루트와 나머지는 모두 리프로만 이뤄진 구조도 트리이다.**
 
-## 어노테이션에 대한 팁
+## 6. 어노테이션에 대한 팁
 
 
 추가적으로 어노테이션에 관한 팁을 주자면, 처음 보는 어노테이션이 있거나 그 어노테이션을 선언했을 때 어떤일이 일어나는지 궁금하다면 그 어노테이션이 어떻게 정의되어있는지 직접 타고 들어가보는 것을 추천한다.
