@@ -50,23 +50,21 @@ public @interface EnableWebMvc {
 
 > A subclass of WebMvcConfigurationSupport that detects and delegates to all beans of type WebMvcConfigurer allowing them to customize the configuration provided by WebMvcConfigurationSupport. This is the class actually imported by @EnableWebMvc.
 
-> DelegatingWebMvcConfiguration은 
-WebMvcConfigurationSupport가 제공하는 **Configuration을 커스텀 할 수 있도록** WebMvcConfigurer 타입의 모든 빈들을 감지하고 위임하는 WebMvcConfigurer의 서브클래스이다.
+DelegatingWebMvcConfiguration은 WebMvcConfigurationSupport가 제공하는 **Configuration을 커스텀 할 수 있도록** WebMvcConfigurer 타입의 모든 빈들을 감지하고 위임하는 WebMvcConfigurer의 서브클래스이다.
 
-즉 DelegatingWebMvcConfiguration을 통해 WebMvcConfigurer 타입의 빈들을 통해 사용할 전략들을 
- 커스텀 할 수 있다.
+즉 DelegatingWebMvcConfiguration을 통해 WebMvcConfigurer 타입의 빈들을 통해 사용할 전략들을 커스텀 할 수 있다.
 
 
 그리고 아래의 WebMvcConfigurerComposite 타입의 필드에 [Composite 패턴](#composite-패턴)을 통해 여러 WebMvcConfigurer타입의 오브젝트들을 관리하고 있다.
 
 ~~~java
-	private final WebMvcConfigurerComposite configurers = new WebMvcConfigurerComposite();
+private final WebMvcConfigurerComposite configurers = new WebMvcConfigurerComposite();
 ~~~
 
 직접 WebMvcConfigurerComposite 클래스 내부를 확인해보면 List 컬렉션을 통해 여러 WebMvcConfigurer 타입의 요소들을 보관하고 있는것을 확인할 수 있다.
 
 ~~~java
-	private final List<WebMvcConfigurer> delegates = new ArrayList<>();
+private final List<WebMvcConfigurer> delegates = new ArrayList<>();
 ~~~
 
 정리를 해보면 DelegatingWebMvcConfiguration은 Composite 패턴을 활용해 여러 WebMvcConfigurer 오브젝트들에게 전략을 커스텀하는 것을 위임(Delegate)하는 것이다.
@@ -89,11 +87,11 @@ DeletegatingWebMvcConfigution의 상위 클래스이다.
 WebMvcConfigurationSupport 클래스는 다음과 같은 HandlerMapping 들을 등록한다. (order가 작을수록 우선순위이다.)
 
 * RequestMappingHandlerMapping (order = 0)
-* HandlerMapping (URL경로를 뷰의 이름으로 매핑하기 위함) (order = 1)
+* HandlerMapping (URL경로를 뷰의 이름으로 매핑하기 위함, order = 1)
 * BeanNameUrlHandlerMapping (order = 2)
 * RouterFunctionMapping (order = 3)
-* HandlerMapping (정적 자원 요청을 처리하기 위함) (order = Integer.MAX_VALUE-1)
-* HandlerMapping (기본 서블릿으로 요청을 전달하기 위함) (order = Integer.MAX_VALUE)
+* HandlerMapping (정적 자원 요청을 처리하기 위함, order = Integer.MAX_VALUE-1)
+* HandlerMapping (기본 서블릿으로 요청을 전달하기 위함, order = Integer.MAX_VALUE)
  
 아래의 HandlerAdapter를 등록한다.
 
@@ -120,7 +118,9 @@ DelegatingWebMvcConfiguration을 설명할 때 Composite 패턴을 언급했었�
 사전적 의미는 '**여러개의 부분이나 요소들로 이뤄져 있는**' 이라는 뜻이다.
 
 
-사전적 의미에서 유추할 수 있다 싶이 프로그래밍에서는 **여러 오브젝트**들을 트리 구조로 구성하고 이 구조를 마치 하나의 객체처럼 사용하는 것이다.
+사전적 의미에서 유추할 수 있다 싶이 프로그래밍에서는 **여러 오브젝트**들을 트리 구조로 구성하고 공통 인터페이스를 통해 이 구조를 마치 하나의 객체처럼 사용하는 것이다.
+
+
 하나의 객체처럼 처리하니 구체적인 오브젝트에 대해서 신경쓸 필요없는 장점이 있다.
 
 
@@ -134,10 +134,10 @@ DelegatingWebMvcConfiguration을 설명할 때 Composite 패턴을 언급했었�
 
 다음과 같은 요소로 이뤄져 있다.
 
-1. Component : Leaf 클래스와 전체에 해당하는 Composite 클래스의 공통 인터페이스.
-2. Composite : 여러 Component를 포함하며 Leaf에게 구현을 위임한다. Component 인터페이스의 메서드를 사용할 뿐이고 Component의 구현체의 동작에 대해 알 수 없다.
-3. Client : Component 인터페이스의 메서드를 실행하는 주체.
-4. Leaf : Component 인터페이스를 구현한 구체 클래스.
+1. **Component** : Leaf 클래스와 전체에 해당하는 Composite 클래스의 공통 인터페이스.
+2. **Leaf** : Component 인터페이스를 구현한 구체 클래스.
+3. **Composite** : 여러 Component를 포함하며 Leaf에게 구현을 위임한다. Component 인터페이스의 메서드를 사용할 뿐이고 Component의 구현체의 동작에 대해 알 수 없다.
+4. **Client** : Component 인터페이스의 메서드를 실행하는 주체.
 
 
 자, 그럼 4개의 구성 요소가 위에서 알아본 것들 중에 어떤 것에 해당하는지 알아보자.
@@ -145,13 +145,13 @@ DelegatingWebMvcConfiguration을 설명할 때 Composite 패턴을 언급했었�
 DelegatingWebMvcConfiguration 클래스 내부에 아래와 같이 WebMvcConfigurerComposite 타입의 필드를 가지고 있었고,
 
 ~~~java
-	private final WebMvcConfigurerComposite configurers = new WebMvcConfigurerComposite();
+private final WebMvcConfigurerComposite configurers = new WebMvcConfigurerComposite();
 ~~~
 
 또한 WebMvcConfigurerComposite 내부에 List 컬렉션을 통해 WebMvcConfigurer를 관리하고 있었다.
 
 ~~~java
-	private final List<WebMvcConfigurer> delegates = new ArrayList<>();
+private final List<WebMvcConfigurer> delegates = new ArrayList<>();
 ~~~
 
 그리고 WebMvcConfigurer는 스프링 MVC 관련 설정들을 커스텀 하기 위한 인터페이스이다.
@@ -159,9 +159,6 @@ DelegatingWebMvcConfiguration 클래스 내부에 아래와 같이 WebMvcConfigu
 이제 느낌이 오는가? Component는 WebMvcConfigurer에 해당하고, 여러 Component를 관리하는 Composite는 WebMvcConfigurerComposite에 해당한다. 
 
 그리고 DelegatingWebMvcConfiguration은 WebMvcConfigurerComposite를 사용하는 클라이언트라고 할 수 있다.
-
-
-혹시 '그냥 WebMvcConfigurer들이 List에 담겨 있는데 트리구조라고 할 수 있나?' 라고 생각할 수 있다. 하지만 **하나의 루트와 나머지는 모두 리프로만 이뤄진 구조도 트리이다.**
 
 ## 6. 어노테이션에 대한 팁
 
@@ -175,7 +172,7 @@ DelegatingWebMvcConfiguration 클래스 내부에 아래와 같이 WebMvcConfigu
 
 > "Retetion이 Runtime이니, 런타임까지 해당 정보가 유지되겠고, Target이 Type이니 클래스에 해당 어노테이션을 선언할 수 있겠네. DeletegatingWebMvcConfiguration클래스를 Import해서 사용하고 있네? 이 클래스를 확인해보면, 이 어노테이션의 역할에 대해 명확하게 알 수 있겠군. 한번 확인해보자~"
  
-이 추측을 통해 DeletegatingWebMvcConfiguration의 역할을 공부하여 알게되면, 해당 어노테이션을 선언했을 대 일어나는일을 정확하게 파악할 수 있다.
+이 추측을 통해 DeletegatingWebMvcConfiguration의 역할을 공부하여 알게되면 해당 어노테이션을 선언했을 대 일어나는일을 정확하게 파악할 수 있다.
 
 단지 몇글자 밖에 되지 않는 어노테이션이지만, 내부적으로 많은 정보를 내포하고 있고, 선언하는 순간 스프링에서 많은일이 일어난다.
 
