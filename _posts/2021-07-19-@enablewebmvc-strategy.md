@@ -13,7 +13,7 @@ category: Spring
 - [4. WebMvcConfigurationSupport](#4-webmvcconfigurationsupport)
 - [5. Composite 패턴](#5-composite-패턴)
 - [6. 어노테이션에 대한 팁](#6-어노테이션에-대한-팁)
-- [글을 마치며](#글을-마치며)
+- [7. 글을 마치며](#7-글을-마치며)
 - [출처](#출처)
 
 ## 1. 들어가면서
@@ -165,14 +165,13 @@ private final List<WebMvcConfigurer> delegates = new ArrayList<>();
 
 추가적으로 어노테이션에 관한 팁을 주자면, 처음 보는 어노테이션이 있거나 그 어노테이션을 선언했을 때 어떤일이 일어나는지 궁금하다면 그 어노테이션이 어떻게 정의되어있는지 직접 타고 들어가보는 것을 추천한다.
 
-어노테이션의 기본 정보인 Retention, Target을 통해 어떤 부분에 적용이 가능하고 이 어노테이션 정보가 언제 까지 유지되겠구나 라는 정보를 알 수 있고
-@Import 메타어노테이션을 통해
+어노테이션의 기본 정보인 Retention, Target을 통해 어떤 부분에 적용이 가능하고 이 어노테이션 정보가 언제 까지 유지되겠구나 라는 정보를 알 수 있다. 또한 @Import과 같은 메타어노테이션을 통해 해당 어노테이션에 숨겨진 내부동작까지 추론해낼 수 있다.
 
 이 글에서 다룬 @EnableWebMvc로 예를 들면 다음과 같은 추측이 가능하다. 
 
 > "Retetion이 Runtime이니, 런타임까지 해당 정보가 유지되겠고, Target이 Type이니 클래스에 해당 어노테이션을 선언할 수 있겠네. DeletegatingWebMvcConfiguration클래스를 Import해서 사용하고 있네? 이 클래스를 확인해보면, 이 어노테이션의 역할에 대해 명확하게 알 수 있겠군. 한번 확인해보자~"
  
-이 추측을 통해 DeletegatingWebMvcConfiguration의 역할을 공부하여 알게되면 해당 어노테이션을 선언했을 대 일어나는일을 정확하게 파악할 수 있다.
+이 추측을 통해 DeletegatingWebMvcConfiguration의 역할을 공부하여 알게되면 해당 어노테이션을 선언했을 때 일어나는일을 정확하게 파악할 수 있다.
 
 단지 몇글자 밖에 되지 않는 어노테이션이지만, 내부적으로 많은 정보를 내포하고 있고, 선언하는 순간 스프링에서 많은일이 일어난다.
 
@@ -180,23 +179,23 @@ private final List<WebMvcConfigurer> delegates = new ArrayList<>();
 
 따라서 사소해 보이는 어노테이션이라 할지라도, 습관적으로 타고 들어가서 내부적으로 포함하고 있는 정보에 대해서 확인하는 습관을 들이도록 하자.
 
-## 글을 마치며
+## 7. 글을 마치며
 
 
 토비의 스프링 가장 첫 장에 이런 문구가 등장한다.
 
 > 스프링은 자바를 기반으로 한 기술이고 자바는 객체지향 프로그래밍을 가장 중요한 가치로 두고 있다. 스프링의 핵심철학은 객체지향 프로그래밍이 제공하는 폭넓은 혜택을 누릴 수 있도록 기본으로 돌아가는 것이다.
 
-처음에는 '@EnableWebMvc을 선언하면 내부적으로 어떤일이 일어날까?' 라는 호기심을 갖고 접근했지만, 내부적으로 Composite 패턴을 통해 개방 폐쇄 원칙을 지키며 유연하게 설계되어 있는 스프링 내부를 발견하여 매우 흥미로웠다.
+처음에는 '@EnableWebMvc을 선언하면 내부적으로 어떤일이 일어날까?' 라는 호기심을 갖고 접근했지만, **내부적으로 Composite 패턴을 통해 개방 폐쇄 원칙을 지키며 유연하게 설계되어 있는 스프링 내부를 발견하여 매우 흥미로웠다.**
 
-토비님이 첫장에 위 멘트를 괜히 넣은게 아니구나 라는 생각이 들었고, 내가 모르는 다른 내부는 어떻게 구성되어있을지 더욱 궁금해졌다.
+토비님이 첫장에 위 멘트를 괜히 넣은게 아니구나 라는 생각이 들었고, 내가 모르는 스프링의 다른 내부는 어떻게 구성되어있을지 더욱 궁금해졌다.
 
 ## 출처
 
-- [https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/spring-enablewebmvc-annotation.html](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/spring-enablewebmvc-annotation.html)
+- [Spring MVC - Importing configurations with @EnableWebMvc](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/spring-enablewebmvc-annotation.html)
 
-- [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html)
+- [Annotation Type EnableWebMvc - Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html)
 
-- [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/config/annotation/DelegatingWebMvcConfiguration.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/config/annotation/DelegatingWebMvcConfiguration.html)
+- [Class DelegatingWebMvcConfiguration - Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/config/annotation/DelegatingWebMvcConfiguration.html)
 
-- [https://refactoring.guru/design-patterns/composite](https://refactoring.guru/design-patterns/composite)
+- [Composite - Refactoring Guru](https://refactoring.guru/design-patterns/composite)
