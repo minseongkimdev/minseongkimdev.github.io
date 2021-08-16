@@ -25,7 +25,14 @@ entries:
       show_more: true
       show_more_text: See more posts...
       show_more_url: java.html
-      
+
+  - title: Book Review
+    post_list:
+      category: Review
+      show_more: true
+      show_more_text: See more posts...
+      show_more_url: cs.html   
+  
   - title: CS
     post_list:
       category: CS
