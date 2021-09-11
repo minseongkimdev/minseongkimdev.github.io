@@ -7,7 +7,7 @@ title: "소개"
 ### 반갑습니다, 새로운 기술과 지식 습득 즐기는 개발자 김민성입니다.
 
 ## Email : minseongkimdev@gmail.com
-## Github : https://github.com/minseongkimdev
+## Github : [https://github.com/minseongkimdev](https://github.com/minseongkimdev)
 
 <!-- ## About
 
