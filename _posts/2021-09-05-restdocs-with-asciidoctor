@@ -1,0 +1,44 @@
+---
+title: "RestDocs와 AsciiDoctor를 통한 API 문서 생성 자동화"
+layout: post
+category: Spring
+---
+
+## 0. 글의 순서
+
+- [0. 글의 순서](#0-글의-순서)
+- [1. 들어가면서](#1-들어가면서)
+- [2. RestDocs란?](#2-restdocs란)
+- [3. AsciiDocs란?](#3-asciidocs란)
+- [4. RestDocs 적용하기](#4-restdocs-적용하기)
+- [5. 결과](#5-결과)
+- [6. 참고자료](#6-참고자료)
+
+## 1. 들어가면서
+
+요새 [프로젝트](https://github.com/f-lab-edu/cafe-guide-book)를 진행하면서 반복되는 작업들에 대한 자동화에 대해 관심이 많다.
+
+<!-- 프로젝트를 진행하면서 문서화는 필수적이다. -->
+하지만, 프로젝트의 REST API가 수정 되면 문서도 같이 업데이트 해야 하는 불편함이 있다.
+
+<!-- Spring REST Docs 는 RESTful 서비스의 문서화를 도와주는 도구이다. Spring REST Docs 는 문서 작성 도구로 기본적으로 Asciidoctor 를 사용하며, 이것을 사용해 HTML 을 생성한다. -->
+
+## 2. RestDocs란?
+
+## 3. AsciiDocs란?
+
+## 4. RestDocs 적용하기
+
+Gradle 버전 ~ 을 기준으로 한다.
+
+
+## 5. 결과
+
+
+
+(본 내용은 프로젝트에 반영한 [PR]()과 [레포지토리]()에서 직접 확인하실수 있습니다.)
+
+## 6. 참고자료
+
+-  https://subji.github.io/posts/2021/01/06/springrestdocsexample
+-  
