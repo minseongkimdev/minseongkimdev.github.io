@@ -7,13 +7,12 @@ category: Spring
 ## 0. 글의 순서
 - [0. 글의 순서](#0-글의-순서)
 - [1. 들어가면서](#1-들어가면서)
-- [2. @Async](#2-async)
-- [3. @EnableAsync](#3-enableasync)
-- [4. AsyncAnnotationBeanPostProcessor](#4-asyncannotationbeanpostprocessor)
-- [5. AsyncAnnotationAdvisor](#5-asyncannotationadvisor)
+- [2. @EnableAsync](#2-enableasync)
+- [3. AsyncAnnotationBeanPostProcessor](#3-asyncannotationbeanpostprocessor)
+- [4. AsyncAnnotationAdvisor](#4-asyncannotationadvisor)
     - [buildAdvice()](#buildadvice)
     - [buildPointcut()](#buildpointcut)
-- [6. AnnotationAsyncExecutionInterceptor](#6-annotationasyncexecutioninterceptor)
+- [5. AnnotationAsyncExecutionInterceptor](#5-annotationasyncexecutioninterceptor)
 - [더 알아보기 - 필요한 스레드풀을 찾는 과정](#더-알아보기---필요한-스레드풀을-찾는-과정)
 - [글을 마치며](#글을-마치며)
 - [출처](#출처)
@@ -21,15 +20,24 @@ category: Spring
 
 ## 1. 들어가면서
 
-스프링에서 @Async 어노테이션을 통해 비동기 프로그래밍이 가능하다.
+<!-- 스프링 프로젝트 중 주문이 들어왔을 때 FCM을 통해 클라이언트 푸쉬 알림을 보내줘야 하는 기능을 @Async를 통해
+구현하게 되었다.
 
 어떻게 @Async 어노테이션을 다는것 만으로 해당 메서드를 비동기적으로 실행되는지 궁금해졌고 (@EnableAsync 등의 추가적인 어노테이션이 필요하긴 하다.)
 
-분석하는 과정에서 결국 AOP를 통해 이것이 가능함을 알게되었고, 해당 내용을 이 글을 통해 공유하고자 한다.
+ -->
+<!-- 스프링에서 @Async 어노테이션을 통해 비동기 프로그래밍이 가능하다. -->
+스프링 프로젝트를 개발하던 중 주문이 들어왔을 때 FCM을 통해 클라이언트 푸쉬 알림을 보내줘야 하는 기능을 @Async를 통해
+구현하게 되었다.
+
+**어떻게 @Async 어노테이션을 선언하는 것만으로 해당 메서드를 비동기적으로 실행되는지 궁금해졌고** 
+
+분석하는 과정에서 결국 **AOP를 통해 이것이 가능함을 알게되었고** 해당 내용을 이 글을 통해 공유하고자 한다.
+(엄밀히 말하면 @Async을 선언하는 것만으로는 동작하지 않고 @EnableAsync 등의 추가적인 어노테이션이 필요하긴 하다.)
 
 AOP가 적용되는 과정을 코드레벨에서 계속해서 추적하며 설명하고 있어 글의 호흡이 길다. 따라서 읽는데 유의하길 바라고 아래에서 AOP의 기본적인 것에 대해서는 설명하지 않으니 잘 정리된 글을 참고하길 바란다. (Advice, Pointcut, Advisor 등)
 
-## 2. @Async
+<!-- ## 2. @Async
 
 @Async는 스프링에서 비동기로 어떠한 작업을 처리할 때 사용하는 어노테이션이다.
 
@@ -41,9 +49,9 @@ AOP가 적용되는 과정을 코드레벨에서 계속해서 추적하며 설�
 
 그래서 알림 메세지를 보내는 작업은 비동기적으로 처리할 필요가 있다.
 
-@Async에 대한 더 자세한 설명은 하지 않고, @Async를 통해 스프링 내부에서 어떤일이 일어나는지에 초점을 맞춰서 설명할 예정이다.
+@Async에 대한 더 자세한 설명은 하지 않고, @Async를 통해 스프링 내부에서 어떤일이 일어나는지에 초점을 맞춰서 설명할 예정이다. -->
 
-## 3. @EnableAsync
+## 2. @EnableAsync
 
 스프링 부트에서 여러 @Enable* 이 있다. 이는 특정 기능을 명시적으로 활성화 하기 위한 어노테이션이다.
 
@@ -107,7 +115,7 @@ public AsyncAnnotationBeanPostProcessor asyncAdvisor() {
 위 코드에서 등장한 AsyncAnnotationBeanPostProcessor이 내부적으로 어떤 역할을 하는지 알아보자.
 
 
-## 4. AsyncAnnotationBeanPostProcessor
+## 3. AsyncAnnotationBeanPostProcessor
 
 스프링 공식문서에서는 다음과 같이 정의하고 있다.
 
@@ -197,7 +205,7 @@ if (isEligible(bean, beanName)) {
 
 마지막으로 위 코드상에서 등장한 Advisor의 서브타입인 AsyncAnnotationAdvisor에 대해 구체적으로 알아보자.
 
-## 5. AsyncAnnotationAdvisor
+## 4. AsyncAnnotationAdvisor
 
 드디어 @Async 어노테이션의 Advice와 Pointcut를 담고 있는 AsyncAnnotationAdvisor를 설명할 차례이다.
 
@@ -289,7 +297,7 @@ protected Pointcut buildPointcut(Set<Class<? extends Annotation>> asyncAnnotatio
 이로써 AsyncAnnotationAdvisor은 자신의 Advice와 Pointcut 속성을 초기화 하는 과정에 대한 설명이 끝났다.
 
 
-## 6. AnnotationAsyncExecutionInterceptor
+## 5. AnnotationAsyncExecutionInterceptor
 
 실질적으로 개발자가 작성한 코드가 비동기적으로 실행되는 로직이 이 Interceptor에 담겨있다.
 
@@ -433,22 +441,18 @@ protected Executor getDefaultExecutor(@Nullable BeanFactory beanFactory) {
 
 ## 출처
 
-- https://programmersought.com/article/51026239096/
+- [Spring asynchronous implementation principle and actual combat sharing](https://programmersought.com/article/51026239096)
+  
+- [Programmer Sought - @Async principle](https://www.programmersought.com/article/5564453186/)
 
-- https://www.programmersought.com/article/5564453186/
+- [Spring asynchronous processing @Async use and principle, source code analysis (@EnableAsync)](https://daydaynews.cc/en/technology/242778.html)
 
-- https://daydaynews.cc/en/technology/242778.html
+- [Java Thread Pool – ThreadPoolExecutor Example](https://howtodoinjava.com/java/multi-threading/java-thread-pool-executor-example/)
 
-- https://brunch.co.kr/@springboot/401
+- [Spring @Async rest controller example – Spring @EnableAsync](https://howtodoinjava.com/spring-boot2/rest/enableasync-async-controller/)
 
-- https://howtodoinjava.com/java/multi-threading/java-thread-pool-executor-example/
+- [Task Execution and Scheduling](https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/scheduling.html)
 
-- https://howtodoinjava.com/spring-boot2/rest/enableasync-async-controller/
+- [Aspect Oriented Programming with Spring - Proxying mechanisms](https://docs.spring.io/spring-framework/docs/3.0.0.M3/reference/html/ch08s06.html)
 
-- https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/scheduling.html
-
-- https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/scheduling.html
-
-- https://docs.spring.io/spring-framework/docs/3.0.5.RELEASE/reference/scheduling.html
-
-- https://docs.spring.io/spring-framework/docs/3.0.0.M3/reference/html/ch08s06.html
+- [Spring Boot @Async 어떻게 동작하는가?](https://brunch.co.kr/@springboot/401)
