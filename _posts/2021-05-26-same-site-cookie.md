@@ -6,18 +6,23 @@ category: Web
 
 ## 0. 글의 순서
 
+- [0. 글의 순서](#0-글의-순서)
 - [1. SameSite Cookie란?](#1-samesite-cookie란)
-- [2. First party cookie와 Third party cookie란?](#2-first-party-cookie와-third-party-cookie란?)
+- [2. First party cookie와 Third party cookie란?](#2-first-party-cookie와-third-party-cookie란)
 - [3. SameSite Values](#3-samesite-values)
 - [4. 변경된 크롬의 정책](#4-변경된-크롬의-정책)
+	- [+ 가장 최근에 업데이트된 크롬에서 정책 (작성일 2021.05.26 기준)](#-가장-최근에-업데이트된-크롬에서-정책-작성일-20210526-기준)
+			- [Mar 18(5월 18일), 2021](#mar-185월-18일-2021)
 - [5. 글을 마치며](#5-글을-마치며)
 - [출처](#출처)
+	- [공식문서](#공식문서)
+	- [블로그](#블로그)
 - [각주](#각주)
 
 
 ## 1. SameSite Cookie란?
 
-HTTP 응답 헤더의 SameSite속성을 Set-Cookie를 사용하여 브라우저가 사이트 간 요청과 함께 쿠키를 보내지 못하게 하는 정책이다.
+HTTP 응답 헤더의 SameSite 속성을 Set-Cookie를 사용하여 브라우저가 사이트 간 요청과 함께 쿠키를 보내지 못하게 하는 정책이다.
 
 특히 CSRF(Cross Site Request Forgery)[^1] 공격을 막기 위해 추가된 정책이다.
 
@@ -34,10 +39,10 @@ HTTP 응답 헤더의 SameSite속성을 Set-Cookie를 사용하여 브라우저�
 ![](https://blog.kakaocdn.net/dn/p9shF/btq5Sbu5t0v/Za7xbUOOGr1oekSDYcH3Jk/img.png)
 네이버 메인에는 광고, 뉴스 등의 이미지들이 많은데, 이러한 리소스는 모두 네이버 도메인으로 로부터 오는 것이 아니다.
 
-아래의 뉴스기사 썸네일 이미지는
+아래의 뉴스 기사 썸네일 이미지는
 ![](https://blog.kakaocdn.net/dn/bGqLod/btq5OTP5eac/kFq14R2SAjyjbBQj1gkfSK/img.png)
 
-아래의 도메인에서 로드 해오고 있는 것이다.
+아래의 도메인에서 로드해오고 있는 것이다.
 ![](https://blog.kakaocdn.net/dn/9LJat/btq5M36KBUB/KGWkku8PkN9p0ZQ7kV7Ij1/img.png)
 
 여기서, 네이버 도메인 관점에서
@@ -54,14 +59,14 @@ HTTP 응답 헤더의 SameSite속성을 Set-Cookie를 사용하여 브라우저�
 Youtube 영상을 로드해온다고 하면 "나중에 보기" 기능을 누르면, third-party cookie를 전송하여, Youtube의 세션을 활용할 수 있다.
 
 ## 3. SameSite Values
-first-party, third-party cookie 개념에 대해 이해했으니 이와 연결지어, SameSite의 3개의 속성에 대해 쉽게 이해할 수 있다.
+first-party, third-party cookie 개념에 대해 이해했으니 이와 연결 지어, SameSite의 3개의 속성에 대해 쉽게 이해할 수 있다.
 
 
 ![](https://headerbidding.co/wp-content/uploads/2020/01/Samesite-Cookie-Attribute.png)
 
 - `NONE`
 	- 모든 경우에 (도메인이 다른 경우에도) 쿠키를 전송한다.
-	- 하지만 None으로 설정할 경우 Secure 속성을 설정 해야 한다.
+	- 하지만 None으로 설정할 경우 Secure 속성을 설정해야 한다.
 	- Secure 속성을 설정하지 않으면 아래와 같은 에러가 발생한다.
 
 
@@ -71,7 +76,7 @@ first-party, third-party cookie 개념에 대해 이해했으니 이와 연결�
 	
 
 - `Lax`
-	-  동일한 도메인에 속한 모든 사이트는 사용자가 다른 사이트에서 왔는지, 사이트에서 직접 방문했는지에 관계없이 쿠키를 설정하고 엑세스할 수 있다.
+	-  동일한 도메인에 속한 모든 사이트는 사용자가 다른 사이트에서 왔는지, 사이트에서 직접 방문했는지와 관계없이 쿠키를 설정하고 엑세스할 수 있다.
 	-  **즉, third-party 쿠키 전송까지 허용한다.**
 
 - `Strict`
@@ -108,11 +113,11 @@ Chromium 공식 홈페이지의 업데이트 노트를 보면 아래와 같은 �
 그리고 크롬 94부터 `-disable-features=SameSiteByDefaultCookies`,
 `CookiesWithoutSameSiteMustBeSecure`가 제거될 예정이다.
 
-*이 업데이트로 미루어보았을 때 SameSite Cookie 정책을 더 확고히 하려고하는 점을 엿볼 수 있어 흥미롭다.*
+*이 업데이트로 미루어보았을 때 SameSite Cookie 정책을 더 확고히 하려고 하는 점을 엿볼 수 있어 흥미롭다.*
 
 ## 5. 글을 마치며
 
-SameSite Cookie란 무엇이고 SameSite의 속성에는 어떤 것들이 있고, 크롬 업데이트에서 이를 어떻게 반영하고 마지막으로 최근에는 어떻게 업데이트 됐는지까지 알아보았다.
+SameSite Cookie란 무엇이고 SameSite의 속성에는 어떤 것들이 있고, 크롬 업데이트에서 이를 어떻게 반영하고 마지막으로 최근에는 어떻게 업데이트 되었는지까지 알아보았다.
 
 [참고로 2008년도에 옥션에 CSRF로 인한 대규모 해킹사고가 있었다.](https://biz.chosun.com/site/data/html_dir/2008/04/17/2008041700945.html)
 
