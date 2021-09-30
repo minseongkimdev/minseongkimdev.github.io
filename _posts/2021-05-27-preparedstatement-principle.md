@@ -35,7 +35,7 @@ Prepared Statement의 동작원리를 알아보기 전에 Statement이 어떻게
 
 1. **Parsing** : SQL을 각각의 토큰으로 쪼개 분석한다. 또한 SQL의 문법적인 오류를 체크하여 유효성을 검사한다.
 2. **Semantics Check** : DBMS가 쿼리의 유효성을 검증한다.(테이블과 컬럼이 존재하는지, 유저가 쿼리를 실행할 권한이 있는지 등)
-3. **Binding** : 쿼리는 기계가 이해할 수 있는 바이트코드로 변환된다. 그 다음, 쿼리는 컴파일 되고 그 다음 데이터베이스 서버로 전송되어 최적화 되고 실행된다.
+3. **Binding** : 쿼리는 기계가 이해할 수 있는 바이트코드로 변환된다. 그 다음, 쿼리는 컴파일 되고 그다음 데이터베이스 서버로 전송되어 최적화되고 실행된다.
 4. **Query Optimization** :  DBMS는 쿼리를 실행할 최적화된 알고리즘을 고른다.
 5. **Cache** : 최적의 알고리즘은 캐시에 저장된다. 그래서 다음에 같은 쿼리가 실행될 때 아래의 과정을 생략한다.
 6. **Execution** : 쿼리가 실행되고 그 결과는 유저에게 리턴된다.
@@ -43,7 +43,7 @@ Prepared Statement의 동작원리를 알아보기 전에 Statement이 어떻게
 
 ## 3. Prepared Statement의 동작원리
 
-Prepared Statement의 처리과정은 Statement의 처리과정과 비슷하지만, 몇 가지 다른 점이 있다.
+Prepared Statement의 처리 과정은 Statement의 처리 과정과 비슷하지만, 몇 가지 다른 점이 있다.
 
 1. Parsing과 Semetics Check까지는 동일하다.
 2. Binding할 때, 데이터베이스 엔진은 Placeholders를 체크하고, Placeholder를 포함하여 컴파일 된다.
