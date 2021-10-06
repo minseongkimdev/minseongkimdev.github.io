@@ -18,7 +18,12 @@ category: Spring
 
 ## 1. 들어가면서
 
-[지난 글](https://www.minseong.kim/dispatcherservlet-default-strategy.html) 알아봤던 기본전략에 이어 @EnableWebMvc의 역할과 이 어노테이션을 활성화 하면 내부적으로 어떤일이 일어나는지에 대해 알아보자.
+
+프로젝트를 진행하면서 @EnableWebMvc 관련 이슈가 있어 @EnableWebMvc을 선언면 스링링 내부적으로 어떤일이 일어나는지에 대해 알아보았다.  
+
+
+그 과정에서 알게된 스프링 내부의 동작과 구조에 대해 알게된 흥미로운 부분들이 있어 이 글을 통해 공유해보고자 한다.
+
 ## 2. @EnableWebMvc
 
 우선 @EnableWebMvc는 어떤 역할을 할까?
@@ -101,7 +106,7 @@ WebMvcConfigurationSupport 클래스는 다음과 같은 HandlerMapping 들을 �
 * HandlerFunctionAdapter
 
 그리고 아래의 HandlerExceptionResolver들을 등록한다.
-<!-- Registers a HandlerExceptionResolverComposite with this chain of exception resolvers: -->
+
 * ExceptionHandlerExceptionResolver
 * ResponseStatusExceptionResolver
 * DefaultHandlerExceptionResolver
