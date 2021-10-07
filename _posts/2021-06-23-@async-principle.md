@@ -20,36 +20,12 @@ category: Spring
 
 ## 1. 들어가면서
 
-<!-- 스프링 프로젝트 중 주문이 들어왔을 때 FCM을 통해 클라이언트 푸쉬 알림을 보내줘야 하는 기능을 @Async를 통해
-구현하게 되었다.
+스프링 프로젝트 중 주문이 들어왔을 때 FCM을 통해 클라이언트 푸쉬 알림을 보내줘야 하는 기능을 @Async를 통해 구현할 예정이다.
 
-어떻게 @Async 어노테이션을 다는것 만으로 해당 메서드를 비동기적으로 실행되는지 궁금해졌고 (@EnableAsync 등의 추가적인 어노테이션이 필요하긴 하다.)
+그래서 스프링 프레임워크 내부적으로 어떻게 어노테이션을 선언하는것만로 비동기적으로 동작하는 코드를 작성할 수 있는지 호기심이 생겼다.
 
- -->
-<!-- 스프링에서 @Async 어노테이션을 통해 비동기 프로그래밍이 가능하다. -->
-스프링 프로젝트를 개발하던 중 주문이 들어왔을 때 FCM을 통해 클라이언트 푸쉬 알림을 보내줘야 하는 기능을 @Async를 통해
-구현하게 되었다.
-
-**어떻게 @Async 어노테이션을 선언하는 것만으로 해당 메서드를 비동기적으로 실행되는지 궁금해졌고** 
-
-분석하는 과정에서 결국 **AOP를 통해 이것이 가능함을 알게되었고** 해당 내용을 이 글을 통해 공유하고자 한다.
-(엄밀히 말하면 @Async을 선언하는 것만으로는 동작하지 않고 @EnableAsync 등의 추가적인 어노테이션이 필요하긴 하다.)
-
-AOP가 적용되는 과정을 코드레벨에서 계속해서 추적하며 설명하고 있어 글의 호흡이 길다. 따라서 읽는데 유의하길 바라고 아래에서 AOP의 기본적인 것에 대해서는 설명하지 않으니 잘 정리된 글을 참고하길 바란다. (Advice, Pointcut, Advisor 등)
-
-<!-- ## 2. @Async
-
-@Async는 스프링에서 비동기로 어떠한 작업을 처리할 때 사용하는 어노테이션이다.
-
-그럼 @Async를 언제 사용할까? 개발을 하면서 비동기적으로 작업을 처리해야 하는 비지니스 시나리오가 있다.
-
-예를들어 주문이 들어왔을 때 사용자에게 카카오톡 알림 메세지를 보내는 시나리오가 있다고 해보자.
-
-주문을 처리하는 작업이 카카오톡 알림 메세지를 보내는 작업에 영향을 받아서는 안된다.
-
-그래서 알림 메세지를 보내는 작업은 비동기적으로 처리할 필요가 있다.
-
-@Async에 대한 더 자세한 설명은 하지 않고, @Async를 통해 스프링 내부에서 어떤일이 일어나는지에 초점을 맞춰서 설명할 예정이다. -->
+이를 분석하는 과정에서 결국 **AOP를 통해 이것이 가능함을 알게 되었고** 해당 내용을 이 글을 통해 공유하고자 한다.
+(엄밀히 말하면 @Async를 선언하는 것만으로는 동작하지 않고 @EnableAsync 등의 추가적인 어노테이션이 필요하긴 하다.)
 
 ## 2. @EnableAsync
 
@@ -124,7 +100,7 @@ public AsyncAnnotationBeanPostProcessor asyncAdvisor() {
 > 프록시에 @Async 어노테이션이 달린 클래스나 메서드에 그에 상응하는 **AsyncAnnotationAdvisor**를 자동으로 적용해주는 BeanPostProcesssor이다.
 
 
-위를 통해 AsyncAnnotationBeanPostProcessor는 AsyncAnnotationAdvisor를 타겟 클래스 또는 메서드에 위빙해줌을 알 수 있다.
+위를 통해 AsyncAnnotationBeanPostProcessor는 AsyncAnnotationAdvisor를 타겟 클래스 또는 메서드에 위빙 해줌을 알 수 있다.
 
 
 AsyncAnnotationBeanPostProcessor의 클래스 구조를 살펴보면 아래와 같다. 
@@ -150,7 +126,7 @@ BeanPostProcessor의 여러 구현체중 AbstractAdvisingBeanPostProcessor라는
 
 즉, 이 구현체는 **Advisor(AsyncAnnotationAdvisor)가 빈에 적용(위빙)될 수 있게 하는 역할**을 한다.
 
-아래는 빈이 초기화 된 후에 실행되는 postProcessAfterInitialization의 일부이다.
+아래는 빈이 초기화된 후에 실행되는 postProcessAfterInitialization의 일부이다.
 
 아래에서 확인할 수 있듯이 Advisor를 빈에 적용하고, 프록시 패턴이 적용된 빈을 리턴하여 위빙이 이뤄진다.
 
@@ -203,7 +179,7 @@ if (isEligible(bean, beanName)) {
 }
 ~~~
 
-마지막으로 위 코드상에서 등장한 Advisor의 서브타입인 AsyncAnnotationAdvisor에 대해 구체적으로 알아보자.
+마지막으로 위 코드 상에서 등장한 Advisor의 서브타입인 AsyncAnnotationAdvisor에 대해 구체적으로 알아보자.
 
 ## 4. AsyncAnnotationAdvisor
 
@@ -213,9 +189,9 @@ Spring 공식문서에서 AsyncAnnotationAdvisor를 아래와 같이 정의하�
 
 > Advisor that activates asynchronous method execution through the Async annotation.
 
-> @Async 어노테이션을 통해 비동기 메서드 실행을 활성화 하는 Advisor이다.
+> @Async 어노테이션을 통해 비동기 메서드 실행을 활성화하는 Advisor이다.
 
-Advisor은 Advice와 Pointcut을 속성으로 가지고 있는데, 이는 Advisor의 생성자 안에서 초기화 된다.
+Advisor은 Advice와 Pointcut을 속성으로 가지고 있는데, 이는 Advisor의 생성자 안에서 초기화된다.
 
 
 다음은 AsyncAnnotationAdvisor의 생성자이다.
@@ -238,13 +214,13 @@ public AsyncAnnotationAdvisor(@Nullable Supplier<Executor> executor, @Nullable S
 }
 ~~~
 
-buildAdvice(), buildPointcut()을 통해 초기화 하고 있다.
+buildAdvice(), buildPointcut()을 통해 초기화하고 있다.
 차례대로 알아보자.
 
 
 #### buildAdvice()
 
-이 메서드에서 AnnotationAsyncExecutrionInterceptor가 Advice로써 역할을 함을 알 수 있다.
+이 메서드에서 AnnotationAsyncExecutrionInterceptor가 Advice의 역할을 함을 알 수 있다.
 
 ~~~java
     protected Advice buildAdvice(@Nullable Supplier<Executor> executor, @Nullable Supplier<AsyncUncaughtExceptionHandler> exceptionHandler) {
