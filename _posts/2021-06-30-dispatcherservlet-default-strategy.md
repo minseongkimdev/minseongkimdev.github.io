@@ -6,10 +6,12 @@ category: Spring
 
 ## 1. 들어가면서
 
-스프링 MVC에서 DispatcherServlet는 properties의 정보를 토대로 본인의 기본 전략을 선택한다.
+프로젝트를 진행하면서 따로 세팅을 하지 않아도 DispatcherServlet에서 기본적으로 사용되는 기본 전략들이 있다는 사실을 알게되었다.
 
-그럼 우리는 왜 DispatcherServlet가 사용하는 기본전략에 대해 알아야할까?
-(어떤 기술에 대해 공부를 할때 '왜'라는 질문은 상당히 중요하다.)
+ 그래서 어떤 전략들이 있으며 어떤 과정을 거쳐 기본 전략으로 채택되는지 호기심이 생겨 조사해보았고 상당히 흥미로운 부분들이 있어 해당 내용을 이 글을 통해 공유해보고자 한다.
+
+
+스프링 MVC에서 DispatcherServlet는 properties의 정보를 토대로 본인의 기본 전략을 선택한다.
 
 DispatcherServlet의 기본전략을 분석한다는 것은 **스프링 MVC의 핵심인 DispatcherServlet의 기본적인 동작원리**를 이해하는 것이라 상당한 의의를 가지기 때문에 이를 파악하고 있는것은 매우 중요하다.
 
@@ -401,25 +403,26 @@ DispatcherServlet에서 사용하는 기본전략들을 전부 설명하느라 �
 ## 출처
 
 
-- [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/i18n/AcceptHeaderLocaleResolver.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/i18n/AcceptHeaderLocaleResolver.html)
+- [AcceptHeaderLocaleResolver - Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/i18n/AcceptHeaderLocaleResolver.html)
 
-- [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/theme/FixedThemeResolver.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/theme/FixedThemeResolver.html)
+- [FixedThemeResolver - Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/theme/FixedThemeResolver.html)
 
-- [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/DefaultRequestToViewNameTranslator.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/DefaultRequestToViewNameTranslator.html)
+- [DefaultRequestToViewNameTranslator - Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/DefaultRequestToViewNameTranslator.html)
 
-- [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/RequestToViewNameTranslator.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/RequestToViewNameTranslator.html)
+- [RequestToViewNameTranslator - Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/RequestToViewNameTranslator.html)
 
-- [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/InternalResourceView.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/InternalResourceView.html)
+- [InternalResourceView - Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/InternalResourceView.html)
 
-- [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)
--  [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/annotation/ResponseStatusExceptionResolver.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/annotation/ResponseStatusExceptionResolver.html)
+- [Accept-Language - MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)
 
-- [https://www.baeldung.com/spring-mvc-handler-adapters](https://www.baeldung.com/spring-mvc-handler-adapters)
+-  [ResponseStatusExceptionResolver - Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/annotation/ResponseStatusExceptionResolver.html)
+
+- [HandlerAdapters in Spring MVC](https://www.baeldung.com/spring-mvc-handler-adapters)
 
 
 ## 각주
 
-[^1]: Accept-Language : 클라이언트가 이해할 수 있는 언어이다.  Contents Negotiation을 통해 서버는 여러 제안중 하나를 선택하여 헤더의 Content-Language에 정보를 담아 클라이언트에게 보내준다. 자세한 스펙은 [이곳](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)을 참고하길 바란다.
+[^1]: Accept-Language : 클라이언트가 이해할 수 있는 언어이다.  Contents Negotiation을 통해 서버는 여러 제안 중 하나를 선택하여 헤더의 Content-Language에 정보를 담아 클라이언트에게 보내준다. 자세한 스펙은 [이곳](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)을 참고하길 바란다.
 
 
 [^2]: InternalResourceView : 동일한 웹어플리케이션의 JSP나 다른 리소스의 Wrapper이다. 자세한 스펙은 [이곳](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/InternalResourceView.html)을 참고하길 바란다.
