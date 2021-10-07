@@ -21,11 +21,9 @@ category: Spring
 
 ## 1. 들어가면서
 
+프로젝트를 진행하면서 `@Autowired`를 통해 어떤 오브젝트에 필요한 다른 오브젝트를 주입해주는 것을 빠뜨리는 실수를 종종 하게 되었다.
 
-`@Autowired` 어노테이션만으로 정말 쉽게 스프링 빈 객체를 주입받을 수 있다.
-
-이 간결함 속에 내부적으로 어떤 일이 일어나는지 분석해본 내용을 이 글을 통해 공유해보고자 한다.
-
+같은 실수를 반복하지 않기 위해 `@Autowired`를 선언했을 때 스프링 프레임워크 내부적으로 어떤 일이 일어나는지에 대해 깊이 있게 조사해보았고 이 글을 통해 공유해보고자 한다.
 
 ## 2. 빈의 생명주기
 
@@ -42,7 +40,7 @@ category: Spring
 ![](https://springframework.guru/wp-content/uploads/2019/05/aware_interfaces_callbacks_in_bean_lifecycle.png)
 
 
-위 처럼 스프링 빈의 생명주기는 인스턴스화부터 소멸까지 여러 단계로 이루어져 있다.
+위처럼 스프링 빈의 생명주기는 인스턴스화부터 소멸까지 여러 단계로 이루어져 있다.
 
 빈의 생성단계를 5단계로 나눠보면 아래와 같다.
 
@@ -79,7 +77,7 @@ InitializingBean을 구현한 빈의 afterPropertiesSet()이 실행된다.
 
 > 기본적으로 @Autowired 어노테이션의 존재를 체크하는 **AutowiredAnnotationBeanPostProcessor의** javadoc을 참고하십시오.
 
-문서에 나와있는 대로, @Autowired는 `BeanPostProcessor`와 이 인터페이스의 구현체인 `AutowiredAnnotationBeanPostProcessor`와 연관이 있음을 알 수 있다.
+문서에 나와 있는 대로, @Autowired는 `BeanPostProcessor`와 이 인터페이스의 구현체인 `AutowiredAnnotationBeanPostProcessor`와 연관이 있음을 알 수 있다.
 
 이제 `BeanPostProcessor`와 `AutowiredAnnotationBeanPostProcessor`에 대해 본격적으로 알아보자.
 
