@@ -1,7 +1,7 @@
 ---
 title: "About Redis Pipeline"
 layout: post
-category: Spring
+category: Redis
 ---
 
 ## 0. 글의 순서
