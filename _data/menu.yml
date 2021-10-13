@@ -11,12 +11,13 @@ entries:
       show_more_text: See archive...
       show_more_url: archive.html
 
-  - title: Thinking
+
+  - title: Web
     post_list:
-      category: Thinking
+      category: Web
       show_more: true
-      show_more_text: See archive...
-      show_more_url: thinking.html
+      show_more_text: See more posts...
+      show_more_url: web.html
 
   - title: Java
     post_list:
@@ -24,6 +25,21 @@ entries:
       show_more: true
       show_more_text: See more posts...
       show_more_url: java.html
+
+  - title: Redis
+    post_list:
+      category: Redis
+      show_more: true
+      show_more_text: See more posts...
+      show_more_url: redis.html
+
+  - title: Thinking
+    post_list:
+      category: Thinking
+      show_more: true
+      show_more_text: See more posts...
+      show_more_url: thinking.html
+
 
   - title: Book Review
     post_list:
@@ -46,12 +62,7 @@ entries:
       show_more_text: See more posts...
       show_more_url: spring.html
 
-  - title: Web
-    post_list:
-      category: Web
-      show_more: true
-      show_more_text: See more posts...
-      show_more_url: web.html
+
 
   - title: DB
     post_list:
