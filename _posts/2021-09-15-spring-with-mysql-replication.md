@@ -68,12 +68,12 @@ Read-Write 쿼리와 Read-Only 쿼리를 구분하여 DB의 부하를 분산하�
 Master서버에서 Binary Log Dump Thread가 Slave를 위해 가동되며, Slave의 IO Thread와 Master Thread가 연결되어 slave DB의 IO Thread 요청에 의해 Master Dump Thread가 Binary Log를 읽어 Slave에 전달하게 된다.  이러한 과정이 비동기적으로 동작하여 Master에서는 Slave의 Replication 여부를 확인하지 않는다는게 특징이다.
 
 
-![](https://blogfiles.pstatic.net/MjAxOTA3MjRfMjk4/MDAxNTYzOTM0MTI4MTM0.xDqR5x4rueiMlpPfrx9DdcrYiboIyJ7OiCiw3YUdioIg.tgEJDaF9tjbGmQ1Tv6qrfKeBe3eEVsgF5u09Ukovf2Yg.PNG.parkjy76/replicationnew.png?type=w2)
+![](https://www.percona.com/blog/wp-content/uploads/2017/01/replicationnew.png)
 
 
 #### Semi-sync Replication (준동기 복제)
 
-![](https://blogfiles.pstatic.net/MjAxOTA3MjRfMjgy/MDAxNTYzOTM0MTI2MDc3.WWdDtzr0Gvr-X9JRjyT-JsNrJEweL3RzPVgaFRAN7Ksg.6Mv9ZtdwO-r9BEK1I7kyJEgE3a922qMp2wYncCSU1g8g.PNG.parkjy76/replicationseminew.png?type=w2)
+![](https://www.percona.com/blog/wp-content/uploads/2017/01/replicationseminew.png)
 
 Master와 Slave간의 동기화를 보장하기 위해 서로간의 통신을 해서 데이터의 정합성을 보장하는것이 Async Replication과의 차이점이다.
 
@@ -109,20 +109,21 @@ determineCurrentLookupKey() 메서드를 통해 Key를 Lookup하고 해당 키�
 ~~~java
 protected DataSource determineTargetDataSource() {
 
-	Assert.notNull(this.resolvedDataSources, "DataSource router not initialized");
+Assert.notNull(this.resolvedDataSources, "DataSource router not initialized");
 
-	Object lookupKey = determineCurrentLookupKey();
+Object lookupKey = determineCurrentLookupKey();
 
-	DataSource dataSource = this.resolvedDataSources.get(lookupKey);
+DataSource dataSource = this.resolvedDataSources.get(lookupKey);
 
-		if (dataSource == null && (this.lenientFallback || lookupKey == null)) {
-			dataSource = this.resolvedDefaultDataSource;
-		}
-		if (dataSource == null) {
-			throw new IllegalStateException("Cannot determine target DataSource for lookup key [" + lookupKey + "]");
-		}
-		return dataSource;
-	}
+if (dataSource == null && (this.lenientFallback || lookupKey == null)) {
+	dataSource = this.resolvedDefaultDataSource;
+}
+
+if (dataSource == null) {
+	throw new IllegalStateException("Cannot determine target DataSource for lookup key [" + lookupKey + "]");
+}
+return dataSource;
+}
 ~~~
 마지막으로 아래의 determineCurrentLookupKey() 추상 메서드를 구현해서 
 Read-Only인 트랜잭션은 Slave를 바라보는 DataSource로 라우팅 하도록 분기할 수 있다.
@@ -159,24 +160,24 @@ AbstractRoutingDataSource가 오버라이딩 한 afterPropertiesSet() 내부를 
 @Override
 public void afterPropertiesSet() {
 
-		if (this.targetDataSources == null) {
-			throw new IllegalArgumentException("Property 'targetDataSources' is required");
-		}
+if (this.targetDataSources == null) {
+	throw new IllegalArgumentException("Property 'targetDataSources' is required");
+}
 
-		this.resolvedDataSources = CollectionUtils.newHashMap(this.targetDataSources.size());
-		this.targetDataSources.forEach((key, value) -> {
+this.resolvedDataSources = CollectionUtils.newHashMap(this.targetDataSources.size());
+this.targetDataSources.forEach((key, value) -> {
 
-			Object lookupKey = resolveSpecifiedLookupKey(key);
-			DataSource dataSource = resolveSpecifiedDataSource(value);
-			this.resolvedDataSources.put(lookupKey, dataSource);
+Object lookupKey = resolveSpecifiedLookupKey(key);
+DataSource dataSource = resolveSpecifiedDataSource(value);
+this.resolvedDataSources.put(lookupKey, dataSource);
 
-		});
+});
 		
-		if (this.defaultTargetDataSource != null) {
+if (this.defaultTargetDataSource != null) {
 
-			this.resolvedDefaultDataSource = resolveSpecifiedDataSource(this.defaultTargetDataSource);
-		}
-	}
+	this.resolvedDefaultDataSource = resolveSpecifiedDataSource(this.defaultTargetDataSource);
+}
+}
 ~~~
 
 이와 같은 내부 구현 덕분에 런타임에 동적으로 Lookup Key를 통해 적절한 DataSource로 라우팅을 할 수 있는 것이다.
