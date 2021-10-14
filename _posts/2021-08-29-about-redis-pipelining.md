@@ -8,7 +8,7 @@ category: Redis
 
 - [0. 글의 순서](#0-글의-순서)
 - [1. 들어가면서](#1-들어가면서)
-- [2. TCP의 3-Hand-Shake (feat. RTT)](#2-tcp의-3-hand-shake-feat-rtt)
+- [2. TCP의 3-Way-Handshake (feat. RTT)](#2-tcp의-3-way-handshake-feat-rtt)
 - [3. RTT만의 문제가 아니다.](#3-rtt만의-문제가-아니다)
 - [4. Redis Pipeline with Spring](#4-redis-pipeline-with-spring)
 - [5. 출처](#5-출처)
@@ -32,7 +32,7 @@ Redis는 In-Memory Store로써 기본적으로 빠른 데이터 입출력을 제
 
 그 원인을 TCP의 동작원리에서 찾을 수 있고 이는 Redis 파이프라인이 필요한 이유와 연관이 깊다.
 
-## 2. TCP의 3-Hand-Shake (feat. RTT)
+## 2. TCP의 3-Way-Handshake (feat. RTT)
 
 
 TCP 프로토콜은 연결 지향 프로토콜로써(Connection Oriented Protocol)
