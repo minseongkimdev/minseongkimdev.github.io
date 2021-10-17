@@ -14,18 +14,20 @@ category: MySQL
 		- [Async Replication (비동기 복제)](#async-replication-비동기-복제)
 		- [Semi-sync Replication (준동기 복제)](#semi-sync-replication-준동기-복제)
 - [3. AbstractRoutingDataSource](#3-abstractroutingdatasource)
-- [4. AbstractRoutingDataSource 동작원리 더 알아보기](#4-abstractroutingdatasource-동작원리-더-알아보기)
+- [4. AbstractRoutingDataSource의 원리 더 알아보기](#4-abstractroutingdatasource의-원리-더-알아보기)
 - [5. 글을 마치며](#5-글을-마치며)
 - [출처](#출처)
 - [참고 서적](#참고-서적)
 
 ## 1. 들어가면서
 
-Spring 프로젝트를 진행하면서 MySQL Replication을 적용하게 되어 이와 관련된 내용을 정리해보고자 한다.
+Spring 프로젝트를 진행하면서 MySQL Replication을 적용하게 되어 Replication의 개념과, 동작원리 마지막으로 Spring 프로젝트에 적용하기 위해 AbstractRoutingDataSource를 통해 Master와 Slave의 Connection을 분기하는 과정을 이 글을 통해 공유해보고자 한다.
 
 대규모 트래픽이 발생하다는 가정 아래 프로젝트를 진행하고 있다.
 
 특히 조회와 관련된 기능이 다수 존재하여 이에 대한 부하를 줄이기 위해 MySQL을 이중화 하여 Master는 쓰기, 수정, 삭제 연산을 처리하고 Slave에서는 읽기 연산만을 수행할 수 있게 MySQL Replication을 도입하게 되었다.
+
+또한 장애가 발생해도 Fail-Over를 통해 Slave를 Master로 승격시켜서 최대한 장애 시간을 줄이면서 서비스를 지속할 수 있는 고가용성을 위해 도입하였다.
 
 ## 2. MySQL Replication(복제)란?
 
@@ -134,7 +136,7 @@ protected abstract Object determineCurrentLookupKey();
 
 
 
-## 4. AbstractRoutingDataSource 동작원리 더 알아보기
+## 4. AbstractRoutingDataSource의 원리 더 알아보기
 
 AbstractRoutingDataSource은 아래와 같이 InitializingBean 인터페이스를 구현하고 있다.
 
@@ -148,7 +150,7 @@ InitializingBean인터페이스는 아래의 메서드 하나를 가지고 있�
 void afterPropertiesSet() throws Exception;
 ~~~
 
-이는 Spring Bean의 Life Cycle과 관련이 있고 InitializingBean을 구현하면 Spring에서 내부적으로 BeanFactory에 의해 해당 Bean 객체의 프로퍼티가 모두 설정된 후 afterPropertiesSet을 호출하고, 이는 객체에 특별한 프로퍼티를 추가적으로 설정하거나 필수적으로 요구되는 사항들이 모두 충족되었는지 검사하는 등 다양한 목적으로 사용된다.
+이는 Spring Bean의 Life-Cycle과 관련이 있고 InitializingBean을 구현하면 Spring에서 내부적으로 BeanFactory에 의해 해당 Bean 객체의 프로퍼티가 모두 설정된 후 afterPropertiesSet을 호출하고, 이는 객체에 특별한 프로퍼티를 추가적으로 설정하거나 필수적으로 요구되는 사항들이 모두 충족되었는지 검사하는 등 다양한 목적으로 사용된다.
 
 
 (내가 이전에 작성한 [@Autowired의 동작원리](https://blog.minseong.kim/autowired-deep-dive.html)에 빈의 생명주기에 대한 설명이 있으니 참고하길 바란다)
@@ -209,6 +211,7 @@ MySQL Replication에 대한 개념을 공부하고 이를 Spring 프로젝트에
 
 - [MySQL – Replication 구조](http://cloudrain21.com/mysql-replication)
 
+- [MySQL MHA(Master High Availability) 1 - MHA 기능 설명 및 아키텍처 설명](https://hoing.io/archives/9175)
 ## 참고 서적
 
 - [개발자와 DBA를 위한 Real MySQL](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788992939003)
