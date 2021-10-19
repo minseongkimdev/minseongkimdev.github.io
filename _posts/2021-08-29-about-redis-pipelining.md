@@ -158,3 +158,4 @@ TCP의 지향점인 신뢰
 
 - [Redis Pipeline with Spring Data](https://m.blog.naver.com/PostView.nhn?blogId=willygwu2003&logNo=130172698244&proxyReferer=https:%2F%2Fwww.google.com%2F)
 
+- [Redis에 한번에 많은 데이터 추가 시 네트워크 병목 개선하기 - Redis Pipeline 이용하기](https://tjdrnr05571.tistory.com/7)
