@@ -152,8 +152,8 @@ Connection Pool Size 공식은 공식일 뿐이다. 오히려 세상에 수많�
 - [HikariCP Dead lock에서 벗어나기 (이론편) - 우아한형제들 기술블로그](https://techblog.woowahan.com/2664/)
 - [Number Of Database Connections](https://wiki.postgresql.org/wiki/Number_Of_Database_Connections)
 - [About Pool Sizing - HikariCP Github Repository](https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing)
-
 - [What is effective spindle count](https://dba.stackexchange.com/questions/228663/what-is-effective-spindle-count)
+- [내가 만든 서비스는 얼마나 많은 사용자가 이용할 수 있을까? - 3편(DB Connection Pool)](https://hyuntaeknote.tistory.com/12)
 
 ## 참고서적 
 - [자바 성능 튜닝 이야기](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788966260928)
