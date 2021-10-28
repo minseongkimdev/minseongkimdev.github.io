@@ -52,26 +52,24 @@ Naver사에서 개발한 Pinpoint는 **대규모 분산 시스템의 성능을 �
 
 특히 마이크로서비스에서 Node1 에서 보낸 N개의 메세지와 Node에서 수신한 N`개의 메세지 간의 관계를 추적하기 어려웠고 이를 [Google Dapper](https://research.google/pubs/pub36356/) 추적 방법에서 힌트를 얻어 HTTP 헤더에 메세지 태그 정보를 넣고 이를 연결고리로 활용해 추적했다고 한다. 자세한 내용은 해당 [기술블로그](https://d2.naver.com/helloworld/1194202)에서 확인할 수 있다.
 
-## 4. 본격적으로 부하 테스트 해보기
+## 4. 본격적으로 부하 테스트 해보기 (feat. 힙덤프)
 
-우선 앱의 가장 기본인 로그인 API를 테스트 해보았다.
-
+우선 앱의 가장 기본 기능이라고 할 수 있는 로그인 API를 테스트 해보았다.
 다음은 부하 테스트 동안의 힙 사용량 추이이다.
 
 푸른색 꺾은선 그래프는 힙의 사용량이고, 붉은 막대 그래프는 Full GC가 발생했을 때 걸리는 시간이다.
 
 ![](https://user-images.githubusercontent.com/44136364/139086576-e681beef-db4f-4ff0-a73b-7529c5a26a91.png)
 
-그래프를 분석해보면 얼마 동안은 Minor GC가 계속해서 발생하는 것을 확인할 수 있다.
+그래프를 분석해보면 부하를 가하고 나서 얼마 동안은 Minor GC만 계속해서 발생하는 것을 확인할 수 있다.
 
-그 다음 Old 영역도 부족하게 되어 Full GC가 발생하게 되었다.
+하지만 어떤 이유에서인지 인스턴스들이 전부 회수되지 않고 Young영역에서 Old 영역으로 넘어가게 된다.
 
-하지만 중요한 것은 Full GC가 발생하여도 충분히 메모리가 확보되지 않았다.
+![](https://user-images.githubusercontent.com/44136364/139247969-9c056734-3b41-4b70-b746-eca501ceab00.png)
 
-베이스라인이 계속해서 차오르면서 결국 OOM이 하게된다.
+그리고 계속해서 Old영역이 차올라서 6초 가량의 Full GC가 발생하여도 충분히 메모리가 확보되지 않았다.
 
-
-Full GC를 통해 메모리 공간을 확보하지 못하는 이유를 분석하기 위해 힙 사용량이 거의 가득찰 때 힙덤프를 떠서 확인해보았다.
+Full GC가 발생해도 메모리 공간을 확보하지 못하는 이유를 분석하기 위해 힙 사용량이 거의 가득찰 때 힙덤프를 떠서 확인해보았다.
 
 아래의 명령어를 통해 힙덤프 파일을 생성할 수 있다.
 
@@ -95,7 +93,7 @@ Full GC를 통해 메모리 공간을 확보하지 못하는 이유를 분석하
 protected Map<String, Session> sessions = new ConcurrentHashMap<>();
 ~~~
 
-아래의 그림처럼 세션들을 담고 있는 ConcurrentHashMap인 sessions 인스턴스가 Reachable하기 때문에, **명시적으로 세션 원소를 제거해주지 않는 이상 이 세션 원소들은 Reachable하다.**
+아래의 그림처럼 세션들을 담고 있는 ConcurrentHashMap인 sessions 인스턴스가 Reachable[^1] 하기 때문에, **명시적으로 세션 원소를 제거해주지 않는 이상 이 세션 원소들은 Reachable하다.**
 
 ![](https://user-images.githubusercontent.com/44136364/139096108-cac8db3b-7b8b-439d-8ef4-4742c5933f39.png)
 
