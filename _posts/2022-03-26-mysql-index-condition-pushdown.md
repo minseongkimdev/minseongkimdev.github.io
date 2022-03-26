@@ -65,7 +65,7 @@ MySQL 엔진은 스토리지 엔진에서 `lastname='kim'`라는 조건밖에 �
 스토리지 엔진은 `firstname LIKE 'min%'` 라는 조건을 알 수 없어서,
 일단 `lastname='kim'`를 만족하는 모든 데이터(100,000개)를 물리적인 IO를 통해 읽어온 뒤 MySQL엔진에 전달한다.
 
-![](../_screenshots/2022-03-26-mysql-index-condition-pushdown-01.png)
+![](../assets/img/2022-03-26-mysql-index-condition-pushdown-01.png)
 
 그리고 MySQL엔진에서 `firstname LIKE 'min%'` 조건을 적용하여 99%의 데이터를 버리게 되어 실제로 클라이언트에 전달되는 데이터는 1000개 뿐인 것이다.
 
@@ -73,7 +73,7 @@ MySQL 엔진은 스토리지 엔진에서 `lastname='kim'`라는 조건밖에 �
 
 이러한 비효율적인 동작을 개선하기 위해 WHERE절의 조건(Condition)을 스토리지 엔진에 밀어넣어서(Pushdown) 스토리지 엔진의 IO 횟수와 MySQL 엔진이 스토리지 엔진에 대한 엑세스 횟수를 줄일 수 있게 되는 것이다.
 
-![](../_screenshots/2022-03-26-mysql-index-condition-pushdown-02.png)
+![](../assets/img/2022-03-26-mysql-index-condition-pushdown-02.png)
 
 
 여기까지 해서 스토리지에 조건을 밀었고 이 조건을 인덱스를 통해 물리 디스크에 저장된 데이터를 불러올 때 적용하게 된다. 그림을 통해 더 자세히 알아보자.
@@ -81,14 +81,14 @@ MySQL 엔진은 스토리지 엔진에서 `lastname='kim'`라는 조건밖에 �
 디스크 기반의 스토리지 엔진에서 인덱스를 통해 데이터를 읽어올 때 아래와 같은 과정을 거친다.
 조건과 일치하는 인덱스를 탐색한 후 이에 대응되는 물리 디스크에 저장된 레코드를 읽어온다.
 
-![](../_screenshots/index-access-2phases.png)
+![](../assets/img/index-access-2phases.png)
 * 출처 : MariaDB Documentation
 
 
 ICP가 적용되었을 경우엔, 위에서 알아본 예에서 `lastname='kim'`에 대응되는 
 이 조건을 `LIKE 'min%'` 아래 그림의 노란색 부분처럼 스윽 밀어넣어서(Pushdown) 물리 디스크에서 더 적은 데이터를 읽어 들이는 것이다.
 
-![](../_screenshots/index-access-with-icp.png)
+![](../assets/img/index-access-with-icp.png)
 * 출처 : MariaDB Documentation
 
 이렇게 해서 Index Condition Pushdown 이라는 이름이 붙게 되었음을 알 수 있다.
