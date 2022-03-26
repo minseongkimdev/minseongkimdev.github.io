@@ -105,4 +105,4 @@ ICP가 적용되었을 경우엔, 위에서 알아본 예에서 `lastname='kim'`
 
 - 개발자와 DBA를 위한 Real MySQL
 
-- [MySQL (MariaDB) 인덱스 컨디션 푸시다운 - 기억보단 기록을](https://jojoldu.tistory.com/474)
+- [MySQL 5.6 신기능 - Index Condition Pushdown (ICP) - 돌고래 사육사](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=seuis398&logNo=70111486432)
