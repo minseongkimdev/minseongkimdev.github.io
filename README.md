@@ -1,2 +1,2 @@
-# 김민성 블로그 
-#### https://blog.minseong.kim
+# 기술 블로그 
+#### https://half.kim

@@ -1,15 +1,9 @@
-title: "김민성 블로그" # name of the site
-author: "Castle" # name of site's author
+title: "Half 기술 블로그" # name of the site
+author: "Half" # name of site's author
 email: "minseongkimdev@gmail.com" # email of site's author
 url: "https://minseongkimdev.github.io" # root address of the site
 baseurl: "/" # subpath of the site, e.g. "/blog" (leave it blank "" if you're site shouldn't use a subpath)
-description: "<p>🏰 Castle Kim Tech Blog ✍</p>
-<p>블로그 주도 개발을 실천 중입니다.</p>
-<p>10년 뒤에 읽어도 부끄럽지 않은 글을 쓰기 위해 노력합니다.</p>
-<p>RFC문서 스타일을 오마주하여 블로그를 스타일링 하였습니다.</p>
-<p>기술적인 피드백과 토론은 언제나 환영합니다.</p>"
-# description of the site (multiple lines allowed)
-
+description: "<p>Half Tech Blog ✍</p>
 
 permalink: /:slug.html
 
