@@ -1,9 +1,11 @@
-title: "Half 기술 블로그" # name of the site
-author: "Half" # name of site's author
-email: "minseongkimdev@gmail.com" # email of site's author
-url: "https://minseongkimdev.github.io" # root address of the site
+title: Half Tech Blog # name of the site
+author: Half # name of site's author
+email: minseongkimdev@gmail.com # email of site's author
+url: https://minseongkimdev.github.io # root address of the site
 baseurl: "/" # subpath of the site, e.g. "/blog" (leave it blank "" if you're site shouldn't use a subpath)
-description: "<p>Half Tech Blog ✍</p>
+description: >
+  <p>Half Tech Blog ✍</p>
+# description of the site (multiple lines allowed)
 
 permalink: /:slug.html
 
