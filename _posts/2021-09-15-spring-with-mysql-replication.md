@@ -153,7 +153,7 @@ void afterPropertiesSet() throws Exception;
 이는 Spring Bean의 Life-Cycle과 관련이 있고 InitializingBean을 구현하면 Spring에서 내부적으로 BeanFactory에 의해 해당 Bean 객체의 프로퍼티가 모두 설정된 후 afterPropertiesSet을 호출하고, 이는 객체에 특별한 프로퍼티를 추가적으로 설정하거나 필수적으로 요구되는 사항들이 모두 충족되었는지 검사하는 등 다양한 목적으로 사용된다.
 
 
-(내가 이전에 작성한 [@Autowired의 동작원리](https://blog.minseong.kim/autowired-deep-dive.html)에 빈의 생명주기에 대한 설명이 있으니 참고하길 바란다)
+(내가 이전에 작성한 [@Autowired의 동작원리](https://half.kim/autowired-deep-dive.html)에 빈의 생명주기에 대한 설명이 있으니 참고하길 바란다)
 
 AbstractRoutingDataSource가 오버라이딩 한 afterPropertiesSet() 내부를 살펴보면 Lookup Key와 Datasource를 HashMap에 담는 forEach문을 확인할 수 있다. 
 

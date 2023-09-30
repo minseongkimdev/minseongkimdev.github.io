@@ -268,7 +268,7 @@ public @interface CrossOrigin {
 아래와 같이 클래스레벨과 메서드레벨에 동시에 지정하면 스프링에서 CORS 설정을 합쳐준다.
 
 두 개의 핸들러 메서드엔 maxAge = 3600이 적용된다.
-그리고 retrieve() 핸들러는 https://minseong.kim만 허용하고, remove() 핸들러는 모든 origin을 허용한다.
+그리고 retrieve() 핸들러는 https://half.kim만 허용하고, remove() 핸들러는 모든 origin을 허용한다.
 
 ~~~java
 @CrossOrigin(maxAge = 3600)
@@ -276,7 +276,7 @@ public @interface CrossOrigin {
 @RequestMapping("/account")
 public class AccountController {
 
-    @CrossOrigin("https://minseong.kim")
+    @CrossOrigin("https://half.kim")
     @RequestMapping(method = RequestMethod.GET, "/{id}")
     public Account retrieve(@PathVariable Long id) {
         // ...

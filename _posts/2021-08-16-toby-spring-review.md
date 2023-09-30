@@ -73,7 +73,7 @@ category: Review
 
 ## 3. The Most Important Word, Why?
 
-책을 읽기 전에 @Autowired를 공부하고 [블로그](https://www.minseong.kim/autowired-deep-dive.html)에 정리했었을 때는 단순히 스프링 PostBeanProsessor가 Advisor를 통해 Proxy를 만들어준다라고 결과론적으로만 알고 있었다.
+책을 읽기 전에 @Autowired를 공부하고 [블로그](https://www.half.kim/autowired-deep-dive.html)에 정리했었을 때는 단순히 스프링 PostBeanProsessor가 Advisor를 통해 Proxy를 만들어준다라고 결과론적으로만 알고 있었다.
 
 하지만, 6장(AOP)에서 왜 이런 구조를 띄고 있는지 이해시켜주었고, 이러한 형태를 띄어야 하는 이유를 설득시켜주었다.
 

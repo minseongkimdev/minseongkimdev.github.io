@@ -136,7 +136,7 @@ return execute((RedisCallback<List<Object>>) connection -> {
 });
 ~~~
 
-이전에 [스프링 내부적으로 적용된 템플릿 콜백패턴](https://blog.minseong.kim/spring-template-callback-pattern.html)에 대해 정리하면서 JdbcTemplate, RestTemplate 내부 구조를 학습하였었는데 RedisTemplate도 이들과 크게 다르지 않아 많은 도움이 되었다.
+이전에 [스프링 내부적으로 적용된 템플릿 콜백패턴](https://half.kim/spring-template-callback-pattern.html)에 대해 정리하면서 JdbcTemplate, RestTemplate 내부 구조를 학습하였었는데 RedisTemplate도 이들과 크게 다르지 않아 많은 도움이 되었다.
 
 <!-- ## 글을 마치며
 

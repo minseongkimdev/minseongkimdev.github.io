@@ -88,7 +88,7 @@ RestTemplate는 HTTP 클라이언트 라이브러리르 통해 템플릿 메서�
 RestTemplate restTemplate = new RestTemplate();
 
 String fooResourceUrl
-  = "https://minseong.kim";
+  = "https://half.kim";
 
 ResponseEntity<String> response
   = restTemplate.getForEntity(fooResourceUrl + "2021-08-08-spring-template-callback-pattern", String.class);

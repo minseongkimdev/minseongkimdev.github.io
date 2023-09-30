@@ -21,9 +21,9 @@ category: DB
 
 ## 1. 들어가면서
 
-본 내용은 [Database Connection Pool의 등장배경과 필요성](https://blog.minseong.kim/dbcp-principle.html)의 후속글이며 진행하고 있는 Spring 프로젝트에서 적절한 DB Connection Pool 사이즈를 찾는 과정를 이 글을 통해 공유해보고자 한다.
+본 내용은 [Database Connection Pool의 등장배경과 필요성](https://half.kim/dbcp-principle.html)의 후속글이며 진행하고 있는 Spring 프로젝트에서 적절한 DB Connection Pool 사이즈를 찾는 과정를 이 글을 통해 공유해보고자 한다.
 
-DB와 WAS 사이에서 TCP를 기반으로 Connection을 맺고 이전에 작성한 [Redis Pipleline](https://blog.minseong.kim/about-redis-pipelining.html)에 대한 글에서도 언급했듯이 TCP의 3-Way-Handshake으로 Connection을 맺기 때문에 네트워크 병목이 발생할 수 있다.
+DB와 WAS 사이에서 TCP를 기반으로 Connection을 맺고 이전에 작성한 [Redis Pipleline](https://half.kim/about-redis-pipelining.html)에 대한 글에서도 언급했듯이 TCP의 3-Way-Handshake으로 Connection을 맺기 때문에 네트워크 병목이 발생할 수 있다.
 
 이뿐만 아니라 [MySQL 8.0 공식문서](https://dev.mysql.com/doc/refman/8.0/en/insert-optimization.html)에서 INSERT문을 기준으로 Connection을 맺는데 비용이 많이 든다고 명시하고 있다.
 
